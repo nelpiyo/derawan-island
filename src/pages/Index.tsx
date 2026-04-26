@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import ParallaxSection from "@/components/ParallaxSection";
 import Reveal from "@/components/Reveal";
 import Counter from "@/components/Counter";
+import SEO from "@/components/SEO";
 
 import heroImg from "@/assets/hero-derawan.jpg";
 import archipelagoImg from "@/assets/archipelago.jpg";
@@ -14,6 +15,7 @@ import economyImg from "@/assets/sustainable-economy.jpg";
 const Index = () => {
   return (
     <main className="bg-abyss text-foam">
+      <SEO />
       <Navigation />
 
       {/* HERO */}
