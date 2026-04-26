@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://derawan-island.lovable.app/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://derawan-island.lovable.app/og/og-home.jpg</image:loc>
+      <image:title>Derawan Island — The Last Sanctuary of the Celebes Sea</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://derawan-island.lovable.app/#archipelago</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://derawan-island.lovable.app/og/og-archipelago.jpg</image:loc>
+      <image:title>Kepulauan Derawan — Coral Triangle</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://derawan-island.lovable.app/#ecology</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://derawan-island.lovable.app/og/og-ecology.jpg</image:loc>
+      <image:title>Ekosistem Laut Derawan — Penyu, Manta, Terumbu Karang</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://derawan-island.lovable.app/#wisdom</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://derawan-island.lovable.app/og/og-wisdom.jpg</image:loc>
+      <image:title>Kearifan Lokal Suku Bajau Derawan</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://derawan-island.lovable.app/#economy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://derawan-island.lovable.app/og/og-economy.jpg</image:loc>
+      <image:title>Ekonomi Berkelanjutan & Ekowisata Derawan</image:title>
+    </image:image>
+  </url>
+</urlset>
