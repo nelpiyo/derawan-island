@@ -49,7 +49,7 @@ const Auth = () => {
 
   return (
     <main className="min-h-screen bg-abyss flex items-center justify-center px-6">
-      <SEO title="Admin Login · Derawan Island" description="Akses admin Derawan Island." canonical="/auth" />
+      <SEO title="Admin Login · Derawan Island" description="Akses admin Derawan Island." path="/auth" />
       <div className="w-full max-w-md glass border border-foam/10 p-10">
         <Link to="/" className="text-[10px] uppercase tracking-[0.3em] text-foam/50 hover:text-coral">
           ← Kembali
