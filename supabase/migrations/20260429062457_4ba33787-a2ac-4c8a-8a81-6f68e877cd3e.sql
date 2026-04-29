@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION private.delete_experience_with_token(uuid, text) TO anon, authenticated;
