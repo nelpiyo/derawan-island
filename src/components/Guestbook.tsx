@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import Reveal from "@/components/Reveal";
@@ -15,33 +14,46 @@ type Experience = {
 };
 
 const formSchema = z.object({
-  visitor_name: z
-    .string()
-    .trim()
-    .min(1, "Nama wajib diisi")
-    .max(80, "Nama maksimal 80 karakter"),
-  comment: z
-    .string()
-    .trim()
-    .min(1, "Cerita wajib diisi")
-    .max(1000, "Cerita maksimal 1000 karakter"),
-  location: z
-    .string()
-    .trim()
-    .max(120, "Lokasi maksimal 120 karakter")
-    .optional()
-    .or(z.literal("")),
+  visitor_name: z.string().trim().min(1, "Nama wajib diisi").max(80, "Nama maksimal 80 karakter"),
+  comment: z.string().trim().min(1, "Cerita wajib diisi").max(1000, "Cerita maksimal 1000 karakter"),
+  location: z.string().trim().max(120, "Lokasi maksimal 120 karakter").optional().or(z.literal("")),
 });
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024; // 5MB
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+const TOKENS_STORAGE_KEY = "derawan_review_tokens_v1";
 
 const formatDate = (iso: string) =>
-  new Date(iso).toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  new Date(iso).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+
+// --- Token helpers (per-review secret stored in localStorage) ---
+const loadTokens = (): Record<string, string> => {
+  try {
+    const raw = localStorage.getItem(TOKENS_STORAGE_KEY);
+    return raw ? (JSON.parse(raw) as Record<string, string>) : {};
+  } catch {
+    return {};
+  }
+};
+const saveToken = (id: string, token: string) => {
+  const all = loadTokens();
+  all[id] = token;
+  localStorage.setItem(TOKENS_STORAGE_KEY, JSON.stringify(all));
+};
+const removeToken = (id: string) => {
+  const all = loadTokens();
+  delete all[id];
+  localStorage.setItem(TOKENS_STORAGE_KEY, JSON.stringify(all));
+};
+const generateToken = () => {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+};
+const sha256Hex = async (text: string) => {
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, "0")).join("");
+};
 
 const Guestbook = () => {
   const { toast } = useToast();
@@ -52,66 +64,21 @@ const Guestbook = () => {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
-  // Controlled form state (avoids relying on DOM after async/await)
   const [visitorName, setVisitorName] = useState("");
   const [location, setLocation] = useState("");
   const [comment, setComment] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+
+  const [ownedIds, setOwnedIds] = useState<Set<string>>(new Set());
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
-    const checkAdmin = async (userId: string | undefined) => {
-      if (!userId) {
-        setIsAdmin(false);
-        return;
-      }
-      const { data } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", userId)
-        .eq("role", "admin")
-        .maybeSingle();
-      setIsAdmin(!!data);
-    };
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      checkAdmin(session?.user?.id);
-    });
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      checkAdmin(session?.user?.id);
-    });
-    return () => sub.subscription.unsubscribe();
+    setOwnedIds(new Set(Object.keys(loadTokens())));
   }, []);
-
-  const handleDelete = async (exp: Experience) => {
-    if (!confirm(`Hapus cerita dari ${exp.visitor_name}?`)) return;
-    setDeletingId(exp.id);
-    try {
-      // Try to delete photo from storage if present
-      if (exp.photo_url) {
-        const marker = "/experience-photos/";
-        const idx = exp.photo_url.indexOf(marker);
-        if (idx !== -1) {
-          const path = exp.photo_url.slice(idx + marker.length);
-          await supabase.storage.from("experience-photos").remove([path]);
-        }
-      }
-      const { error } = await supabase.from("experiences").delete().eq("id", exp.id);
-      if (error) throw error;
-      setItems((prev) => prev.filter((p) => p.id !== exp.id));
-      toast({ title: "Cerita dihapus" });
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Terjadi kesalahan";
-      toast({ title: "Gagal menghapus", description: message, variant: "destructive" });
-    } finally {
-      setDeletingId(null);
-    }
-  };
 
   const fetchExperiences = async () => {
     const { data, error } = await supabase
       .from("experiences")
-      .select("*")
+      .select("id, visitor_name, comment, photo_url, location, created_at")
       .order("created_at", { ascending: false })
       .limit(50);
     if (error) {
@@ -124,8 +91,6 @@ const Guestbook = () => {
 
   useEffect(() => {
     fetchExperiences();
-
-    // Realtime: new stories appear instantly for everyone
     const channel = supabase
       .channel("experiences-realtime")
       .on(
@@ -133,13 +98,18 @@ const Guestbook = () => {
         { event: "INSERT", schema: "public", table: "experiences" },
         (payload) => {
           const next = payload.new as Experience;
-          setItems((prev) =>
-            prev.find((p) => p.id === next.id) ? prev : [next, ...prev].slice(0, 50)
-          );
+          setItems((prev) => (prev.find((p) => p.id === next.id) ? prev : [next, ...prev].slice(0, 50)));
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "experiences" },
+        (payload) => {
+          const removed = payload.old as { id: string };
+          setItems((prev) => prev.filter((p) => p.id !== removed.id));
         }
       )
       .subscribe();
-
     return () => {
       supabase.removeChannel(channel);
     };
@@ -179,12 +149,7 @@ const Guestbook = () => {
     e.preventDefault();
     if (submitting) return;
 
-    const parsed = formSchema.safeParse({
-      visitor_name: visitorName,
-      comment,
-      location,
-    });
-
+    const parsed = formSchema.safeParse({ visitor_name: visitorName, comment, location });
     if (!parsed.success) {
       toast({
         title: "Periksa isian Anda",
@@ -197,23 +162,20 @@ const Guestbook = () => {
     setSubmitting(true);
     try {
       let photo_url: string | null = null;
-
       if (photoFile) {
         const ext = photoFile.name.split(".").pop()?.toLowerCase() ?? "jpg";
         const path = `${crypto.randomUUID()}.${ext}`;
         const { error: upErr } = await supabase.storage
           .from("experience-photos")
-          .upload(path, photoFile, {
-            contentType: photoFile.type,
-            cacheControl: "3600",
-            upsert: false,
-          });
+          .upload(path, photoFile, { contentType: photoFile.type, cacheControl: "3600", upsert: false });
         if (upErr) throw upErr;
-        const { data: pub } = supabase.storage
-          .from("experience-photos")
-          .getPublicUrl(path);
+        const { data: pub } = supabase.storage.from("experience-photos").getPublicUrl(path);
         photo_url = pub.publicUrl;
       }
+
+      // Generate per-review secret; store hash in DB, plain in localStorage
+      const token = generateToken();
+      const tokenHash = await sha256Hex(token);
 
       const { data: inserted, error: insErr } = await supabase
         .from("experiences")
@@ -222,22 +184,25 @@ const Guestbook = () => {
           comment: parsed.data.comment,
           location: parsed.data.location ? parsed.data.location : null,
           photo_url,
+          delete_token: tokenHash,
         })
-        .select()
+        .select("id, visitor_name, comment, photo_url, location, created_at")
         .single();
 
       if (insErr) throw insErr;
 
-      // Optimistic update so the user sees their story immediately
       if (inserted) {
+        saveToken(inserted.id, token);
+        setOwnedIds((prev) => new Set(prev).add(inserted.id));
         setItems((prev) =>
-          prev.find((p) => p.id === inserted.id)
-            ? prev
-            : [inserted as Experience, ...prev].slice(0, 50)
+          prev.find((p) => p.id === inserted.id) ? prev : [inserted as Experience, ...prev].slice(0, 50)
         );
       }
 
-      toast({ title: "Terima kasih!", description: "Cerita Anda telah dibagikan." });
+      toast({
+        title: "Terima kasih!",
+        description: "Cerita Anda telah dibagikan. Anda dapat menghapusnya nanti dari perangkat ini.",
+      });
       resetForm();
     } catch (err) {
       const message = err instanceof Error ? err.message : "Terjadi kesalahan";
@@ -248,13 +213,55 @@ const Guestbook = () => {
     }
   };
 
+  const handleDelete = async (exp: Experience) => {
+    const tokens = loadTokens();
+    const token = tokens[exp.id];
+    if (!token) {
+      toast({
+        title: "Tidak dapat menghapus",
+        description: "Cerita ini hanya bisa dihapus dari perangkat yang digunakan saat mengirimnya.",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (!confirm("Hapus cerita Anda? Tindakan ini tidak bisa dibatalkan.")) return;
+
+    setDeletingId(exp.id);
+    try {
+      const { data, error } = await supabase.rpc("delete_experience_with_token", {
+        _id: exp.id,
+        _token: token,
+      });
+      if (error) throw error;
+      if (!data) {
+        toast({
+          title: "Gagal menghapus",
+          description: "Kode hapus tidak cocok atau cerita sudah dihapus.",
+          variant: "destructive",
+        });
+        return;
+      }
+      removeToken(exp.id);
+      setOwnedIds((prev) => {
+        const next = new Set(prev);
+        next.delete(exp.id);
+        return next;
+      });
+      setItems((prev) => prev.filter((p) => p.id !== exp.id));
+      toast({ title: "Cerita dihapus" });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+      toast({ title: "Gagal menghapus", description: message, variant: "destructive" });
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   return (
     <section id="experiences" className="relative bg-abyss py-32 md:py-44">
       <div className="container max-w-6xl">
         <Reveal>
-          <p className="mb-6 text-xs uppercase tracking-[0.5em] text-turquoise">
-            Visitor Logbook
-          </p>
+          <p className="mb-6 text-xs uppercase tracking-[0.5em] text-turquoise">Visitor Logbook</p>
         </Reveal>
         <Reveal delay={120}>
           <h2 className="font-display text-5xl md:text-7xl text-foam leading-[0.95] mb-6">
@@ -263,43 +270,18 @@ const Guestbook = () => {
           </h2>
         </Reveal>
         <Reveal delay={250}>
-          <p className="max-w-2xl text-foam/70 text-lg leading-relaxed mb-6">
+          <p className="max-w-2xl text-foam/70 text-lg leading-relaxed mb-16">
             Bagikan momen Anda di Derawan—foto bawah laut, perjumpaan dengan penyu,
             atau senja di dermaga kayu. Setiap cerita memperkuat suara konservasi.
           </p>
-          <div className="mb-16">
-            {isAdmin ? (
-              <button
-                onClick={async () => {
-                  await supabase.auth.signOut();
-                  toast({ title: "Keluar dari mode admin" });
-                }}
-                className="text-[10px] uppercase tracking-[0.3em] text-coral hover:text-coral-glow transition-colors"
-              >
-                ✕ Keluar admin
-              </button>
-            ) : (
-              <Link
-                to="/auth"
-                className="text-[10px] uppercase tracking-[0.3em] text-foam/40 hover:text-coral transition-colors"
-              >
-                · Admin
-              </Link>
-            )}
-          </div>
         </Reveal>
 
         <div className="grid lg:grid-cols-[420px_1fr] gap-12 lg:gap-16 items-start">
           {/* FORM */}
           <Reveal delay={350}>
-            <form
-              onSubmit={handleSubmit}
-              className="glass border border-foam/10 p-8 space-y-5"
-            >
+            <form onSubmit={handleSubmit} className="glass border border-foam/10 p-8 space-y-5">
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">
-                  Nama
-                </label>
+                <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">Nama</label>
                 <input
                   name="visitor_name"
                   required
@@ -361,6 +343,10 @@ const Guestbook = () => {
                 )}
               </div>
 
+              <p className="text-[10px] uppercase tracking-[0.25em] text-foam/40 leading-relaxed">
+                · Hanya Anda yang dapat menghapus cerita Anda, dari perangkat yang sama.
+              </p>
+
               <button
                 type="submit"
                 disabled={submitting}
@@ -374,61 +360,65 @@ const Guestbook = () => {
           {/* LIST */}
           <div className="space-y-6">
             {loading && (
-              <p className="text-foam/50 text-sm uppercase tracking-[0.3em]">
-                Memuat cerita...
-              </p>
+              <p className="text-foam/50 text-sm uppercase tracking-[0.3em]">Memuat cerita...</p>
             )}
             {!loading && items.length === 0 && (
               <p className="text-foam/50 text-sm">
                 Belum ada cerita. Jadilah yang pertama berbagi pengalaman Anda di Derawan.
               </p>
             )}
-            {items.map((exp, i) => (
-              <Reveal key={exp.id} delay={Math.min(i * 60, 300)}>
-                <article className="border border-foam/10 bg-deep-sea/30 backdrop-blur-sm p-6 md:p-8 hover:border-coral/40 transition-colors">
-                  <div className="flex flex-col md:flex-row gap-6">
-                    {exp.photo_url && (
-                      <img
-                        src={exp.photo_url}
-                        alt={`Foto dari ${exp.visitor_name}`}
-                        loading="lazy"
-                        className="w-full md:w-40 h-40 object-cover flex-shrink-0"
-                      />
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-3">
-                        <h3 className="font-display text-2xl text-foam">
-                          {exp.visitor_name}
-                        </h3>
-                        {exp.location && (
-                          <span className="text-[10px] uppercase tracking-[0.3em] text-turquoise">
-                            · {exp.location}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-foam/80 leading-relaxed whitespace-pre-wrap break-words">
-                        {exp.comment}
-                      </p>
-                      <div className="mt-4 flex items-center justify-between gap-4">
-                        <p className="text-[10px] uppercase tracking-[0.3em] text-foam/40">
-                          {formatDate(exp.created_at)}
+            {items.map((exp, i) => {
+              const owned = ownedIds.has(exp.id);
+              return (
+                <Reveal key={exp.id} delay={Math.min(i * 60, 300)}>
+                  <article className="border border-foam/10 bg-deep-sea/30 backdrop-blur-sm p-6 md:p-8 hover:border-coral/40 transition-colors">
+                    <div className="flex flex-col md:flex-row gap-6">
+                      {exp.photo_url && (
+                        <img
+                          src={exp.photo_url}
+                          alt={`Foto dari ${exp.visitor_name}`}
+                          loading="lazy"
+                          className="w-full md:w-40 h-40 object-cover flex-shrink-0"
+                        />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-3">
+                          <h3 className="font-display text-2xl text-foam">{exp.visitor_name}</h3>
+                          {exp.location && (
+                            <span className="text-[10px] uppercase tracking-[0.3em] text-turquoise">
+                              · {exp.location}
+                            </span>
+                          )}
+                          {owned && (
+                            <span className="text-[10px] uppercase tracking-[0.3em] text-coral">
+                              · cerita Anda
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-foam/80 leading-relaxed whitespace-pre-wrap break-words">
+                          {exp.comment}
                         </p>
-                        {isAdmin && (
-                          <button
-                            type="button"
-                            onClick={() => handleDelete(exp)}
-                            disabled={deletingId === exp.id}
-                            className="text-[10px] uppercase tracking-[0.3em] text-coral hover:text-coral-glow transition-colors disabled:opacity-50"
-                          >
-                            {deletingId === exp.id ? "Menghapus..." : "Hapus"}
-                          </button>
-                        )}
+                        <div className="mt-4 flex items-center justify-between gap-4">
+                          <p className="text-[10px] uppercase tracking-[0.3em] text-foam/40">
+                            {formatDate(exp.created_at)}
+                          </p>
+                          {owned && (
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(exp)}
+                              disabled={deletingId === exp.id}
+                              className="text-[10px] uppercase tracking-[0.3em] text-coral hover:text-coral-glow transition-colors disabled:opacity-50"
+                            >
+                              {deletingId === exp.id ? "Menghapus..." : "Hapus cerita saya"}
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </article>
-              </Reveal>
-            ))}
+                  </article>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </div>
