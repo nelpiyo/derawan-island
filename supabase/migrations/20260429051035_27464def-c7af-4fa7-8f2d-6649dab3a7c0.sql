@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "Public can view experience photos" ON storage.objects;

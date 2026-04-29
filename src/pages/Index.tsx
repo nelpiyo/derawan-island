@@ -3,6 +3,7 @@ import ParallaxSection from "@/components/ParallaxSection";
 import Reveal from "@/components/Reveal";
 import Counter from "@/components/Counter";
 import SEO from "@/components/SEO";
+import Guestbook from "@/components/Guestbook";
 
 import heroImg from "@/assets/hero-derawan.jpg";
 import archipelagoImg from "@/assets/archipelago.jpg";
@@ -543,6 +544,9 @@ const Index = () => {
           </div>
         </div>
       </ParallaxSection>
+
+      {/* GUESTBOOK */}
+      <Guestbook />
 
       {/* CTA / FOOTER */}
       <section className="relative bg-gradient-deep py-32 md:py-44">
