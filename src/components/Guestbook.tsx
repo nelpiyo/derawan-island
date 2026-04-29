@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import Reveal from "@/components/Reveal";
@@ -55,6 +56,57 @@ const Guestbook = () => {
   const [visitorName, setVisitorName] = useState("");
   const [location, setLocation] = useState("");
   const [comment, setComment] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const checkAdmin = async (userId: string | undefined) => {
+      if (!userId) {
+        setIsAdmin(false);
+        return;
+      }
+      const { data } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle();
+      setIsAdmin(!!data);
+    };
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      checkAdmin(session?.user?.id);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      checkAdmin(session?.user?.id);
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  const handleDelete = async (exp: Experience) => {
+    if (!confirm(`Hapus cerita dari ${exp.visitor_name}?`)) return;
+    setDeletingId(exp.id);
+    try {
+      // Try to delete photo from storage if present
+      if (exp.photo_url) {
+        const marker = "/experience-photos/";
+        const idx = exp.photo_url.indexOf(marker);
+        if (idx !== -1) {
+          const path = exp.photo_url.slice(idx + marker.length);
+          await supabase.storage.from("experience-photos").remove([path]);
+        }
+      }
+      const { error } = await supabase.from("experiences").delete().eq("id", exp.id);
+      if (error) throw error;
+      setItems((prev) => prev.filter((p) => p.id !== exp.id));
+      toast({ title: "Cerita dihapus" });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+      toast({ title: "Gagal menghapus", description: message, variant: "destructive" });
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   const fetchExperiences = async () => {
     const { data, error } = await supabase
