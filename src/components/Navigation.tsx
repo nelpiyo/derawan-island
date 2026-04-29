@@ -6,6 +6,7 @@ const links = [
   { href: "#ecology", label: "Ecology" },
   { href: "#wisdom", label: "Local Wisdom" },
   { href: "#economy", label: "Economy" },
+  { href: "#experiences", label: "Stories" },
 ];
 
 const Navigation = () => {
