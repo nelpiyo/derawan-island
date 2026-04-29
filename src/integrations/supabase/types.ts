@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           comment: string
           created_at: string
+          delete_token: string | null
           id: string
           location: string | null
           photo_url: string | null
@@ -26,6 +27,7 @@ export type Database = {
         Insert: {
           comment: string
           created_at?: string
+          delete_token?: string | null
           id?: string
           location?: string | null
           photo_url?: string | null
@@ -34,6 +36,7 @@ export type Database = {
         Update: {
           comment?: string
           created_at?: string
+          delete_token?: string | null
           id?: string
           location?: string | null
           photo_url?: string | null
@@ -67,6 +70,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      delete_experience_with_token: {
+        Args: { _id: string; _token: string }
+        Returns: boolean
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
