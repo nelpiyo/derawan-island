@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import Reveal from "@/components/Reveal";
@@ -55,6 +56,57 @@ const Guestbook = () => {
   const [visitorName, setVisitorName] = useState("");
   const [location, setLocation] = useState("");
   const [comment, setComment] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const checkAdmin = async (userId: string | undefined) => {
+      if (!userId) {
+        setIsAdmin(false);
+        return;
+      }
+      const { data } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle();
+      setIsAdmin(!!data);
+    };
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      checkAdmin(session?.user?.id);
+    });
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      checkAdmin(session?.user?.id);
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  const handleDelete = async (exp: Experience) => {
+    if (!confirm(`Hapus cerita dari ${exp.visitor_name}?`)) return;
+    setDeletingId(exp.id);
+    try {
+      // Try to delete photo from storage if present
+      if (exp.photo_url) {
+        const marker = "/experience-photos/";
+        const idx = exp.photo_url.indexOf(marker);
+        if (idx !== -1) {
+          const path = exp.photo_url.slice(idx + marker.length);
+          await supabase.storage.from("experience-photos").remove([path]);
+        }
+      }
+      const { error } = await supabase.from("experiences").delete().eq("id", exp.id);
+      if (error) throw error;
+      setItems((prev) => prev.filter((p) => p.id !== exp.id));
+      toast({ title: "Cerita dihapus" });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+      toast({ title: "Gagal menghapus", description: message, variant: "destructive" });
+    } finally {
+      setDeletingId(null);
+    }
+  };
 
   const fetchExperiences = async () => {
     const { data, error } = await supabase
@@ -211,10 +263,30 @@ const Guestbook = () => {
           </h2>
         </Reveal>
         <Reveal delay={250}>
-          <p className="max-w-2xl text-foam/70 text-lg leading-relaxed mb-16">
+          <p className="max-w-2xl text-foam/70 text-lg leading-relaxed mb-6">
             Bagikan momen Anda di Derawan—foto bawah laut, perjumpaan dengan penyu,
             atau senja di dermaga kayu. Setiap cerita memperkuat suara konservasi.
           </p>
+          <div className="mb-16">
+            {isAdmin ? (
+              <button
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  toast({ title: "Keluar dari mode admin" });
+                }}
+                className="text-[10px] uppercase tracking-[0.3em] text-coral hover:text-coral-glow transition-colors"
+              >
+                ✕ Keluar admin
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                className="text-[10px] uppercase tracking-[0.3em] text-foam/40 hover:text-coral transition-colors"
+              >
+                · Admin
+              </Link>
+            )}
+          </div>
         </Reveal>
 
         <div className="grid lg:grid-cols-[420px_1fr] gap-12 lg:gap-16 items-start">
@@ -337,9 +409,21 @@ const Guestbook = () => {
                       <p className="text-foam/80 leading-relaxed whitespace-pre-wrap break-words">
                         {exp.comment}
                       </p>
-                      <p className="mt-4 text-[10px] uppercase tracking-[0.3em] text-foam/40">
-                        {formatDate(exp.created_at)}
-                      </p>
+                      <div className="mt-4 flex items-center justify-between gap-4">
+                        <p className="text-[10px] uppercase tracking-[0.3em] text-foam/40">
+                          {formatDate(exp.created_at)}
+                        </p>
+                        {isAdmin && (
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(exp)}
+                            disabled={deletingId === exp.id}
+                            className="text-[10px] uppercase tracking-[0.3em] text-coral hover:text-coral-glow transition-colors disabled:opacity-50"
+                          >
+                            {deletingId === exp.id ? "Menghapus..." : "Hapus"}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </article>
