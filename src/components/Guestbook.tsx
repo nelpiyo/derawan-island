@@ -51,8 +51,12 @@ const Guestbook = () => {
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
 
+  // Controlled form state (avoids relying on DOM after async/await)
+  const [visitorName, setVisitorName] = useState("");
+  const [location, setLocation] = useState("");
+  const [comment, setComment] = useState("");
+
   const fetchExperiences = async () => {
-    setLoading(true);
     const { data, error } = await supabase
       .from("experiences")
       .select("*")
@@ -68,6 +72,25 @@ const Guestbook = () => {
 
   useEffect(() => {
     fetchExperiences();
+
+    // Realtime: new stories appear instantly for everyone
+    const channel = supabase
+      .channel("experiences-realtime")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "experiences" },
+        (payload) => {
+          const next = payload.new as Experience;
+          setItems((prev) =>
+            prev.find((p) => p.id === next.id) ? prev : [next, ...prev].slice(0, 50)
+          );
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,18 +102,22 @@ const Guestbook = () => {
     }
     if (!ALLOWED_TYPES.includes(file.type)) {
       toast({ title: "Format tidak didukung", description: "Gunakan JPG, PNG, atau WEBP.", variant: "destructive" });
+      e.target.value = "";
       return;
     }
     if (file.size > MAX_PHOTO_BYTES) {
       toast({ title: "Ukuran terlalu besar", description: "Maksimal 5MB.", variant: "destructive" });
+      e.target.value = "";
       return;
     }
     setPhotoFile(file);
     setPhotoPreview(URL.createObjectURL(file));
   };
 
-  const resetForm = (form: HTMLFormElement) => {
-    form.reset();
+  const resetForm = () => {
+    setVisitorName("");
+    setLocation("");
+    setComment("");
     setPhotoFile(null);
     setPhotoPreview(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
@@ -98,13 +125,12 @@ const Guestbook = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const form = e.currentTarget;
-    const fd = new FormData(form);
+    if (submitting) return;
 
     const parsed = formSchema.safeParse({
-      visitor_name: String(fd.get("visitor_name") ?? ""),
-      comment: String(fd.get("comment") ?? ""),
-      location: String(fd.get("location") ?? ""),
+      visitor_name: visitorName,
+      comment,
+      location,
     });
 
     if (!parsed.success) {
@@ -137,20 +163,33 @@ const Guestbook = () => {
         photo_url = pub.publicUrl;
       }
 
-      const { error: insErr } = await supabase.from("experiences").insert({
-        visitor_name: parsed.data.visitor_name,
-        comment: parsed.data.comment,
-        location: parsed.data.location ? parsed.data.location : null,
-        photo_url,
-      });
+      const { data: inserted, error: insErr } = await supabase
+        .from("experiences")
+        .insert({
+          visitor_name: parsed.data.visitor_name,
+          comment: parsed.data.comment,
+          location: parsed.data.location ? parsed.data.location : null,
+          photo_url,
+        })
+        .select()
+        .single();
 
       if (insErr) throw insErr;
 
+      // Optimistic update so the user sees their story immediately
+      if (inserted) {
+        setItems((prev) =>
+          prev.find((p) => p.id === inserted.id)
+            ? prev
+            : [inserted as Experience, ...prev].slice(0, 50)
+        );
+      }
+
       toast({ title: "Terima kasih!", description: "Cerita Anda telah dibagikan." });
-      resetForm(form);
-      fetchExperiences();
+      resetForm();
     } catch (err) {
       const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+      console.error("Guestbook submit error:", err);
       toast({ title: "Gagal mengirim", description: message, variant: "destructive" });
     } finally {
       setSubmitting(false);
@@ -193,6 +232,8 @@ const Guestbook = () => {
                   name="visitor_name"
                   required
                   maxLength={80}
+                  value={visitorName}
+                  onChange={(e) => setVisitorName(e.target.value)}
                   placeholder="Nama Anda"
                   className="w-full bg-transparent border-b border-foam/20 py-2 text-foam placeholder:text-foam/30 focus:outline-none focus:border-coral transition-colors"
                 />
@@ -205,6 +246,8 @@ const Guestbook = () => {
                 <input
                   name="location"
                   maxLength={120}
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
                   placeholder="mis. Pulau Kakaban"
                   className="w-full bg-transparent border-b border-foam/20 py-2 text-foam placeholder:text-foam/30 focus:outline-none focus:border-coral transition-colors"
                 />
@@ -219,6 +262,8 @@ const Guestbook = () => {
                   required
                   maxLength={1000}
                   rows={5}
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
                   placeholder="Bagikan pengalaman tak terlupakan Anda..."
                   className="w-full bg-transparent border border-foam/20 p-3 text-foam placeholder:text-foam/30 focus:outline-none focus:border-coral transition-colors resize-none"
                 />
@@ -267,7 +312,7 @@ const Guestbook = () => {
               </p>
             )}
             {items.map((exp, i) => (
-              <Reveal key={exp.id} delay={i * 60}>
+              <Reveal key={exp.id} delay={Math.min(i * 60, 300)}>
                 <article className="border border-foam/10 bg-deep-sea/30 backdrop-blur-sm p-6 md:p-8 hover:border-coral/40 transition-colors">
                   <div className="flex flex-col md:flex-row gap-6">
                     {exp.photo_url && (
