@@ -263,10 +263,30 @@ const Guestbook = () => {
           </h2>
         </Reveal>
         <Reveal delay={250}>
-          <p className="max-w-2xl text-foam/70 text-lg leading-relaxed mb-16">
+          <p className="max-w-2xl text-foam/70 text-lg leading-relaxed mb-6">
             Bagikan momen Anda di Derawan—foto bawah laut, perjumpaan dengan penyu,
             atau senja di dermaga kayu. Setiap cerita memperkuat suara konservasi.
           </p>
+          <div className="mb-16">
+            {isAdmin ? (
+              <button
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  toast({ title: "Keluar dari mode admin" });
+                }}
+                className="text-[10px] uppercase tracking-[0.3em] text-coral hover:text-coral-glow transition-colors"
+              >
+                ✕ Keluar admin
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                className="text-[10px] uppercase tracking-[0.3em] text-foam/40 hover:text-coral transition-colors"
+              >
+                · Admin
+              </Link>
+            )}
+          </div>
         </Reveal>
 
         <div className="grid lg:grid-cols-[420px_1fr] gap-12 lg:gap-16 items-start">
