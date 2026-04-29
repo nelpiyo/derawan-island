@@ -70,9 +70,44 @@ const Guestbook = () => {
 
   const [ownedIds, setOwnedIds] = useState<Set<string>>(new Set());
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     setOwnedIds(new Set(Object.keys(loadTokens())));
+  }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    const checkAdmin = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      const userId = session?.user?.id;
+      if (!userId) {
+        if (active) setIsAdmin(false);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      if (active) setIsAdmin(!error && data?.role === "admin");
+    };
+
+    checkAdmin();
+    const { data: sub } = supabase.auth.onAuthStateChange(() => {
+      checkAdmin();
+    });
+
+    return () => {
+      active = false;
+      sub.subscription.unsubscribe();
+    };
   }, []);
 
   const fetchExperiences = async () => {
@@ -216,7 +251,7 @@ const Guestbook = () => {
   const handleDelete = async (exp: Experience) => {
     const tokens = loadTokens();
     const token = tokens[exp.id];
-    if (!token) {
+    if (!token && !isAdmin) {
       toast({
         title: "Tidak dapat menghapus",
         description: "Cerita ini hanya bisa dihapus dari perangkat yang digunakan saat mengirimnya.",
@@ -230,7 +265,7 @@ const Guestbook = () => {
     try {
       const { data, error } = await supabase.rpc("delete_experience_with_token", {
         _id: exp.id,
-        _token: token,
+        _token: token ?? "admin-delete",
       });
       if (error) throw error;
       if (!data) {
@@ -369,6 +404,7 @@ const Guestbook = () => {
             )}
             {items.map((exp, i) => {
               const owned = ownedIds.has(exp.id);
+              const canDelete = owned || isAdmin;
               return (
                 <Reveal key={exp.id} delay={Math.min(i * 60, 300)}>
                   <article className="border border-foam/10 bg-deep-sea/30 backdrop-blur-sm p-6 md:p-8 hover:border-coral/40 transition-colors">
@@ -389,9 +425,9 @@ const Guestbook = () => {
                               · {exp.location}
                             </span>
                           )}
-                          {owned && (
+                          {canDelete && (
                             <span className="text-[10px] uppercase tracking-[0.3em] text-coral">
-                              · cerita Anda
+                              · {owned ? "cerita Anda" : "admin"}
                             </span>
                           )}
                         </div>
@@ -402,7 +438,7 @@ const Guestbook = () => {
                           <p className="text-[10px] uppercase tracking-[0.3em] text-foam/40">
                             {formatDate(exp.created_at)}
                           </p>
-                          {owned && (
+                          {canDelete && (
                             <button
                               type="button"
                               onClick={() => handleDelete(exp)}
