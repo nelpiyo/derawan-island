@@ -389,9 +389,21 @@ const Guestbook = () => {
                       <p className="text-foam/80 leading-relaxed whitespace-pre-wrap break-words">
                         {exp.comment}
                       </p>
-                      <p className="mt-4 text-[10px] uppercase tracking-[0.3em] text-foam/40">
-                        {formatDate(exp.created_at)}
-                      </p>
+                      <div className="mt-4 flex items-center justify-between gap-4">
+                        <p className="text-[10px] uppercase tracking-[0.3em] text-foam/40">
+                          {formatDate(exp.created_at)}
+                        </p>
+                        {isAdmin && (
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(exp)}
+                            disabled={deletingId === exp.id}
+                            className="text-[10px] uppercase tracking-[0.3em] text-coral hover:text-coral-glow transition-colors disabled:opacity-50"
+                          >
+                            {deletingId === exp.id ? "Menghapus..." : "Hapus"}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </article>
