@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 
 const links = [
-  { href: "#home", label: "Home" },
-  { href: "#archipelago", label: "Archipelago" },
-  { href: "#ecology", label: "Ecology" },
-  { href: "#wisdom", label: "Local Wisdom" },
-  { href: "#economy", label: "Economy" },
-  { href: "#experiences", label: "Stories" },
+  { to: "/", label: "Home" },
+  { to: "/nature", label: "Nature" },
+  { to: "/culture", label: "Culture" },
+  { to: "/stories", label: "Stories" },
 ];
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -22,27 +22,30 @@ const Navigation = () => {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "py-3 glass shadow-deep"
-          : "py-6 bg-transparent"
+        scrolled ? "py-3 glass shadow-deep" : "py-6 bg-transparent"
       }`}
     >
       <div className="container flex items-center justify-between">
-        <a href="#home" className="group flex items-center gap-2">
+        <Link to="/" className="group flex items-center gap-2">
           <span className="text-xs uppercase tracking-[0.4em] text-turquoise">
             Berau · Kaltim
           </span>
-        </a>
+        </Link>
         <nav className="hidden md:flex items-center gap-8">
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              className="text-xs uppercase tracking-[0.25em] text-foam/70 hover:text-coral transition-colors duration-300"
-            >
-              {l.label}
-            </a>
-          ))}
+          {links.map((l) => {
+            const active = pathname === l.to;
+            return (
+              <Link
+                key={l.to}
+                to={l.to}
+                className={`text-xs uppercase tracking-[0.25em] transition-colors duration-300 ${
+                  active ? "text-coral" : "text-foam/70 hover:text-coral"
+                }`}
+              >
+                {l.label}
+              </Link>
+            );
+          })}
         </nav>
       </div>
     </header>
