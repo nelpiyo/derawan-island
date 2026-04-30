@@ -44,12 +44,6 @@ const Navigation = () => {
             </a>
           ))}
         </nav>
-        <a
-          href="#economy"
-          className="hidden md:inline-block text-xs uppercase tracking-[0.25em] border border-foam/30 px-5 py-2 hover:bg-coral hover:border-coral hover:text-primary-foreground transition-all duration-300"
-        >
-          Act Today
-        </a>
       </div>
     </header>
   );
