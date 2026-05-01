@@ -9,12 +9,13 @@ const Play = () => (
   <main className="bg-abyss text-foam min-h-screen">
     <SEO
       title="Play · Derawan Memory Game"
-      description="Memory card game seru bertema biota laut Pulau Derawan untuk anak-anak."
+      description="Memory card game seru bertema biota laut Pulau Derawan untuk anak-anak. 3 level, sound effect, & cerita edukasi."
     />
     <Navigation />
     <Breadcrumb current="Play" />
 
-    <section className="container max-w-6xl pb-16 pt-12 md:pt-16">
+    {/* HERO */}
+    <section className="container max-w-6xl pb-12 pt-12 md:pt-16">
       <Reveal>
         <p className="mb-4 text-xs uppercase tracking-[0.5em] text-turquoise">
           IV · Interactive Games
@@ -28,18 +29,58 @@ const Play = () => (
       </Reveal>
       <Reveal delay={250}>
         <p className="mt-6 max-w-2xl text-base md:text-lg text-foam/75 leading-relaxed">
-          Temukan pasangan biota laut Pulau Derawan! Balik kartu, ingat letaknya,
-          dan cocokkan semua pasangan secepat mungkin. 🐢🐠🪼
+          Balik kartu, ingat letaknya, dan cocokkan pasangan biota laut Derawan
+          secepat mungkin! 🐢🐠🪼
         </p>
       </Reveal>
     </section>
 
-    <section className="bg-gradient-deep py-16 md:py-24">
+    {/* EDUCATIONAL STORY */}
+    <section className="bg-gradient-deep py-16 md:py-20">
+      <div className="container max-w-4xl">
+        <Reveal>
+          <p className="mb-4 text-xs uppercase tracking-[0.4em] text-coral">
+            Sebelum Mulai · Cerita Singkat
+          </p>
+        </Reveal>
+        <Reveal delay={120}>
+          <h2 className="font-display text-3xl md:text-5xl text-foam leading-tight">
+            Di sebuah pulau kecil di tengah Laut Sulawesi
+            <span className="italic text-gradient-ocean">…</span>
+          </h2>
+        </Reveal>
+        <Reveal delay={250}>
+          <div className="mt-8 space-y-5 text-base md:text-lg text-foam/80 leading-relaxed">
+            <p>
+              Hiduplah <span className="text-sand italic">Penyu Hijau</span> tua bernama Mbah Pe.
+              Setiap malam, ia bercerita pada cucunya tentang teman-temannya di laut Derawan —
+              <span className="text-turquoise"> Pari Manta</span> raksasa yang lembut,{" "}
+              <span className="text-turquoise">Ubur-ubur emas</span> di Danau Kakaban yang
+              tak menyengat, dan <span className="text-turquoise">Ikan Badut</span> kecil
+              yang lucu di rumah anemonnya.
+            </p>
+            <p>
+              Tapi suatu hari, Mbah Pe sedih. Sampah plastik mulai datang. Beberapa temannya
+              hilang. "Aku butuh bantuanmu," katanya pada cucunya. "Ingatlah wajah-wajah mereka
+              baik-baik. Karena yang kita ingat, akan kita jaga."
+            </p>
+            <p className="font-display text-xl md:text-2xl italic text-coral">
+              Sekarang giliranmu. Hafalkan biota laut Derawan dengan memainkan kartu di bawah
+              ini. Setiap pasangan yang kamu temukan, adalah teman baru yang kamu kenal. 💙
+            </p>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+
+    {/* GAME */}
+    <section id="game" className="bg-abyss py-16 md:py-24">
       <div className="container max-w-6xl">
         <MemoryGame />
       </div>
     </section>
 
+    {/* HOW TO PLAY */}
     <section className="container max-w-4xl py-20">
       <Reveal>
         <h2 className="font-display text-3xl md:text-4xl text-foam">
@@ -48,9 +89,9 @@ const Play = () => (
       </Reveal>
       <ol className="mt-8 grid gap-4 md:grid-cols-3">
         {[
-          { n: "01", t: "Klik kartu", d: "Balik dua kartu untuk melihat gambarnya." },
-          { n: "02", t: "Cari pasangan", d: "Cocokkan dua biota laut yang sama." },
-          { n: "03", t: "Selesaikan semua", d: "Kumpulkan 8 pasangan secepat mungkin!" },
+          { n: "01", t: "Pilih Level", d: "Easy 6 pasang, Medium 9, Hard 12. Pilih sesuai kemampuanmu!" },
+          { n: "02", t: "Balik & Cocokkan", d: "Klik dua kartu untuk membalik & cari pasangannya." },
+          { n: "03", t: "Selesaikan Semua", d: "Cocokkan semua pasangan untuk membuka galeri biota laut!" },
         ].map((s, i) => (
           <Reveal key={s.n} delay={i * 100}>
             <div className="border-l-2 border-coral/40 pl-5 py-2">
