@@ -6,6 +6,7 @@ const links = [
   { to: "/nature", label: "Nature" },
   { to: "/culture", label: "Culture" },
   { to: "/stories", label: "Stories" },
+  { to: "/play", label: "Play" },
 ];
 
 const Navigation = () => {
