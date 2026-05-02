@@ -65,6 +65,24 @@ export type Database = {
         }
         Relationships: []
       }
+      visits: {
+        Row: {
+          created_at: string
+          id: string
+          visitor_token: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          visitor_token: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          visitor_token?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
