@@ -11,6 +11,7 @@ import Nature from "./pages/Nature.tsx";
 import Culture from "./pages/Culture.tsx";
 import Stories from "./pages/Stories.tsx";
 import Play from "./pages/Play.tsx";
+import VisitorStats from "./pages/VisitorStats.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/culture" element={<Culture />} />
             <Route path="/stories" element={<Stories />} />
             <Route path="/play" element={<Play />} />
+            <Route path="/visitors" element={<VisitorStats />} />
             <Route path="/auth" element={<Auth />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

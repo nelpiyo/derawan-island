@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Area,
@@ -24,45 +23,43 @@ const RANGES = [
   { label: "90 Hari", days: 90 },
 ];
 
-const AdminVisitors = () => {
-  const navigate = useNavigate();
-  const [authChecked, setAuthChecked] = useState(false);
-  const [allowed, setAllowed] = useState(false);
+const VisitorStats = () => {
   const [visits, setVisits] = useState<Visit[]>([]);
   const [loading, setLoading] = useState(true);
   const [range, setRange] = useState(30);
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+
+  const loadVisits = async () => {
+    const { data } = await supabase
+      .from("visits")
+      .select("created_at")
+      .order("created_at", { ascending: true });
+    setVisits(data ?? []);
+    setLastUpdated(new Date());
+    setLoading(false);
+  };
 
   useEffect(() => {
-    const check = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
-        navigate("/auth", { replace: true });
-        return;
-      }
-      const { data: roles } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id);
-      const isAdmin = roles?.some((r) => r.role === "admin");
-      setAllowed(!!isAdmin);
-      setAuthChecked(true);
-    };
-    check();
-  }, [navigate]);
+    loadVisits();
 
-  useEffect(() => {
-    if (!allowed) return;
-    const load = async () => {
-      setLoading(true);
-      const { data } = await supabase
-        .from("visits")
-        .select("created_at")
-        .order("created_at", { ascending: true });
-      setVisits(data ?? []);
-      setLoading(false);
+    // Realtime subscription — auto update saat ada visitor baru
+    const channel = supabase
+      .channel("visits-public")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "visits" },
+        (payload) => {
+          const newVisit = payload.new as Visit;
+          setVisits((prev) => [...prev, newVisit]);
+          setLastUpdated(new Date());
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
     };
-    load();
-  }, [allowed]);
+  }, []);
 
   const { chartData, total, todayCount, avg } = useMemo(() => {
     const today = startOfDay(new Date());
@@ -91,36 +88,30 @@ const AdminVisitors = () => {
     };
   }, [visits, range]);
 
-  if (!authChecked) {
-    return (
-      <main className="min-h-screen bg-abyss flex items-center justify-center">
-        <p className="text-foam/60 text-xs uppercase tracking-[0.3em]">Memeriksa akses...</p>
-      </main>
-    );
-  }
-
-  if (!allowed) {
-    return (
-      <main className="min-h-screen bg-abyss flex items-center justify-center px-6">
-        <div className="text-center">
-          <p className="text-coral text-xs uppercase tracking-[0.3em] mb-4">Akses Ditolak</p>
-          <p className="text-foam/70">Halaman ini hanya untuk admin.</p>
-        </div>
-      </main>
-    );
-  }
-
   return (
     <main className="bg-abyss text-foam min-h-screen">
-      <SEO title="Visitor Dashboard · Derawan Island" description="Statistik visitor harian." path="/admin/visitors" />
+      <SEO
+        title="Visitor Statistics · Derawan Island"
+        description="Statistik publik pengunjung Derawan Island, diperbarui setiap hari."
+        path="/visitors"
+      />
       <Navigation />
-      <Breadcrumb current="Visitor Dashboard" />
+      <Breadcrumb current="Visitor Stats" />
       <div className="container pb-20 max-w-6xl">
         <header className="mt-10 mb-12">
-          <p className="text-xs uppercase tracking-[0.5em] text-turquoise mb-4">Admin · Analytics</p>
+          <p className="text-xs uppercase tracking-[0.5em] text-turquoise mb-4">
+            Public · Live Statistics
+          </p>
           <h1 className="font-display text-5xl md:text-6xl text-foam">
-            Visitor <span className="italic text-gradient-ocean">Dashboard</span>
+            Visitor <span className="italic text-gradient-ocean">Statistics</span>
           </h1>
+          <div className="mt-4 inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.3em] text-foam/50">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-coral opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-coral" />
+            </span>
+            Live · Update terakhir {format(lastUpdated, "HH:mm:ss")}
+          </div>
         </header>
 
         {/* Stat Cards */}
@@ -131,8 +122,12 @@ const AdminVisitors = () => {
             { label: `Rata-rata / hari (${range}d)`, value: avg },
           ].map((s) => (
             <div key={s.label} className="glass border border-foam/10 p-8">
-              <p className="text-[10px] uppercase tracking-[0.3em] text-foam/50 mb-3">{s.label}</p>
-              <p className="font-display text-5xl text-foam">{s.value.toLocaleString("id-ID")}</p>
+              <p className="text-[10px] uppercase tracking-[0.3em] text-foam/50 mb-3">
+                {s.label}
+              </p>
+              <p className="font-display text-5xl text-foam">
+                {s.value.toLocaleString("id-ID")}
+              </p>
             </div>
           ))}
         </div>
@@ -156,7 +151,9 @@ const AdminVisitors = () => {
 
         {/* Chart */}
         <div className="glass border border-foam/10 p-6 md:p-8">
-          <p className="text-xs uppercase tracking-[0.3em] text-foam/60 mb-6">Visitors per Hari</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-foam/60 mb-6">
+            Visitors per Hari
+          </p>
           {loading ? (
             <div className="h-80 flex items-center justify-center text-foam/40 text-xs uppercase tracking-[0.3em]">
               Memuat data...
@@ -194,7 +191,12 @@ const AdminVisitors = () => {
                     color: "hsl(var(--foam))",
                     fontSize: 12,
                   }}
-                  labelStyle={{ color: "hsl(var(--turquoise))", textTransform: "uppercase", letterSpacing: "0.15em", fontSize: 10 }}
+                  labelStyle={{
+                    color: "hsl(var(--turquoise))",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.15em",
+                    fontSize: 10,
+                  }}
                 />
                 <Area
                   type="monotone"
@@ -213,4 +215,4 @@ const AdminVisitors = () => {
   );
 };
 
-export default AdminVisitors;
+export default VisitorStats;
