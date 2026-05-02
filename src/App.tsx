@@ -11,6 +11,7 @@ import Nature from "./pages/Nature.tsx";
 import Culture from "./pages/Culture.tsx";
 import Stories from "./pages/Stories.tsx";
 import Play from "./pages/Play.tsx";
+import VisitorStats from "./pages/VisitorStats.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 
 const queryClient = new QueryClient();
