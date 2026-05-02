@@ -114,9 +114,8 @@ const AdminVisitors = () => {
     <main className="bg-abyss text-foam min-h-screen">
       <SEO title="Visitor Dashboard · Derawan Island" description="Statistik visitor harian." path="/admin/visitors" />
       <Navigation />
-      <div className="container pt-32 pb-20 max-w-6xl">
-        <Breadcrumb items={[{ label: "Visitor Dashboard" }]} />
-
+      <Breadcrumb current="Visitor Dashboard" />
+      <div className="container pb-20 max-w-6xl">
         <header className="mt-10 mb-12">
           <p className="text-xs uppercase tracking-[0.5em] text-turquoise mb-4">Admin · Analytics</p>
           <h1 className="font-display text-5xl md:text-6xl text-foam">
