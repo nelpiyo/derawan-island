@@ -33,21 +33,11 @@ const RoadToDerawan = () => {
               </p>
             </Reveal>
             <Reveal delay={450}>
-              <div className="mt-10 flex flex-wrap items-center gap-6">
-                <div className="flex items-center gap-3 text-foam/60">
-                  <Clapperboard className="w-4 h-4 text-coral" />
-                  <span className="text-[10px] uppercase tracking-[0.3em]">
-                    Sedang diproduksi
-                  </span>
-                </div>
-                <a
-                  href="https://www.youtube.com/results?search_query=pulau+derawan"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[10px] uppercase tracking-[0.3em] text-turquoise hover:text-coral transition-colors border-b border-turquoise/40 hover:border-coral pb-1"
-                >
-                  Notify me on YouTube →
-                </a>
+              <div className="mt-10 flex items-center gap-3 text-foam/60">
+                <Clapperboard className="w-4 h-4 text-coral" />
+                <span className="text-[10px] uppercase tracking-[0.3em]">
+                  Sedang diproduksi · klik placeholder untuk YouTube
+                </span>
               </div>
             </Reveal>
           </div>
