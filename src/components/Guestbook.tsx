@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Reveal from "@/components/Reveal";
 import { useToast } from "@/hooks/use-toast";
 import ExperienceReplies from "@/components/ExperienceReplies";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 type Experience = {
   id: string;
@@ -72,6 +73,7 @@ const Guestbook = () => {
   const [ownedIds, setOwnedIds] = useState<Set<string>>(new Set());
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [lightboxPhoto, setLightboxPhoto] = useState<{ url: string; name: string } | null>(null);
 
   useEffect(() => {
     setOwnedIds(new Set(Object.keys(loadTokens())));
@@ -411,12 +413,22 @@ const Guestbook = () => {
                   <article className="border border-foam/10 bg-deep-sea/30 backdrop-blur-sm p-6 md:p-8 hover:border-coral/40 transition-colors">
                     <div className="flex flex-col md:flex-row gap-6">
                       {exp.photo_url && (
-                        <img
-                          src={exp.photo_url}
-                          alt={`Foto dari ${exp.visitor_name}`}
-                          loading="lazy"
-                          className="w-full md:w-40 h-40 object-cover flex-shrink-0"
-                        />
+                        <button
+                          type="button"
+                          onClick={() => setLightboxPhoto({ url: exp.photo_url!, name: exp.visitor_name })}
+                          className="group relative w-full md:w-40 h-40 flex-shrink-0 overflow-hidden border border-foam/10 hover:border-coral/60 transition-colors"
+                          aria-label={`Lihat foto dari ${exp.visitor_name} lebih jelas`}
+                        >
+                          <img
+                            src={exp.photo_url}
+                            alt={`Foto dari ${exp.visitor_name}`}
+                            loading="lazy"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <span className="absolute inset-0 flex items-center justify-center bg-abyss/60 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] uppercase tracking-[0.3em] text-foam">
+                            Lihat foto
+                          </span>
+                        </button>
                       )}
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-3">
@@ -460,6 +472,26 @@ const Guestbook = () => {
           </div>
         </div>
       </div>
+
+      <Dialog open={!!lightboxPhoto} onOpenChange={(o) => !o && setLightboxPhoto(null)}>
+        <DialogContent className="max-w-5xl w-[95vw] p-0 bg-abyss border-foam/10 overflow-hidden">
+          <DialogTitle className="sr-only">
+            {lightboxPhoto ? `Foto dari ${lightboxPhoto.name}` : "Foto"}
+          </DialogTitle>
+          {lightboxPhoto && (
+            <div className="relative w-full max-h-[85vh] flex flex-col">
+              <img
+                src={lightboxPhoto.url}
+                alt={`Foto dari ${lightboxPhoto.name}`}
+                className="w-full h-auto max-h-[80vh] object-contain bg-abyss"
+              />
+              <p className="px-6 py-4 text-[10px] uppercase tracking-[0.3em] text-foam/60 border-t border-foam/10">
+                · Foto dari {lightboxPhoto.name}
+              </p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
