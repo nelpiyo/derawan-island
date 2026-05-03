@@ -40,6 +40,35 @@ const Stories = () => {
 
       <Guestbook />
 
+      <RoadToDerawan />
+
+      {/* Bridge into CTA — gives context, no abrupt jump */}
+      <section className="relative bg-gradient-to-b from-abyss via-deep-sea to-abyss py-24 md:py-32 border-t border-foam/5">
+        <div className="container max-w-3xl text-center">
+          <Reveal>
+            <p className="text-xs uppercase tracking-[0.5em] text-coral/80 mb-8">
+              · Mengapa cerita ini penting
+            </p>
+          </Reveal>
+          <Reveal delay={150}>
+            <p className="font-display text-2xl md:text-3xl lg:text-4xl text-foam/90 leading-snug italic">
+              "Setiap cerita yang Anda baca di atas, setiap foto yang dibagikan,
+              dan setiap video yang akan kami unggah—semuanya menuju ke satu
+              kesimpulan yang sama."
+            </p>
+          </Reveal>
+          <Reveal delay={350}>
+            <div className="mt-12 flex items-center justify-center gap-4">
+              <span className="h-px w-12 bg-coral/40" />
+              <span className="text-[10px] uppercase tracking-[0.4em] text-foam/50">
+                Scroll untuk panggilan bertindak
+              </span>
+              <span className="h-px w-12 bg-coral/40" />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="relative bg-gradient-deep py-32 md:py-44">
         <div className="container max-w-4xl text-center">
