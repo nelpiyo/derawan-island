@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { Home, Leaf, Users, BookOpen, Gamepad2, type LucideIcon } from "lucide-react";
 
-const links = [
-  { to: "/", label: "Home" },
-  { to: "/nature", label: "Nature" },
-  { to: "/culture", label: "Culture" },
-  { to: "/stories", label: "Stories" },
-  { to: "/play", label: "Play" },
+const links: { to: string; label: string; Icon: LucideIcon }[] = [
+  { to: "/", label: "Home", Icon: Home },
+  { to: "/nature", label: "Nature", Icon: Leaf },
+  { to: "/culture", label: "Culture", Icon: Users },
+  { to: "/stories", label: "Stories", Icon: BookOpen },
+  { to: "/play", label: "Play", Icon: Gamepad2 },
 ];
 
 const Navigation = () => {
@@ -33,17 +34,23 @@ const Navigation = () => {
           </span>
         </Link>
         <nav className="hidden md:flex items-center gap-8">
-          {links.map((l) => {
-            const active = pathname === l.to;
+          {links.map(({ to, label, Icon }) => {
+            const active = pathname === to;
             return (
               <Link
-                key={l.to}
-                to={l.to}
-                className={`text-xs uppercase tracking-[0.25em] transition-colors duration-300 ${
+                key={to}
+                to={to}
+                className={`group flex items-center gap-2 text-xs uppercase tracking-[0.25em] transition-colors duration-300 ${
                   active ? "text-coral" : "text-foam/70 hover:text-coral"
                 }`}
               >
-                {l.label}
+                <Icon
+                  className={`w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 ${
+                    active ? "text-coral" : "text-foam/60 group-hover:text-coral"
+                  }`}
+                  strokeWidth={1.75}
+                />
+                {label}
               </Link>
             );
           })}

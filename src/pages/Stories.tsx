@@ -4,7 +4,6 @@ import SEO from "@/components/SEO";
 import Guestbook from "@/components/Guestbook";
 import Breadcrumb from "@/components/Breadcrumb";
 import SiteFooter from "@/components/SiteFooter";
-import RoadToDerawan from "@/components/RoadToDerawan";
 
 const Stories = () => {
   return (
@@ -39,8 +38,6 @@ const Stories = () => {
       </section>
 
       <Guestbook />
-
-      <RoadToDerawan />
 
       {/* Bridge into CTA — gives context, no abrupt jump */}
       <section className="relative bg-gradient-to-b from-abyss via-deep-sea to-abyss py-24 md:py-32 border-t border-foam/5">
