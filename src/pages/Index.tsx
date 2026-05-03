@@ -119,6 +119,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* ROAD TO DERAWAN — video teaser */}
+      <RoadToDerawan />
+
       {/* DIRECTORY — 3 PAGES */}
       <section className="relative bg-abyss py-32 md:py-44">
         <div className="container">
