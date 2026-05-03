@@ -413,12 +413,22 @@ const Guestbook = () => {
                   <article className="border border-foam/10 bg-deep-sea/30 backdrop-blur-sm p-6 md:p-8 hover:border-coral/40 transition-colors">
                     <div className="flex flex-col md:flex-row gap-6">
                       {exp.photo_url && (
-                        <img
-                          src={exp.photo_url}
-                          alt={`Foto dari ${exp.visitor_name}`}
-                          loading="lazy"
-                          className="w-full md:w-40 h-40 object-cover flex-shrink-0"
-                        />
+                        <button
+                          type="button"
+                          onClick={() => setLightboxPhoto({ url: exp.photo_url!, name: exp.visitor_name })}
+                          className="group relative w-full md:w-40 h-40 flex-shrink-0 overflow-hidden border border-foam/10 hover:border-coral/60 transition-colors"
+                          aria-label={`Lihat foto dari ${exp.visitor_name} lebih jelas`}
+                        >
+                          <img
+                            src={exp.photo_url}
+                            alt={`Foto dari ${exp.visitor_name}`}
+                            loading="lazy"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <span className="absolute inset-0 flex items-center justify-center bg-abyss/60 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] uppercase tracking-[0.3em] text-foam">
+                            Lihat foto
+                          </span>
+                        </button>
                       )}
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-3">
