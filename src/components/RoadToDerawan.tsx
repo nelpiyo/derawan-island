@@ -52,12 +52,16 @@ const RoadToDerawan = () => {
             </Reveal>
           </div>
 
-          {/* Video placeholder */}
+          {/* Video placeholder — clickable, opens YouTube */}
           <Reveal delay={250}>
-            <div className="relative group">
-              {/* Frame */}
-              <div className="relative aspect-video w-full overflow-hidden border border-foam/15 bg-gradient-to-br from-deep-sea via-abyss to-deep-sea shadow-2xl">
-                {/* Subtle ocean pattern */}
+            <a
+              href="https://www.youtube.com/results?search_query=pulau+derawan"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Tonton playlist Pulau Derawan di YouTube"
+              className="relative group block"
+            >
+              <div className="relative aspect-video w-full overflow-hidden border border-foam/15 bg-gradient-to-br from-deep-sea via-abyss to-deep-sea shadow-2xl group-hover:border-coral/60 transition-colors duration-500">
                 <div
                   className="absolute inset-0 opacity-30"
                   style={{
@@ -66,7 +70,6 @@ const RoadToDerawan = () => {
                   }}
                 />
 
-                {/* Animated wave lines */}
                 <svg
                   className="absolute inset-0 w-full h-full opacity-20"
                   viewBox="0 0 800 450"
@@ -83,11 +86,10 @@ const RoadToDerawan = () => {
                   />
                 </svg>
 
-                {/* Center play button */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 px-6 text-center">
                   <div className="relative">
                     <span className="absolute inset-0 rounded-full bg-coral/30 animate-ping" />
-                    <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full bg-coral/90 flex items-center justify-center shadow-coral">
+                    <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full bg-coral/90 flex items-center justify-center shadow-coral group-hover:scale-110 transition-transform duration-500">
                       <Play className="w-8 h-8 md:w-10 md:h-10 text-primary-foreground fill-primary-foreground ml-1" />
                     </div>
                   </div>
@@ -95,11 +97,10 @@ const RoadToDerawan = () => {
                     Video segera hadir
                   </p>
                   <p className="text-[10px] uppercase tracking-[0.3em] text-foam/60">
-                    · Estimated drop · 2026
+                    · Klik untuk buka YouTube
                   </p>
                 </div>
 
-                {/* Top overlay - fake YouTube chrome */}
                 <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-abyss/80 to-transparent">
                   <span className="text-[9px] uppercase tracking-[0.3em] text-foam/70">
                     YouTube · Derawan Stories
@@ -110,11 +111,10 @@ const RoadToDerawan = () => {
                 </div>
               </div>
 
-              {/* Caption */}
-              <p className="mt-4 text-[10px] uppercase tracking-[0.3em] text-foam/40 text-center">
-                · Placeholder · video akan tertanam di sini saat rilis
+              <p className="mt-4 text-[10px] uppercase tracking-[0.3em] text-foam/40 text-center group-hover:text-coral/70 transition-colors">
+                · Placeholder · video lengkap akan tertanam di sini saat rilis
               </p>
-            </div>
+            </a>
           </Reveal>
         </div>
       </div>
