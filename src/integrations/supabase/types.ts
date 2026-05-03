@@ -14,6 +14,38 @@ export type Database = {
   }
   public: {
     Tables: {
+      experience_replies: {
+        Row: {
+          comment: string
+          created_at: string
+          experience_id: string
+          id: string
+          visitor_name: string
+        }
+        Insert: {
+          comment: string
+          created_at?: string
+          experience_id: string
+          id?: string
+          visitor_name: string
+        }
+        Update: {
+          comment?: string
+          created_at?: string
+          experience_id?: string
+          id?: string
+          visitor_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "experience_replies_experience_id_fkey"
+            columns: ["experience_id"]
+            isOneToOne: false
+            referencedRelation: "experiences"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       experiences: {
         Row: {
           comment: string
