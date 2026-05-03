@@ -128,8 +128,8 @@ const ExperienceReplies = ({ experienceId }: Props) => {
         className="text-[10px] uppercase tracking-[0.3em] text-turquoise hover:text-coral transition-colors"
       >
         {replies.length > 0
-          ? `· ${replies.length} balasan ${open ? "▲" : "▼"}`
-          : `· Balas / Tanya ${open ? "▲" : "▼"}`}
+          ? `· ${replies.length} komentar ${open ? "▲" : "▼"}`
+          : `· Komentar ${open ? "▲" : "▼"}`}
       </button>
 
       {open && (
