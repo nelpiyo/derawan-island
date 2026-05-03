@@ -39,8 +39,6 @@ const Stories = () => {
 
       <Guestbook />
 
-      <RoadToDerawan />
-
       {/* Bridge into CTA — gives context, no abrupt jump */}
       <section className="relative bg-gradient-to-b from-abyss via-deep-sea to-abyss py-24 md:py-32 border-t border-foam/5">
         <div className="container max-w-3xl text-center">
