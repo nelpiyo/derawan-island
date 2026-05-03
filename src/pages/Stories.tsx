@@ -4,6 +4,7 @@ import SEO from "@/components/SEO";
 import Guestbook from "@/components/Guestbook";
 import Breadcrumb from "@/components/Breadcrumb";
 import SiteFooter from "@/components/SiteFooter";
+import RoadToDerawan from "@/components/RoadToDerawan";
 
 const Stories = () => {
   return (
