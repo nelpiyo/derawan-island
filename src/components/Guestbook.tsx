@@ -73,6 +73,7 @@ const Guestbook = () => {
   const [ownedIds, setOwnedIds] = useState<Set<string>>(new Set());
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [lightboxPhoto, setLightboxPhoto] = useState<{ url: string; name: string } | null>(null);
 
   useEffect(() => {
     setOwnedIds(new Set(Object.keys(loadTokens())));
