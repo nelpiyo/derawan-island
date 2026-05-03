@@ -450,6 +450,7 @@ const Guestbook = () => {
                             </button>
                           )}
                         </div>
+                        <ExperienceReplies experienceId={exp.id} />
                       </div>
                     </div>
                   </article>
