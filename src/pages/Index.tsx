@@ -4,6 +4,7 @@ import ParallaxSection from "@/components/ParallaxSection";
 import Reveal from "@/components/Reveal";
 import SEO from "@/components/SEO";
 import SiteFooter from "@/components/SiteFooter";
+import RoadToDerawan from "@/components/RoadToDerawan";
 
 import heroImg from "@/assets/hero-derawan.jpg";
 import coralImg from "@/assets/coral-reef.jpg";
