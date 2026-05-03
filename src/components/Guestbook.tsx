@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Reveal from "@/components/Reveal";
 import { useToast } from "@/hooks/use-toast";
 import ExperienceReplies from "@/components/ExperienceReplies";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 
 type Experience = {
   id: string;
