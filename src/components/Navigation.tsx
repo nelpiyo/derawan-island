@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { Home, Leaf, Users, BookOpen, Gamepad2, type LucideIcon } from "lucide-react";
 
-const links = [
-  { to: "/", label: "Home" },
-  { to: "/nature", label: "Nature" },
-  { to: "/culture", label: "Culture" },
-  { to: "/stories", label: "Stories" },
-  { to: "/play", label: "Play" },
+const links: { to: string; label: string; Icon: LucideIcon }[] = [
+  { to: "/", label: "Home", Icon: Home },
+  { to: "/nature", label: "Nature", Icon: Leaf },
+  { to: "/culture", label: "Culture", Icon: Users },
+  { to: "/stories", label: "Stories", Icon: BookOpen },
+  { to: "/play", label: "Play", Icon: Gamepad2 },
 ];
 
 const Navigation = () => {
