@@ -472,6 +472,26 @@ const Guestbook = () => {
           </div>
         </div>
       </div>
+
+      <Dialog open={!!lightboxPhoto} onOpenChange={(o) => !o && setLightboxPhoto(null)}>
+        <DialogContent className="max-w-5xl w-[95vw] p-0 bg-abyss border-foam/10 overflow-hidden">
+          <DialogTitle className="sr-only">
+            {lightboxPhoto ? `Foto dari ${lightboxPhoto.name}` : "Foto"}
+          </DialogTitle>
+          {lightboxPhoto && (
+            <div className="relative w-full max-h-[85vh] flex flex-col">
+              <img
+                src={lightboxPhoto.url}
+                alt={`Foto dari ${lightboxPhoto.name}`}
+                className="w-full h-auto max-h-[80vh] object-contain bg-abyss"
+              />
+              <p className="px-6 py-4 text-[10px] uppercase tracking-[0.3em] text-foam/60 border-t border-foam/10">
+                · Foto dari {lightboxPhoto.name}
+              </p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
