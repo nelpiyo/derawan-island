@@ -5,40 +5,43 @@ import Reveal from "@/components/Reveal";
 import SEO from "@/components/SEO";
 import SiteFooter from "@/components/SiteFooter";
 import RoadToDerawan from "@/components/RoadToDerawan";
+import { useI18n } from "@/i18n";
 
 import heroImg from "@/assets/hero-derawan.jpg";
 import coralImg from "@/assets/coral-reef.jpg";
 import bajauImg from "@/assets/bajau-village.jpg";
 import turtleImg from "@/assets/sea-turtle.jpg";
 
-const sections = [
-  {
-    to: "/nature",
-    eyebrow: "I · Nature & Ecology",
-    title: "Coral Triangle",
-    italic: "yang rapuh.",
-    body: "Penyu, pari manta, 444 spesies karang, dan ancaman 46 ton sampah per hari.",
-    image: coralImg,
-  },
-  {
-    to: "/culture",
-    eyebrow: "II · Culture & Economy",
-    title: "Suku Bajau",
-    italic: "& ekonomi yang menjaga.",
-    body: "Pengetahuan maritim, tradisi Mag'jamu, dan konservasi sebagai aset ekonomi.",
-    image: bajauImg,
-  },
-  {
-    to: "/stories",
-    eyebrow: "III · Visitor Stories",
-    title: "Cerita mereka",
-    italic: "yang pernah ke sini.",
-    body: "Suara, foto, dan kenangan dari pengunjung Pulau Derawan.",
-    image: turtleImg,
-  },
-];
-
 const Index = () => {
+  const { t } = useI18n();
+
+  const sections = [
+    {
+      to: "/nature",
+      eyebrow: "I · Nature & Ecology",
+      title: "Coral Triangle",
+      italic: t("home.directory.title.b").includes("Derawan") ? "rapuh." : "fragile.",
+      body: "444 species of coral, sea turtles, manta rays — and the threat of 46 tons of waste a day.",
+      image: coralImg,
+    },
+    {
+      to: "/culture",
+      eyebrow: "II · Culture & Economy",
+      title: "Suku Bajau",
+      italic: "& economy that protects.",
+      body: "Maritime knowledge, the Mag'jamu tradition, and conservation as an economic asset.",
+      image: bajauImg,
+    },
+    {
+      to: "/stories",
+      eyebrow: "III · Visitor Stories",
+      title: "Their stories",
+      italic: "from those who have been here.",
+      body: "Voices, photos, and memories from visitors of Derawan Island.",
+      image: turtleImg,
+    },
+  ];
+
   return (
     <main className="bg-abyss text-foam">
       <SEO />
@@ -55,7 +58,7 @@ const Index = () => {
         <div className="container flex min-h-screen flex-col justify-end pb-24 pt-40">
           <Reveal>
             <p className="mb-6 text-xs uppercase tracking-[0.6em] text-turquoise">
-              The Last Sanctuary of the Celebes Sea
+              {t("home.eyebrow")}
             </p>
           </Reveal>
           <Reveal delay={150}>
@@ -67,14 +70,12 @@ const Index = () => {
           <Reveal delay={350}>
             <div className="mt-10 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
               <p className="max-w-xl text-base md:text-lg text-foam/80 leading-relaxed">
-                Bukan sekadar pulau indah di Kabupaten Berau. Ia adalah rumah bagi
-                penyu, pari manta, terumbu karang, dan kehidupan laut yang menjadi
-                kebanggaan Kalimantan Timur.
+                {t("home.intro")}
               </p>
               <div className="flex items-center gap-4">
                 <div className="h-px w-16 bg-coral" />
                 <span className="text-xs uppercase tracking-[0.3em] text-foam/60">
-                  Scroll
+                  {t("nav.scroll")}
                 </span>
               </div>
             </div>
@@ -93,47 +94,47 @@ const Index = () => {
         <div className="container max-w-5xl">
           <Reveal>
             <p className="mb-8 text-xs uppercase tracking-[0.5em] text-coral">
-              Manifesto
+              {t("home.manifesto.eyebrow")}
             </p>
           </Reveal>
           <Reveal delay={150}>
             <h2 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.05] text-foam">
-              Surga ini sedang{" "}
-              <span className="italic text-gradient-sunset">terdesak.</span>
+              {t("home.manifesto.title.a")}{" "}
+              <span className="italic text-gradient-sunset">{t("home.manifesto.title.b")}</span>
             </h2>
           </Reveal>
           <Reveal delay={300}>
             <p className="mt-12 text-lg leading-relaxed text-foam/75 max-w-3xl">
-              Sampah plastik, eksploitasi laut, dan perubahan iklim mengancam
-              kehidupan yang membuat Derawan begitu berharga. Menjaga Derawan
-              berarti menyelamatkan rumah terakhir bagi kehidupan laut Berau.
+              {t("home.manifesto.body")}
             </p>
           </Reveal>
           <Reveal delay={500}>
             <blockquote className="mt-16 border-l-2 border-coral pl-8 md:pl-12 max-w-4xl">
               <p className="font-display text-2xl md:text-4xl italic leading-snug text-sand">
-                "Derawan harus dijaga hari ini, bukan nanti."
+                {t("home.manifesto.quote")}
               </p>
             </blockquote>
           </Reveal>
         </div>
       </section>
 
-      {/* ROAD TO DERAWAN — video teaser */}
+      {/* ROAD TO DERAWAN */}
       <RoadToDerawan />
 
-      {/* DIRECTORY — 3 PAGES */}
+      {/* DIRECTORY */}
       <section className="relative bg-abyss py-32 md:py-44">
         <div className="container">
           <Reveal>
             <p className="mb-6 text-xs uppercase tracking-[0.5em] text-turquoise">
-              Explore
+              {t("home.directory.eyebrow")}
             </p>
           </Reveal>
           <Reveal delay={150}>
             <h2 className="font-display text-4xl md:text-6xl lg:text-7xl text-foam max-w-3xl">
-              Tiga jalan masuk
-              <span className="italic text-gradient-ocean"> ke Derawan.</span>
+              {t("home.directory.title.a")}
+              <span className="italic text-gradient-ocean">
+                {t("home.directory.title.b")}
+              </span>
             </h2>
           </Reveal>
 
@@ -165,7 +166,7 @@ const Index = () => {
                       {s.body}
                     </p>
                     <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-coral">
-                      Read more
+                      {t("home.directory.readmore")}
                       <span
                         aria-hidden
                         className="inline-block h-px w-8 bg-coral transition-all duration-500 group-hover:w-16"
