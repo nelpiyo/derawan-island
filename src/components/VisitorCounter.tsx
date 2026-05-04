@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useI18n } from "@/i18n";
 
 const STORAGE_KEY = "derawan_visitor_token";
 
@@ -14,6 +15,7 @@ const getOrCreateToken = () => {
 };
 
 const VisitorCounter = () => {
+  const { t, lang } = useI18n();
   const [count, setCount] = useState<number | null>(null);
 
   useEffect(() => {
@@ -58,7 +60,7 @@ const VisitorCounter = () => {
         <span className="relative inline-flex h-2 w-2 rounded-full bg-coral" />
       </span>
       <span>
-        {count === null ? "···" : count.toLocaleString("id-ID")} visitors
+        {count === null ? "···" : count.toLocaleString(lang === "en" ? "en-US" : "id-ID")} {t("footer.visitors")}
       </span>
     </Link>
   );
