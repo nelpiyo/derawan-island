@@ -1,48 +1,45 @@
 import Reveal from "@/components/Reveal";
 import { Play, Clapperboard } from "lucide-react";
+import { useI18n } from "@/i18n";
 
 const RoadToDerawan = () => {
+  const { t } = useI18n();
   return (
     <section className="relative bg-abyss py-32 md:py-44 overflow-hidden">
-      {/* Decorative gradient orbs */}
       <div className="absolute top-20 -left-20 w-96 h-96 rounded-full bg-turquoise/10 blur-3xl pointer-events-none" />
       <div className="absolute bottom-20 -right-20 w-96 h-96 rounded-full bg-coral/10 blur-3xl pointer-events-none" />
 
       <div className="container max-w-6xl relative">
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-20 items-center">
-          {/* Copy */}
           <div>
             <Reveal>
               <p className="mb-6 text-xs uppercase tracking-[0.5em] text-turquoise">
-                Coming soon · Mini documentary
+                {t("road.eyebrow")}
               </p>
             </Reveal>
             <Reveal delay={150}>
               <h2 className="font-display text-5xl md:text-6xl lg:text-7xl text-foam leading-[0.95]">
-                Road to
+                {t("road.title.a")}
                 <span className="block italic text-gradient-ocean">
-                  Pulau Derawan.
+                  {t("road.title.b")}
                 </span>
               </h2>
             </Reveal>
             <Reveal delay={300}>
               <p className="mt-8 text-lg text-foam/75 leading-relaxed max-w-md">
-                Sebuah perjalanan visual—dari dermaga Tanjung Batu, menyusuri
-                laut biru, hingga bertemu penyu hijau di kedalaman Derawan.
-                Video lengkapnya akan segera tayang di kanal YouTube kami.
+                {t("road.body")}
               </p>
             </Reveal>
             <Reveal delay={450}>
               <div className="mt-10 flex items-center gap-3 text-foam/60">
                 <Clapperboard className="w-4 h-4 text-coral" />
                 <span className="text-[10px] uppercase tracking-[0.3em]">
-                  Sedang diproduksi · klik placeholder untuk YouTube
+                  {t("road.status")}
                 </span>
               </div>
             </Reveal>
           </div>
 
-          {/* Video placeholder — clickable, opens YouTube */}
           <Reveal delay={250}>
             <a
               href="https://www.youtube.com/results?search_query=pulau+derawan"
@@ -84,25 +81,25 @@ const RoadToDerawan = () => {
                     </div>
                   </div>
                   <p className="font-display text-2xl md:text-3xl text-foam">
-                    Video segera hadir
+                    {t("road.video.coming")}
                   </p>
                   <p className="text-[10px] uppercase tracking-[0.3em] text-foam/60">
-                    · Klik untuk buka YouTube
+                    {t("road.video.click")}
                   </p>
                 </div>
 
                 <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-abyss/80 to-transparent">
                   <span className="text-[9px] uppercase tracking-[0.3em] text-foam/70">
-                    YouTube · Derawan Stories
+                    {t("road.video.label")}
                   </span>
                   <span className="text-[9px] uppercase tracking-[0.3em] text-coral/80">
-                    ● Preview
+                    {t("road.video.preview")}
                   </span>
                 </div>
               </div>
 
               <p className="mt-4 text-[10px] uppercase tracking-[0.3em] text-foam/40 text-center group-hover:text-coral/70 transition-colors">
-                · Placeholder · video lengkap akan tertanam di sini saat rilis
+                {t("road.placeholder")}
               </p>
             </a>
           </Reveal>
