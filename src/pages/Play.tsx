@@ -73,15 +73,8 @@ const Play = () => (
       </div>
     </section>
 
-    {/* GAME */}
-    <section id="game" className="bg-abyss py-16 md:py-24">
-      <div className="container max-w-6xl">
-        <MemoryGame />
-      </div>
-    </section>
-
     {/* HOW TO PLAY */}
-    <section className="container max-w-4xl py-20">
+    <section className="container max-w-4xl pt-16 pb-8">
       <Reveal>
         <h2 className="font-display text-3xl md:text-4xl text-foam">
           Cara main<span className="italic text-gradient-ocean">.</span>
@@ -102,6 +95,13 @@ const Play = () => (
           </Reveal>
         ))}
       </ol>
+    </section>
+
+    {/* GAME */}
+    <section id="game" className="bg-abyss py-16 md:py-24">
+      <div className="container max-w-6xl">
+        <MemoryGame />
+      </div>
     </section>
 
     <SiteFooter />
