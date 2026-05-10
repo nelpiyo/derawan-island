@@ -38,8 +38,11 @@ const Nature = () => {
         </Reveal>
         <Reveal delay={300}>
           <p className="mt-10 text-lg leading-relaxed text-foam/75 max-w-2xl">
-            Penyu, pari manta, ribuan ikan karang, dan hamparan mangrove — semuanya
-            terhubung dalam ekosistem yang rapuh dan tak tergantikan.
+            Di sini, setiap makhluk punya peran, setiap ekosistem saling
+            terhubung. Penyu, pari manta, ribuan ikan karang, dan hamparan
+            mangrove semuanya hidup dalam satu kesatuan yang saling bergantung
+            dalam satu keseimbangan yang rapuh. Ketika satu bagian terganggu,
+            dampaknya dirasakan oleh semua.
           </p>
         </Reveal>
       </section>
@@ -61,7 +64,7 @@ const Nature = () => {
             <h2 className="font-display text-4xl md:text-6xl lg:text-7xl text-foam max-w-3xl">
               Angka yang menjadi
               <span className="block italic text-gradient-ocean">
-                alasan untuk bertindak.
+                alasan untuk terus menjaga.
               </span>
             </h2>
           </Reveal>
@@ -69,7 +72,7 @@ const Nature = () => {
           <div className="mt-20 grid gap-px bg-foam/10 md:grid-cols-4">
             {[
               { v: 2, suffix: "", label: "Spesies penyu", sub: "Hijau & Sisik" },
-              { v: 444, suffix: "", label: "Spesies karang", sub: "Hermatipik" },
+              { v: 507, suffix: "", label: "Spesies karang", sub: "Hermatipik" },
               { v: 872, suffix: "", label: "Ikan karang", sub: "Tercatat" },
               { v: 285548.95, suffix: " ha", label: "Konservasi", sub: "KKP3K", dec: 0 },
             ].map((s, i) => (
@@ -127,7 +130,7 @@ const Nature = () => {
               <Reveal delay={200}>
                 <div>
                   <h3 className="font-display text-2xl text-sand mb-4">
-                    Geopolitik & Ekosistem
+                    Posisi Geografis
                   </h3>
                   <p className="text-foam/75 leading-relaxed">
                     Kepulauan Derawan terletak di pesisir timur Kabupaten Berau.
@@ -199,7 +202,7 @@ const Nature = () => {
               },
               {
                 title: "Karang & Lamun",
-                latin: "444 spesies karang · 8 spesies lamun",
+                latin: "507 spesies karang · 9 spesies lamun",
                 body: "Karang menyediakan tempat berlindung; lamun menjadi area makan penyu dan pembesaran ikan muda. Keduanya menahan sedimen dan menjernihkan air.",
               },
               {
@@ -277,8 +280,8 @@ const Nature = () => {
           </Reveal>
           <Reveal delay={150}>
             <h2 className="font-display text-4xl md:text-6xl text-foam max-w-3xl">
-              Mereka yang menjaga,
-              <span className="italic text-gradient-ocean"> setiap hari.</span>
+              Kolaborasi yang tumbuh
+              <span className="italic text-gradient-ocean"> demi keberlanjutan.</span>
             </h2>
           </Reveal>
 
