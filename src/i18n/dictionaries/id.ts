@@ -18,15 +18,15 @@ export const id = {
   // Home / Hero
   "home.eyebrow": "Sanctuary Terakhir Laut Sulawesi",
   "home.intro":
-    "Bukan sekadar pulau indah di Kabupaten Berau. Ia adalah rumah bagi penyu, pari manta, terumbu karang, dan kehidupan laut yang menjadi kebanggaan Kalimantan Timur.",
+    "Pulau Derawan merupakan salah satu destinasi wisata bawah laut terbaik di Asia Tenggara pada tahun 2025 dan menjadi destinasi kebanggaan Kalimantan Timur. Bukan sekadar destinasi, tapi rumah bagi berbagai kehidupan laut.",
 
   // Manifesto
   "home.manifesto.eyebrow": "Manifesto",
-  "home.manifesto.title.a": "Surga ini sedang",
-  "home.manifesto.title.b": "terdesak.",
+  "home.manifesto.title.a": "Bayangkan jika suatu hari",
+  "home.manifesto.title.b": "laut ini tinggal cerita.",
   "home.manifesto.body":
-    "Sampah plastik, eksploitasi laut, dan perubahan iklim mengancam kehidupan yang membuat Derawan begitu berharga. Menjaga Derawan berarti menyelamatkan rumah terakhir bagi kehidupan laut Berau.",
-  "home.manifesto.quote": "\"Derawan harus dijaga hari ini, bukan nanti.\"",
+    "Sampah plastik, kerusakan ekosistem, dan perubahan iklim perlahan mengancam Derawan dan seluruh kehidupan di dalamnya.",
+  "home.manifesto.quote": "\"Surga ini tidak hilang sekaligus, tapi sedikit demi sedikit.\"",
 
   // Road to Derawan
   "road.eyebrow": "Coming soon · Mini documentary",
@@ -43,8 +43,8 @@ export const id = {
 
   // Directory
   "home.directory.eyebrow": "Explore",
-  "home.directory.title.a": "Tiga jalan masuk",
-  "home.directory.title.b": " ke Derawan.",
+  "home.directory.title.a": "Melihat Derawan",
+  "home.directory.title.b": " dari tiga sisi.",
   "home.directory.readmore": "Baca selengkapnya",
 
   // Map page

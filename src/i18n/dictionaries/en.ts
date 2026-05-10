@@ -20,15 +20,15 @@ export const en: Dict = {
   // Home / Hero
   "home.eyebrow": "The Last Sanctuary of the Celebes Sea",
   "home.intro":
-    "Not just a beautiful island in Berau Regency. It is home to sea turtles, manta rays, coral reefs, and a marine life that East Kalimantan calls its pride.",
+    "Derawan Island is one of Southeast Asia's top underwater destinations in 2025 and the pride of East Kalimantan. More than a destination — a home to countless forms of marine life.",
 
   // Manifesto
   "home.manifesto.eyebrow": "Manifesto",
-  "home.manifesto.title.a": "This paradise is",
-  "home.manifesto.title.b": "under pressure.",
+  "home.manifesto.title.a": "Imagine if one day",
+  "home.manifesto.title.b": "this sea were only a story.",
   "home.manifesto.body":
-    "Plastic waste, marine exploitation, and climate change are threatening the very life that makes Derawan precious. Protecting Derawan means saving the last refuge for Berau's marine life.",
-  "home.manifesto.quote": "\"Derawan must be protected today, not tomorrow.\"",
+    "Plastic waste, ecosystem damage, and climate change are slowly threatening Derawan and every life within it.",
+  "home.manifesto.quote": "\"This paradise does not disappear all at once, but little by little.\"",
 
   // Road to Derawan
   "road.eyebrow": "Coming soon · Mini documentary",
@@ -45,8 +45,8 @@ export const en: Dict = {
 
   // Directory
   "home.directory.eyebrow": "Explore",
-  "home.directory.title.a": "Three ways into",
-  "home.directory.title.b": " Derawan.",
+  "home.directory.title.a": "Seeing Derawan",
+  "home.directory.title.b": " from three sides.",
   "home.directory.readmore": "Read more",
 
   // Map page

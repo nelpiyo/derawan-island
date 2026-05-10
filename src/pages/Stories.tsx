@@ -23,9 +23,9 @@ const Stories = () => {
         </Reveal>
         <Reveal delay={150}>
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-foam">
-            Suara dari
+            Cerita yang
             <span className="block italic text-gradient-ocean">
-              mereka yang pernah ke sini.
+              menetap selamanya.
             </span>
           </h1>
         </Reveal>
