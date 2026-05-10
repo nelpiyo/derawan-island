@@ -1,243 +1,169 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { MapContainer, TileLayer, LayersControl, Marker, Popup, CircleMarker, Tooltip } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 import { useI18n } from "@/i18n";
-import {
-  CONSERVATION_PATH,
-  ISLAND_SHAPES,
-  MAP_LOCATIONS,
-  type MapLayerKey,
-  type MapLocation,
-} from "@/data/mapLocations";
+import { MAP_LOCATIONS, type MapLayerKey } from "@/data/mapLocations";
 
-const LAYER_COLORS: Record<MapLayerKey, string> = {
-  conservation: "hsl(var(--turquoise))",
-  turtle: "hsl(var(--sand))",
-  manta: "hsl(var(--lagoon))",
-  coral: "hsl(var(--coral))",
-  jellyfish: "hsl(var(--coral-glow))",
-  threat: "hsl(0 80% 60%)",
+// Fix default marker icon paths (Leaflet + bundlers)
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: markerIcon2x,
+  iconUrl: markerIcon,
+  shadowUrl: markerShadow,
+});
+
+// Real coordinates [lat, lng] for the Derawan archipelago
+const COORDS: Record<string, [number, number]> = {
+  "derawan-village": [2.2858, 118.2436],
+  "derawan-turtle": [2.2812, 118.2475],
+  "sangalaki-turtle": [2.0884, 118.3915],
+  "sangalaki-manta": [2.0850, 118.3970],
+  "kakaban-jellyfish": [2.1428, 118.5260],
+  "maratua-manta": [2.2360, 118.5750],
+  "maratua-coral": [2.2466, 118.6022],
+  "threat-tanjungbatu": [2.2710, 118.0560],
+  "threat-derawan-coast": [2.2868, 118.2418],
 };
 
-const ALL_LAYERS: MapLayerKey[] = [
-  "conservation",
-  "turtle",
-  "manta",
-  "coral",
-  "jellyfish",
-  "threat",
-];
+const LAYER_COLORS: Record<MapLayerKey, string> = {
+  conservation: "#22d3ee",
+  turtle: "#f97316",
+  manta: "#a855f7",
+  coral: "#ec4899",
+  jellyfish: "#facc15",
+  threat: "#ef4444",
+};
+
+const ALL_LAYERS: MapLayerKey[] = ["conservation", "turtle", "manta", "coral", "jellyfish", "threat"];
 
 const DerawanMap = () => {
   const { t, lang } = useI18n();
-  const [active, setActive] = useState<Record<MapLayerKey, boolean>>({
-    conservation: true,
-    turtle: true,
-    manta: true,
-    coral: true,
-    jellyfish: true,
-    threat: true,
-  });
-  const [selected, setSelected] = useState<MapLocation | null>(null);
+  const [active, setActive] = useState<Set<MapLayerKey>>(new Set(ALL_LAYERS));
 
   const toggle = (k: MapLayerKey) =>
-    setActive((p) => ({ ...p, [k]: !p[k] }));
+    setActive((prev) => {
+      const next = new Set(prev);
+      next.has(k) ? next.delete(k) : next.add(k);
+      return next;
+    });
 
-  const layerLabel = (k: MapLayerKey) => t(`map.layer.${k}` as const);
+  const visible = useMemo(
+    () => MAP_LOCATIONS.filter((p) => active.has(p.layer) && COORDS[p.id]),
+    [active]
+  );
 
-  const visiblePins = MAP_LOCATIONS.filter((p) => active[p.layer]);
+  const layerLabel = (k: MapLayerKey) =>
+    t(`map.layer.${k}` as Parameters<typeof t>[0]);
 
   return (
-    <div className="grid lg:grid-cols-[1fr_320px] gap-6 lg:gap-10">
-      {/* MAP CANVAS */}
-      <div className="relative aspect-[10/7] w-full overflow-hidden border border-foam/10 bg-gradient-to-br from-deep-sea via-abyss to-deep-sea shadow-deep">
-        {/* ocean texture */}
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-40"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 25% 30%, hsl(var(--turquoise) / 0.18), transparent 50%), radial-gradient(circle at 75% 70%, hsl(var(--lagoon) / 0.15), transparent 55%)",
-          }}
-        />
-        {/* subtle wave lines */}
-        <svg
-          aria-hidden
-          className="absolute inset-0 w-full h-full opacity-[0.07]"
-          viewBox="0 0 1000 700"
-          preserveAspectRatio="none"
+    <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
+      {/* MAP */}
+      <div className="relative h-[70vh] min-h-[520px] w-full overflow-hidden rounded-sm border border-foam/10">
+        <MapContainer
+          center={[2.20, 118.40]}
+          zoom={11}
+          minZoom={9}
+          maxZoom={18}
+          scrollWheelZoom
+          className="h-full w-full bg-abyss"
         >
-          {[120, 220, 320, 420, 520, 620].map((y) => (
-            <path
-              key={y}
-              d={`M0,${y} Q250,${y - 14} 500,${y} T1000,${y}`}
-              stroke="hsl(var(--foam))"
-              strokeWidth="1"
-              fill="none"
-            />
-          ))}
-        </svg>
-
-        <svg
-          viewBox="0 0 1000 700"
-          className="relative w-full h-full"
-          aria-label="Map of Derawan Archipelago"
-        >
-          {/* Conservation zone */}
-          {active.conservation && (
-            <g>
-              <path
-                d={CONSERVATION_PATH}
-                fill={LAYER_COLORS.conservation}
-                fillOpacity="0.08"
-                stroke={LAYER_COLORS.conservation}
-                strokeOpacity="0.55"
-                strokeWidth="1.5"
-                strokeDasharray="6 6"
+          <LayersControl position="topright">
+            <LayersControl.BaseLayer checked name="Satellite (Esri)">
+              <TileLayer
+                attribution="Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community"
+                url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+                maxZoom={19}
               />
-              <text
-                x="500"
-                y="100"
-                textAnchor="middle"
-                fontSize="12"
-                fill={LAYER_COLORS.conservation}
-                opacity="0.8"
-                style={{ letterSpacing: "0.3em", textTransform: "uppercase" }}
-              >
-                {layerLabel("conservation")}
-              </text>
-            </g>
-          )}
-
-          {/* Islands */}
-          {ISLAND_SHAPES.map((isl) => (
-            <g key={isl.id}>
-              <path
-                d={isl.d}
-                fill="hsl(var(--sand) / 0.85)"
-                stroke="hsl(var(--foam) / 0.4)"
-                strokeWidth="1"
+            </LayersControl.BaseLayer>
+            <LayersControl.BaseLayer name="Labels & Roads">
+              <TileLayer
+                attribution="&copy; OpenStreetMap contributors"
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
-              <text
-                x={isl.labelX}
-                y={isl.labelY}
-                textAnchor="middle"
-                fontSize="11"
-                fill="hsl(var(--abyss))"
-                opacity="0.75"
-                style={{ letterSpacing: "0.15em", fontWeight: 600 }}
-              >
-                {isl.label}
-              </text>
-            </g>
-          ))}
+            </LayersControl.BaseLayer>
+            <LayersControl.Overlay checked name="Place labels">
+              <TileLayer
+                url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
+                attribution="Labels &copy; Esri"
+              />
+            </LayersControl.Overlay>
+          </LayersControl>
 
-          {/* Pins */}
-          {visiblePins.map((pin) => {
-            const color = LAYER_COLORS[pin.layer];
-            const isSelected = selected?.id === pin.id;
+          {visible.map((p) => {
+            const pos = COORDS[p.id];
+            const color = LAYER_COLORS[p.layer];
             return (
-              <g
-                key={pin.id}
-                transform={`translate(${pin.x}, ${pin.y})`}
-                className="cursor-pointer"
-                onClick={() => setSelected(pin)}
+              <CircleMarker
+                key={p.id}
+                center={pos}
+                radius={9}
+                pathOptions={{
+                  color: "#ffffff",
+                  weight: 2,
+                  fillColor: color,
+                  fillOpacity: 0.9,
+                }}
               >
-                {isSelected && (
-                  <circle r="22" fill={color} fillOpacity="0.18">
-                    <animate
-                      attributeName="r"
-                      values="18;26;18"
-                      dur="1.6s"
-                      repeatCount="indefinite"
-                    />
-                  </circle>
-                )}
-                <circle
-                  r="11"
-                  fill={color}
-                  fillOpacity="0.9"
-                  stroke="hsl(var(--abyss))"
-                  strokeWidth="1.5"
-                />
-                <text
-                  textAnchor="middle"
-                  y="4"
-                  fontSize="11"
-                >
-                  {pin.emoji}
-                </text>
-              </g>
+                <Tooltip direction="top" offset={[0, -6]} opacity={1}>
+                  <span className="font-medium">{p.emoji} {p.name}</span>
+                </Tooltip>
+                <Popup>
+                  <div className="min-w-[200px]">
+                    <div className="text-xs uppercase tracking-wider mb-1" style={{ color }}>
+                      {layerLabel(p.layer)}
+                    </div>
+                    <div className="font-semibold mb-1">{p.emoji} {p.name}</div>
+                    <p className="text-xs leading-relaxed">
+                      {lang === "id" ? p.description_id : p.description_en}
+                    </p>
+                  </div>
+                </Popup>
+              </CircleMarker>
             );
           })}
-        </svg>
-
-        {/* Popup */}
-        {selected && (
-          <div
-            className="absolute bottom-4 left-4 right-4 md:left-6 md:right-auto md:max-w-xs glass-light p-5 shadow-deep animate-in fade-in slide-in-from-bottom-2"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <span
-                  className="inline-block w-2.5 h-2.5 rounded-full"
-                  style={{ background: LAYER_COLORS[selected.layer] }}
-                />
-                <p className="text-[10px] uppercase tracking-[0.3em] text-foam/60">
-                  {layerLabel(selected.layer)}
-                </p>
-              </div>
-              <button
-                onClick={() => setSelected(null)}
-                aria-label="Close"
-                className="text-foam/60 hover:text-coral transition-colors text-lg leading-none"
-              >
-                ×
-              </button>
-            </div>
-            <h4 className="font-display text-xl text-foam mt-2 leading-tight">
-              {selected.emoji} {selected.name}
-            </h4>
-            <p className="mt-2 text-sm text-foam/75 leading-relaxed">
-              {lang === "en" ? selected.description_en : selected.description_id}
-            </p>
-          </div>
-        )}
+        </MapContainer>
       </div>
 
-      {/* LEGEND */}
-      <aside className="lg:sticky lg:top-28 self-start">
-        <p className="text-xs uppercase tracking-[0.4em] text-coral mb-5">
-          {t("map.legend")}
-        </p>
-        <ul className="space-y-2">
-          {ALL_LAYERS.map((k) => (
-            <li key={k}>
-              <button
-                type="button"
-                onClick={() => toggle(k)}
-                aria-pressed={active[k]}
-                className={`w-full flex items-center gap-3 px-4 py-3 border text-left transition-all duration-300 ${
-                  active[k]
-                    ? "border-foam/30 bg-foam/5"
-                    : "border-foam/10 bg-transparent opacity-50"
-                } hover:border-coral/60`}
-              >
-                <span
-                  className="inline-block w-3 h-3 rounded-full shrink-0"
-                  style={{ background: LAYER_COLORS[k] }}
-                />
-                <span className="text-sm text-foam/85">{layerLabel(k)}</span>
-                <span
-                  className={`ml-auto text-[10px] uppercase tracking-[0.2em] ${
-                    active[k] ? "text-coral" : "text-foam/40"
-                  }`}
-                >
-                  {active[k] ? "On" : "Off"}
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
-        <p className="mt-6 text-[11px] leading-relaxed text-foam/50 italic">
+      {/* LEGEND / LAYER TOGGLES */}
+      <aside className="space-y-4">
+        <div className="border border-foam/10 p-5 rounded-sm bg-deep-sea/40">
+          <p className="text-xs uppercase tracking-[0.3em] text-turquoise mb-4">
+            {t("map.legend")}
+          </p>
+          <ul className="space-y-2">
+            {ALL_LAYERS.map((k) => {
+              const on = active.has(k);
+              return (
+                <li key={k}>
+                  <button
+                    type="button"
+                    onClick={() => toggle(k)}
+                    aria-pressed={on}
+                    className={`w-full flex items-center gap-3 px-3 py-2 text-left text-sm rounded-sm border transition-colors ${
+                      on
+                        ? "border-foam/20 bg-foam/5 text-foam"
+                        : "border-foam/5 text-foam/40 hover:text-foam/70"
+                    }`}
+                  >
+                    <span
+                      className="inline-block h-3 w-3 rounded-full ring-2 ring-white/80"
+                      style={{ backgroundColor: LAYER_COLORS[k], opacity: on ? 1 : 0.3 }}
+                    />
+                    <span className="flex-1">{layerLabel(k)}</span>
+                    <span className="text-[10px] uppercase tracking-wider">
+                      {on ? "ON" : "OFF"}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <p className="text-xs text-foam/50 leading-relaxed px-1">
           {t("map.note")}
         </p>
       </aside>

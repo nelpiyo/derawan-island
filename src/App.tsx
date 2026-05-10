@@ -13,7 +13,7 @@ import Stories from "./pages/Stories.tsx";
 import Play from "./pages/Play.tsx";
 import VisitorStats from "./pages/VisitorStats.tsx";
 import MapPage from "./pages/MapPage.tsx";
-import Partners from "./pages/Partners.tsx";
+
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import { I18nProvider } from "./i18n";
 
@@ -35,7 +35,7 @@ const App = () => (
               <Route path="/stories" element={<Stories />} />
               <Route path="/play" element={<Play />} />
               <Route path="/map" element={<MapPage />} />
-              <Route path="/partners" element={<Partners />} />
+              
               <Route path="/visitors" element={<VisitorStats />} />
               <Route path="/auth" element={<Auth />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
