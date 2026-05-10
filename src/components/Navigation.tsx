@@ -7,7 +7,7 @@ import {
   BookOpen,
   Gamepad2,
   Map as MapIcon,
-  Handshake,
+  
   Menu,
   X,
   type LucideIcon,
@@ -22,7 +22,7 @@ const links: { to: string; labelKey: keyof Dict; Icon: LucideIcon }[] = [
   { to: "/culture", labelKey: "nav.culture", Icon: Users },
   { to: "/stories", labelKey: "nav.stories", Icon: BookOpen },
   { to: "/map", labelKey: "nav.map", Icon: MapIcon },
-  { to: "/partners", labelKey: "nav.partners", Icon: Handshake },
+  
   { to: "/play", labelKey: "nav.play", Icon: Gamepad2 },
 ];
 
