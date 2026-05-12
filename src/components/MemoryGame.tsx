@@ -41,6 +41,12 @@ const buildDeck = (level: Level): { deck: CardState[]; pool: Creature[] } => {
 };
 
 const MemoryGame = () => {
+  const { t } = useI18n();
+  const LEVEL_DESC: Record<Level, string> = {
+    easy: t("game.level.easy.desc"),
+    medium: t("game.level.medium.desc"),
+    hard: t("game.level.hard.desc"),
+  };
   const [level, setLevel] = useState<Level>("easy");
   const [{ deck, pool }, setGame] = useState(() => buildDeck("easy"));
   const [picked, setPicked] = useState<number[]>([]);
@@ -138,7 +144,7 @@ const MemoryGame = () => {
     <div className="w-full">
       {/* LEVEL SELECTOR */}
       <div className="mb-8">
-        <p className="mb-3 text-xs uppercase tracking-[0.3em] text-foam/50">Pilih Level</p>
+        <p className="mb-3 text-xs uppercase tracking-[0.3em] text-foam/50">{t("game.level.choose")}</p>
         <div className="grid gap-3 sm:grid-cols-3">
           {(Object.keys(LEVEL_CONFIG) as Level[]).map((l) => {
             const active = level === l;
@@ -162,7 +168,7 @@ const MemoryGame = () => {
                     {LEVEL_CONFIG[l].pairs}×2
                   </span>
                 </div>
-                <p className="mt-1 text-xs text-foam/60">{LEVEL_CONFIG[l].desc}</p>
+                <p className="mt-1 text-xs text-foam/60">{LEVEL_DESC[l]}</p>
               </button>
             );
           })}
@@ -178,7 +184,7 @@ const MemoryGame = () => {
           </div>
           <div className="glass-light flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-[0.25em] text-foam/80">
             <Sparkles className="h-3.5 w-3.5 text-coral" />
-            {moves} moves
+            {moves} {t("game.moves")}
           </div>
           <div className="glass-light flex items-center gap-2 rounded-full px-4 py-2 text-xs uppercase tracking-[0.25em] text-foam/80">
             <Trophy className="h-3.5 w-3.5 text-sand" />
@@ -198,7 +204,7 @@ const MemoryGame = () => {
             className="group inline-flex items-center gap-2 rounded-full border border-coral/40 bg-coral/10 px-4 py-2 text-xs uppercase tracking-[0.3em] text-coral hover:bg-coral hover:text-primary-foreground transition-all"
           >
             <RotateCcw className="h-3.5 w-3.5 transition-transform group-hover:-rotate-180 duration-500" />
-            Restart
+            {t("game.restart")}
           </button>
         </div>
       </div>
