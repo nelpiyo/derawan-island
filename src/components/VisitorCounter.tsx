@@ -53,7 +53,7 @@ const VisitorCounter = () => {
     <Link
       to="/visitors"
       className="inline-flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-foam/60 hover:text-coral transition-colors"
-      aria-label="Lihat dashboard statistik visitors"
+      aria-label={t("visitors.aria")}
     >
       <span className="relative flex h-2 w-2">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-coral opacity-60" />
