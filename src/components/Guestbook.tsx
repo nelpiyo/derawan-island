@@ -5,6 +5,7 @@ import Reveal from "@/components/Reveal";
 import { useToast } from "@/hooks/use-toast";
 import ExperienceReplies from "@/components/ExperienceReplies";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { useI18n } from "@/i18n";
 
 type Experience = {
   id: string;
@@ -16,19 +17,15 @@ type Experience = {
 };
 
 const formSchema = z.object({
-  visitor_name: z.string().trim().min(1, "Nama wajib diisi").max(80, "Nama maksimal 80 karakter"),
-  comment: z.string().trim().min(1, "Cerita wajib diisi").max(1000, "Cerita maksimal 1000 karakter"),
-  location: z.string().trim().max(120, "Lokasi maksimal 120 karakter").optional().or(z.literal("")),
+  visitor_name: z.string().trim().min(1).max(80),
+  comment: z.string().trim().min(1).max(1000),
+  location: z.string().trim().max(120).optional().or(z.literal("")),
 });
 
-const MAX_PHOTO_BYTES = 5 * 1024 * 1024; // 5MB
+const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const TOKENS_STORAGE_KEY = "derawan_review_tokens_v1";
 
-const formatDate = (iso: string) =>
-  new Date(iso).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
-
-// --- Token helpers (per-review secret stored in localStorage) ---
 const loadTokens = (): Record<string, string> => {
   try {
     const raw = localStorage.getItem(TOKENS_STORAGE_KEY);
@@ -58,6 +55,7 @@ const sha256Hex = async (text: string) => {
 };
 
 const Guestbook = () => {
+  const { t, lang } = useI18n();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Experience[]>([]);
@@ -75,38 +73,36 @@ const Guestbook = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [lightboxPhoto, setLightboxPhoto] = useState<{ url: string; name: string } | null>(null);
 
+  const formatDate = (iso: string) =>
+    new Date(iso).toLocaleDateString(lang === "en" ? "en-US" : "id-ID", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+
   useEffect(() => {
     setOwnedIds(new Set(Object.keys(loadTokens())));
   }, []);
 
   useEffect(() => {
     let active = true;
-
     const checkAdmin = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+      const { data: { session } } = await supabase.auth.getSession();
       const userId = session?.user?.id;
       if (!userId) {
         if (active) setIsAdmin(false);
         return;
       }
-
       const { data, error } = await supabase
         .from("user_roles")
         .select("role")
         .eq("user_id", userId)
         .eq("role", "admin")
         .maybeSingle();
-
       if (active) setIsAdmin(!error && data?.role === "admin");
     };
-
     checkAdmin();
-    const { data: sub } = supabase.auth.onAuthStateChange(() => {
-      checkAdmin();
-    });
-
+    const { data: sub } = supabase.auth.onAuthStateChange(() => checkAdmin());
     return () => {
       active = false;
       sub.subscription.unsubscribe();
@@ -120,7 +116,7 @@ const Guestbook = () => {
       .order("created_at", { ascending: false })
       .limit(50);
     if (error) {
-      toast({ title: "Gagal memuat cerita", description: error.message, variant: "destructive" });
+      toast({ title: t("guest.toast.loadfail"), description: error.message, variant: "destructive" });
     } else {
       setItems(data ?? []);
     }
@@ -131,22 +127,14 @@ const Guestbook = () => {
     fetchExperiences();
     const channel = supabase
       .channel("experiences-realtime")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "experiences" },
-        (payload) => {
-          const next = payload.new as Experience;
-          setItems((prev) => (prev.find((p) => p.id === next.id) ? prev : [next, ...prev].slice(0, 50)));
-        }
-      )
-      .on(
-        "postgres_changes",
-        { event: "DELETE", schema: "public", table: "experiences" },
-        (payload) => {
-          const removed = payload.old as { id: string };
-          setItems((prev) => prev.filter((p) => p.id !== removed.id));
-        }
-      )
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "experiences" }, (payload) => {
+        const next = payload.new as Experience;
+        setItems((prev) => (prev.find((p) => p.id === next.id) ? prev : [next, ...prev].slice(0, 50)));
+      })
+      .on("postgres_changes", { event: "DELETE", schema: "public", table: "experiences" }, (payload) => {
+        const removed = payload.old as { id: string };
+        setItems((prev) => prev.filter((p) => p.id !== removed.id));
+      })
       .subscribe();
     return () => {
       supabase.removeChannel(channel);
@@ -161,12 +149,12 @@ const Guestbook = () => {
       return;
     }
     if (!ALLOWED_TYPES.includes(file.type)) {
-      toast({ title: "Format tidak didukung", description: "Gunakan JPG, PNG, atau WEBP.", variant: "destructive" });
+      toast({ title: t("guest.toast.format.title"), description: t("guest.toast.format.body"), variant: "destructive" });
       e.target.value = "";
       return;
     }
     if (file.size > MAX_PHOTO_BYTES) {
-      toast({ title: "Ukuran terlalu besar", description: "Maksimal 5MB.", variant: "destructive" });
+      toast({ title: t("guest.toast.size.title"), description: t("guest.toast.size.body"), variant: "destructive" });
       e.target.value = "";
       return;
     }
@@ -190,8 +178,8 @@ const Guestbook = () => {
     const parsed = formSchema.safeParse({ visitor_name: visitorName, comment, location });
     if (!parsed.success) {
       toast({
-        title: "Periksa isian Anda",
-        description: parsed.error.issues[0]?.message ?? "Input tidak valid",
+        title: t("guest.toast.invalid.title"),
+        description: parsed.error.issues[0]?.message ?? "Invalid input",
         variant: "destructive",
       });
       return;
@@ -211,7 +199,6 @@ const Guestbook = () => {
         photo_url = pub.publicUrl;
       }
 
-      // Generate per-review secret; store hash in DB, plain in localStorage
       const token = generateToken();
       const tokenHash = await sha256Hex(token);
 
@@ -238,14 +225,14 @@ const Guestbook = () => {
       }
 
       toast({
-        title: "Terima kasih!",
-        description: "Cerita Anda telah dibagikan. Anda dapat menghapusnya nanti dari perangkat ini.",
+        title: t("guest.toast.thanks.title"),
+        description: t("guest.toast.thanks.body"),
       });
       resetForm();
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Terjadi kesalahan";
+      const message = err instanceof Error ? err.message : "Error";
       console.error("Guestbook submit error:", err);
-      toast({ title: "Gagal mengirim", description: message, variant: "destructive" });
+      toast({ title: t("guest.toast.fail.title"), description: message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -256,13 +243,13 @@ const Guestbook = () => {
     const token = tokens[exp.id];
     if (!token && !isAdmin) {
       toast({
-        title: "Tidak dapat menghapus",
-        description: "Cerita ini hanya bisa dihapus dari perangkat yang digunakan saat mengirimnya.",
+        title: t("guest.toast.delete.cant.title"),
+        description: t("guest.toast.delete.cant.body"),
         variant: "destructive",
       });
       return;
     }
-    if (!confirm("Hapus cerita Anda? Tindakan ini tidak bisa dibatalkan.")) return;
+    if (!confirm(t("guest.confirm.delete"))) return;
 
     setDeletingId(exp.id);
     try {
@@ -273,8 +260,8 @@ const Guestbook = () => {
       if (error) throw error;
       if (!data) {
         toast({
-          title: "Gagal menghapus",
-          description: "Kode hapus tidak cocok atau cerita sudah dihapus.",
+          title: t("guest.toast.delete.fail.title"),
+          description: t("guest.toast.delete.fail.mismatch"),
           variant: "destructive",
         });
         return;
@@ -286,10 +273,10 @@ const Guestbook = () => {
         return next;
       });
       setItems((prev) => prev.filter((p) => p.id !== exp.id));
-      toast({ title: "Cerita dihapus" });
+      toast({ title: t("guest.toast.delete.ok") });
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Terjadi kesalahan";
-      toast({ title: "Gagal menghapus", description: message, variant: "destructive" });
+      const message = err instanceof Error ? err.message : "Error";
+      toast({ title: t("guest.toast.delete.fail.title"), description: message, variant: "destructive" });
     } finally {
       setDeletingId(null);
     }
@@ -299,55 +286,55 @@ const Guestbook = () => {
     <section id="experiences" className="relative bg-abyss py-32 md:py-44">
       <div className="container max-w-6xl">
         <Reveal>
-          <p className="mb-6 text-xs uppercase tracking-[0.5em] text-turquoise">Visitor Logbook</p>
+          <p className="mb-6 text-xs uppercase tracking-[0.5em] text-turquoise">{t("guest.eyebrow")}</p>
         </Reveal>
         <Reveal delay={120}>
           <h2 className="font-display text-5xl md:text-7xl text-foam leading-[0.95] mb-6">
-            Cerita dari
-            <span className="block italic text-gradient-ocean">para penjelajah.</span>
+            {t("guest.title.a")}
+            <span className="block italic text-gradient-ocean">{t("guest.title.b")}</span>
           </h2>
         </Reveal>
         <Reveal delay={250}>
           <p className="max-w-2xl text-foam/70 text-lg leading-relaxed mb-16">
-            Bagikan momen Anda di Derawan—foto bawah laut, perjumpaan dengan penyu,
-            atau senja di dermaga kayu. Setiap cerita memperkuat suara konservasi.
+            {t("guest.subtitle")}
           </p>
         </Reveal>
 
         <div className="grid lg:grid-cols-[420px_1fr] gap-12 lg:gap-16 items-start">
-          {/* FORM */}
           <Reveal delay={350}>
             <form onSubmit={handleSubmit} className="glass border border-foam/10 p-8 space-y-5">
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">Nama</label>
+                <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">
+                  {t("guest.form.name")}
+                </label>
                 <input
                   name="visitor_name"
                   required
                   maxLength={80}
                   value={visitorName}
                   onChange={(e) => setVisitorName(e.target.value)}
-                  placeholder="Nama Anda"
+                  placeholder={t("guest.form.name.placeholder")}
                   className="w-full bg-transparent border-b border-foam/20 py-2 text-foam placeholder:text-foam/30 focus:outline-none focus:border-coral transition-colors"
                 />
               </div>
 
               <div>
                 <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">
-                  Lokasi (opsional)
+                  {t("guest.form.location")}
                 </label>
                 <input
                   name="location"
                   maxLength={120}
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  placeholder="mis. Pulau Kakaban"
+                  placeholder={t("guest.form.location.placeholder")}
                   className="w-full bg-transparent border-b border-foam/20 py-2 text-foam placeholder:text-foam/30 focus:outline-none focus:border-coral transition-colors"
                 />
               </div>
 
               <div>
                 <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">
-                  Cerita Anda
+                  {t("guest.form.story")}
                 </label>
                 <textarea
                   name="comment"
@@ -356,14 +343,14 @@ const Guestbook = () => {
                   rows={5}
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="Bagikan pengalaman tak terlupakan Anda..."
+                  placeholder={t("guest.form.story.placeholder")}
                   className="w-full bg-transparent border border-foam/20 p-3 text-foam placeholder:text-foam/30 focus:outline-none focus:border-coral transition-colors resize-none"
                 />
               </div>
 
               <div>
                 <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">
-                  Foto (opsional · maks 5MB)
+                  {t("guest.form.photo")}
                 </label>
                 <input
                   ref={fileInputRef}
@@ -375,14 +362,14 @@ const Guestbook = () => {
                 {photoPreview && (
                   <img
                     src={photoPreview}
-                    alt="Pratinjau foto"
+                    alt={t("guest.form.photo.preview")}
                     className="mt-4 h-32 w-full object-cover border border-foam/10"
                   />
                 )}
               </div>
 
               <p className="text-[10px] uppercase tracking-[0.25em] text-foam/40 leading-relaxed">
-                · Hanya Anda yang dapat menghapus cerita Anda, dari perangkat yang sama.
+                {t("guest.form.note")}
               </p>
 
               <button
@@ -390,20 +377,17 @@ const Guestbook = () => {
                 disabled={submitting}
                 className="w-full bg-coral text-primary-foreground px-8 py-4 text-xs uppercase tracking-[0.3em] hover:bg-coral-glow transition-all duration-300 shadow-coral disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {submitting ? "Mengirim..." : "Bagikan Cerita"}
+                {submitting ? t("guest.form.submitting") : t("guest.form.submit")}
               </button>
             </form>
           </Reveal>
 
-          {/* LIST */}
           <div className="space-y-6">
             {loading && (
-              <p className="text-foam/50 text-sm uppercase tracking-[0.3em]">Memuat cerita...</p>
+              <p className="text-foam/50 text-sm uppercase tracking-[0.3em]">{t("guest.list.loading")}</p>
             )}
             {!loading && items.length === 0 && (
-              <p className="text-foam/50 text-sm">
-                Belum ada cerita. Jadilah yang pertama berbagi pengalaman Anda di Derawan.
-              </p>
+              <p className="text-foam/50 text-sm">{t("guest.list.empty")}</p>
             )}
             {items.map((exp, i) => {
               const owned = ownedIds.has(exp.id);
@@ -417,16 +401,16 @@ const Guestbook = () => {
                           type="button"
                           onClick={() => setLightboxPhoto({ url: exp.photo_url!, name: exp.visitor_name })}
                           className="group relative w-full md:w-40 h-40 flex-shrink-0 overflow-hidden border border-foam/10 hover:border-coral/60 transition-colors"
-                          aria-label={`Lihat foto dari ${exp.visitor_name} lebih jelas`}
+                          aria-label={`${t("guest.viewphoto")} — ${exp.visitor_name}`}
                         >
                           <img
                             src={exp.photo_url}
-                            alt={`Foto dari ${exp.visitor_name}`}
+                            alt={exp.visitor_name}
                             loading="lazy"
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                           <span className="absolute inset-0 flex items-center justify-center bg-abyss/60 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] uppercase tracking-[0.3em] text-foam">
-                            Lihat foto
+                            {t("guest.viewphoto")}
                           </span>
                         </button>
                       )}
@@ -440,7 +424,7 @@ const Guestbook = () => {
                           )}
                           {canDelete && (
                             <span className="text-[10px] uppercase tracking-[0.3em] text-coral">
-                              · {owned ? "cerita Anda" : "admin"}
+                              · {owned ? t("guest.tag.yours") : t("guest.tag.admin")}
                             </span>
                           )}
                         </div>
@@ -458,7 +442,7 @@ const Guestbook = () => {
                               disabled={deletingId === exp.id}
                               className="text-[10px] uppercase tracking-[0.3em] text-coral hover:text-coral-glow transition-colors disabled:opacity-50"
                             >
-                              {deletingId === exp.id ? "Menghapus..." : "Hapus cerita saya"}
+                              {deletingId === exp.id ? t("guest.deleting") : t("guest.delete")}
                             </button>
                           )}
                         </div>
@@ -476,17 +460,17 @@ const Guestbook = () => {
       <Dialog open={!!lightboxPhoto} onOpenChange={(o) => !o && setLightboxPhoto(null)}>
         <DialogContent className="max-w-5xl w-[95vw] p-0 bg-abyss border-foam/10 overflow-hidden">
           <DialogTitle className="sr-only">
-            {lightboxPhoto ? `Foto dari ${lightboxPhoto.name}` : "Foto"}
+            {lightboxPhoto ? `${t("guest.lightbox.from")} ${lightboxPhoto.name}` : ""}
           </DialogTitle>
           {lightboxPhoto && (
             <div className="relative w-full max-h-[85vh] flex flex-col">
               <img
                 src={lightboxPhoto.url}
-                alt={`Foto dari ${lightboxPhoto.name}`}
+                alt={lightboxPhoto.name}
                 className="w-full h-auto max-h-[80vh] object-contain bg-abyss"
               />
               <p className="px-6 py-4 text-[10px] uppercase tracking-[0.3em] text-foam/60 border-t border-foam/10">
-                · Foto dari {lightboxPhoto.name}
+                {t("guest.lightbox.from")} {lightboxPhoto.name}
               </p>
             </div>
           )}
