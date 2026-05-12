@@ -314,26 +314,26 @@ const MemoryGame = () => {
             <div className="border-b border-foam/10 px-6 py-10 sm:px-12 sm:py-14 text-center">
               <div className="mb-4 text-5xl">🎉🐢🪸</div>
               <p className="text-xs uppercase tracking-[0.5em] text-turquoise">
-                Misi Selesai · {LEVEL_CONFIG[level].label}
+                {t("game.win.eyebrow")} · {LEVEL_CONFIG[level].label}
               </p>
               <h3 className="mt-4 font-display text-3xl sm:text-5xl text-foam leading-tight">
-                Hebat! Kamu menyelamatkan
-                <span className="block italic text-gradient-sunset">semua biota laut Derawan.</span>
+                {t("game.win.title.a")}
+                <span className="block italic text-gradient-sunset">{t("game.win.title.b")}</span>
               </h3>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-6 text-sm text-foam/70">
                 <span>
-                  <span className="font-display text-2xl text-coral">{moves}</span> moves
+                  <span className="font-display text-2xl text-coral">{moves}</span> {t("game.moves")}
                 </span>
                 <span className="text-foam/30">·</span>
                 <span>
                   <span className="font-display text-2xl text-turquoise">
                     {mm}:{ss}
                   </span>{" "}
-                  waktu
+                  {t("game.win.time")}
                 </span>
                 <span className="text-foam/30">·</span>
                 <span>
-                  <span className="font-display text-2xl text-sand">{pool.length}</span> spesies
+                  <span className="font-display text-2xl text-sand">{pool.length}</span> {t("game.win.species")}
                 </span>
               </div>
             </div>
@@ -341,7 +341,7 @@ const MemoryGame = () => {
             {/* Gallery */}
             <div className="px-6 py-10 sm:px-12">
               <p className="mb-6 text-xs uppercase tracking-[0.4em] text-coral">
-                Kenalan Lebih Dekat
+                {t("game.win.gallery")}
               </p>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {pool.map((c) => (
@@ -371,7 +371,7 @@ const MemoryGame = () => {
                         <span className="text-coral mr-1">★</span> {c.fact}
                       </p>
                       <p className="mt-3 text-[0.65rem] uppercase tracking-[0.25em] text-foam/50">
-                        Habitat · {c.habitat}
+                        {t("game.habitat")} · {c.habitat}
                       </p>
                     </div>
                   </article>
@@ -381,14 +381,14 @@ const MemoryGame = () => {
 
             {/* CTA */}
             <div className="border-t border-foam/10 px-6 py-10 sm:px-12 sm:py-12 text-center bg-gradient-to-b from-transparent to-coral/5">
-              <p className="text-xs uppercase tracking-[0.4em] text-coral mb-4">Saatnya Beraksi</p>
+              <p className="text-xs uppercase tracking-[0.4em] text-coral mb-4">{t("game.win.cta.eyebrow")}</p>
               <h4 className="font-display text-2xl sm:text-4xl text-foam max-w-2xl mx-auto leading-tight">
-                Biota laut ini nyata. Mereka butuh{" "}
-                <span className="italic text-gradient-sunset">kita</span> untuk tetap ada.
+                {t("game.win.cta.title.a")}{" "}
+                <span className="italic text-gradient-sunset">{t("game.win.cta.title.italic")}</span>{" "}
+                {t("game.win.cta.title.b")}
               </h4>
               <p className="mt-4 text-sm sm:text-base text-foam/70 max-w-xl mx-auto">
-                Pelajari lebih lanjut tentang ekosistem Derawan & cara kamu bisa ikut menjaga
-                rumah mereka.
+                {t("game.win.cta.body")}
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <Link
@@ -396,7 +396,7 @@ const MemoryGame = () => {
                   onClick={() => setShowWin(false)}
                   className="group inline-flex items-center gap-2 rounded-full bg-coral px-6 py-3 text-xs uppercase tracking-[0.3em] text-primary-foreground hover:bg-coral-glow transition-colors"
                 >
-                  Jelajahi Ekosistem
+                  {t("game.win.cta.explore")}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
                 <Link
@@ -404,14 +404,14 @@ const MemoryGame = () => {
                   onClick={() => setShowWin(false)}
                   className="inline-flex items-center gap-2 rounded-full border border-foam/30 px-6 py-3 text-xs uppercase tracking-[0.3em] text-foam hover:border-turquoise hover:text-turquoise transition-colors"
                 >
-                  Tinggalkan Cerita
+                  {t("game.win.cta.story")}
                 </Link>
                 <button
                   onClick={() => reset()}
                   className="inline-flex items-center gap-2 rounded-full border border-foam/20 px-6 py-3 text-xs uppercase tracking-[0.3em] text-foam/70 hover:text-coral hover:border-coral transition-colors"
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
-                  Main Lagi
+                  {t("game.win.cta.again")}
                 </button>
               </div>
             </div>
