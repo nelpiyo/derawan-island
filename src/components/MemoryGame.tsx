@@ -7,13 +7,11 @@ import { useI18n } from "@/i18n";
 
 type Level = "easy" | "medium" | "hard";
 
-const LEVEL_PAIRS: Record<Level, number> = { easy: 6, medium: 9, hard: 12 };
-const LEVEL_COLS: Record<Level, string> = {
-  easy: "grid-cols-3 sm:grid-cols-4",
-  medium: "grid-cols-3 sm:grid-cols-6",
-  hard: "grid-cols-4 sm:grid-cols-6 lg:grid-cols-8",
+const LEVEL_CONFIG: Record<Level, { pairs: number; cols: string; label: string }> = {
+  easy: { pairs: 6, cols: "grid-cols-3 sm:grid-cols-4", label: "Easy" },
+  medium: { pairs: 9, cols: "grid-cols-3 sm:grid-cols-6", label: "Medium" },
+  hard: { pairs: 12, cols: "grid-cols-4 sm:grid-cols-6 lg:grid-cols-8", label: "Hard" },
 };
-const LEVEL_LABEL: Record<Level, string> = { easy: "Easy", medium: "Medium", hard: "Hard" };
 
 type CardState = {
   uid: number;
