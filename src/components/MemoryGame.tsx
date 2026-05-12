@@ -3,14 +3,17 @@ import { Link } from "react-router-dom";
 import { RotateCcw, Trophy, Timer, Sparkles, Volume2, VolumeX, X, ArrowRight } from "lucide-react";
 import { CREATURES, type Creature } from "@/data/creatures";
 import { playFlip, playMatch, playMiss, playWin, playClick, setMuted, isMuted } from "@/lib/sounds";
+import { useI18n } from "@/i18n";
 
 type Level = "easy" | "medium" | "hard";
 
-const LEVEL_CONFIG: Record<Level, { pairs: number; cols: string; label: string; desc: string }> = {
-  easy: { pairs: 6, cols: "grid-cols-3 sm:grid-cols-4", label: "Easy", desc: "6 pasang · cocok untuk pemula" },
-  medium: { pairs: 9, cols: "grid-cols-3 sm:grid-cols-6", label: "Medium", desc: "9 pasang · tantangan menengah" },
-  hard: { pairs: 12, cols: "grid-cols-4 sm:grid-cols-6 lg:grid-cols-8", label: "Hard", desc: "12 pasang · jagoan laut!" },
+const LEVEL_PAIRS: Record<Level, number> = { easy: 6, medium: 9, hard: 12 };
+const LEVEL_COLS: Record<Level, string> = {
+  easy: "grid-cols-3 sm:grid-cols-4",
+  medium: "grid-cols-3 sm:grid-cols-6",
+  hard: "grid-cols-4 sm:grid-cols-6 lg:grid-cols-8",
 };
+const LEVEL_LABEL: Record<Level, string> = { easy: "Easy", medium: "Medium", hard: "Hard" };
 
 type CardState = {
   uid: number;
