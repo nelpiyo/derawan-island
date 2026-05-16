@@ -6,7 +6,6 @@ import {
   Users,
   BookOpen,
   Gamepad2,
-  Map as MapIcon,
   
   Menu,
   X,
@@ -21,7 +20,6 @@ const links: { to: string; labelKey: keyof Dict; Icon: LucideIcon }[] = [
   { to: "/nature", labelKey: "nav.nature", Icon: Leaf },
   { to: "/culture", labelKey: "nav.culture", Icon: Users },
   { to: "/stories", labelKey: "nav.stories", Icon: BookOpen },
-  { to: "/map", labelKey: "nav.map", Icon: MapIcon },
   
   { to: "/play", labelKey: "nav.play", Icon: Gamepad2 },
 ];
