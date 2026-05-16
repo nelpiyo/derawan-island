@@ -12,7 +12,6 @@ import Culture from "./pages/Culture.tsx";
 import Stories from "./pages/Stories.tsx";
 import Play from "./pages/Play.tsx";
 import VisitorStats from "./pages/VisitorStats.tsx";
-import MapPage from "./pages/MapPage.tsx";
 
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import { I18nProvider } from "./i18n";
@@ -34,7 +33,6 @@ const App = () => (
               <Route path="/culture" element={<Culture />} />
               <Route path="/stories" element={<Stories />} />
               <Route path="/play" element={<Play />} />
-              <Route path="/map" element={<MapPage />} />
               
               <Route path="/visitors" element={<VisitorStats />} />
               <Route path="/auth" element={<Auth />} />
