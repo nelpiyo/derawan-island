@@ -13,7 +13,7 @@ export const en: Dict = {
   "nav.region": "Berau · East Kalimantan",
 
   // Footer
-  "footer.location": "Derawan Island · Berau · East Kalimantan",
+  "footer.location": "Collaboration between Global  Conservation & International Relations Department of Mulawarman University",
   "footer.tagline": "The Last Sanctuary of the Celebes Sea",
   "footer.visitors": "visitors",
 

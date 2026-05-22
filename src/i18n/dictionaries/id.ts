@@ -11,7 +11,7 @@ export const id = {
   "nav.region": "Berau · Kaltim",
 
   // Footer
-  "footer.location": "Derawan Island · Berau · Kalimantan Timur",
+  "footer.location": "Collaboration between Global  Conservation & International Relations Department of Mulawarman University",
   "footer.tagline": "The Last Sanctuary of the Celebes Sea",
   "footer.visitors": "pengunjung",
 
