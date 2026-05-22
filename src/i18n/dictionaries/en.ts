@@ -44,7 +44,7 @@ export const en: Dict = {
   "road.title.a": "Road to",
   "road.title.b": "Derawan Island.",
   "road.body":
-    "A visual journey—from Tanjung Batu pier, across the blue sea, to meeting green turtles in the depths of Derawan. The full film will premiere on our YouTube channel.",
+    "From the streets of Samarinda to the vivid blues of the Celebes Sea in Derawan. Covering hundreds of kilometers by land and sea to witness green sea turtles in their natural environment. Stay tuned for our conservation expedition documentary, coming soon to our YouTube channel.",
   "road.status": "In production · click placeholder for YouTube",
   "road.video.label": "YouTube · Derawan Stories",
   "road.video.preview": "● Preview",
