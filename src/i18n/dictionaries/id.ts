@@ -27,7 +27,7 @@ export const id = {
   // Home / Hero
   "home.eyebrow": "Sanctuary Terakhir Laut Sulawesi",
   "home.intro":
-    "Pulau Derawan merupakan salah satu destinasi wisata bawah laut terbaik di Asia Tenggara pada tahun 2025 dan menjadi destinasi kebanggaan Kalimantan Timur. Bukan sekadar destinasi, tapi rumah bagi berbagai kehidupan laut.",
+    "Pulau Derawan merupakan salah satu destinasi wisata bawah laut terbaik di Asia Tenggara pada tahun 2025 dan menjadi destinasi kebanggaan Kalimantan Timur. Pulau Derawan tidak hanya sebuah destinasi, tetapi rumah bagi berbagai kehidupan laut.",
 
   // Manifesto
   "home.manifesto.eyebrow": "Manifesto",
