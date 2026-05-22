@@ -29,7 +29,7 @@ export const en: Dict = {
   // Home / Hero
   "home.eyebrow": "The Last Sanctuary of the Celebes Sea",
   "home.intro":
-    "Derawan Island is one of Southeast Asia's top underwater destinations in 2025 and the pride of East Kalimantan. More than a destination — a home to countless forms of marine life.",
+    "Crowned as one of Southeast Asia's most spectacular marine landscapes in 2025, Derawan Island is the ultimate pride of East Kalimantan. Yet, beyond its allure as a destination, it stands as a vital sanctuary for an extraordinary array of marine life.",
 
   // Manifesto
   "home.manifesto.eyebrow": "Manifesto",
