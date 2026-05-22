@@ -42,7 +42,7 @@ export const id = {
   "road.title.a": "Road to",
   "road.title.b": "Pulau Derawan.",
   "road.body":
-    "Sebuah perjalanan visual—dari dermaga Tanjung Batu, menyusuri laut biru, hingga bertemu penyu hijau di kedalaman Derawan. Video lengkapnya akan segera tayang di kanal YouTube kami.",
+    "Dari aspal Samarinda hingga birunya Laut Sulawesi di Derawan. Menempuh ratusan kilometer perjalanan darat dan laut untuk berhadapan langsung dengan penyu hijau di habitat aslinya. Saksikan segera dokumentasi ekspedisi konservasi kami di kanal YouTube.",
   "road.status": "Sedang diproduksi · klik placeholder untuk YouTube",
   "road.video.label": "YouTube · Derawan Stories",
   "road.video.preview": "● Preview",
