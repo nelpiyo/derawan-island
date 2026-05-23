@@ -8,7 +8,7 @@ import RoadToDerawan from "@/components/RoadToDerawan";
 import { useI18n } from "@/i18n";
 
 import heroImg from "@/assets/hero-derawan.jpg";
-import coralImg from "@/assets/coral-reef.jpg";
+import coralImg from "@/assets/Coral.webp";
 import bajauImg from "@/assets/pemandangan-udara-derawan.webp";
 import turtleImg from "@/assets/turtles derawan.webp";
 
