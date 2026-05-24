@@ -12,9 +12,9 @@ import Culture from "./pages/Culture.tsx";
 import Stories from "./pages/Stories.tsx";
 import Play from "./pages/Play.tsx";
 import VisitorStats from "./pages/VisitorStats.tsx";
-
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import { I18nProvider } from "./i18n";
+import CustomCursor from "./components/CustomCursor.tsx";
 
 const queryClient = new QueryClient();
 
@@ -27,13 +27,13 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
+            <CustomCursor /> 
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/nature" element={<Nature />} />
               <Route path="/culture" element={<Culture />} />
               <Route path="/stories" element={<Stories />} />
               <Route path="/play" element={<Play />} />
-              
               <Route path="/visitors" element={<VisitorStats />} />
               <Route path="/auth" element={<Auth />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
