@@ -14,7 +14,6 @@ import Play from "./pages/Play.tsx";
 import VisitorStats from "./pages/VisitorStats.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import { I18nProvider } from "./i18n";
-import CustomCursor from "./components/CustomCursor.tsx";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +26,6 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <ScrollToTop />
-            <CustomCursor /> 
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/nature" element={<Nature />} />
