@@ -16,11 +16,10 @@ type Experience = {
   created_at: string;
 };
 
-// DISINI BLIND SPOTNYA: Batas karakter dinaikkan ke 2500 agar muat untuk 300 kata
+// Lokasi dihapus dari skema validasi form
 const formSchema = z.object({
   visitor_name: z.string().trim().min(1).max(80),
   comment: z.string().trim().min(1).max(2500),
-  location: z.string().trim().max(120).optional().or(z.literal("")),
 });
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
@@ -71,14 +70,12 @@ const Guestbook = () => {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   
   const [visitorName, setVisitorName] = useState("");
-  const [location, setLocation] = useState("");
   const [comment, setComment] = useState("");
   const [ownedIds, setOwnedIds] = useState<Set<string>>(new Set());
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [lightboxPhoto, setLightboxPhoto] = useState<{ url: string; name: string } | null>(null);
 
-  // Menghitung jumlah kata saat ini
   const currentWordCount = comment.trim().split(/\s+/).filter(Boolean).length;
 
   const formatDate = (iso: string) =>
@@ -198,7 +195,6 @@ const Guestbook = () => {
 
   const resetForm = () => {
     setVisitorName("");
-    setLocation("");
     setComment("");
     setPhotoFile(null);
     setPhotoPreview(null);
@@ -212,7 +208,6 @@ const Guestbook = () => {
     const parsed = formSchema.safeParse({
       visitor_name: visitorName,
       comment,
-      location,
     });
 
     if (!parsed.success) {
@@ -250,7 +245,6 @@ const Guestbook = () => {
         .insert({
           visitor_name: parsed.data.visitor_name,
           comment: parsed.data.comment,
-          location: parsed.data.location ? parsed.data.location : null,
           photo_url,
           delete_token: tokenHash,
         })
@@ -376,25 +370,12 @@ const Guestbook = () => {
                 />
               </div>
 
-              <div>
-                <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">
-                  {t("guest.form.location")}
-                </label>
-                <input
-                  name="location"
-                  maxLength={120}
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  placeholder={t("guest.form.location.placeholder")}
-                  className="w-full bg-transparent border-b border-foam/20 py-2 text-foam placeholder:text-foam/30 focus:outline-none focus:border-coral transition-colors"
-                />
-              </div>
+              {/* BAGIAN INPUT LOKASI SUDAH DIHAPUS TOTAL DARI SINI */}
 
               <div>
                 <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">
                   {t("guest.form.story")}
                 </label>
-                {/* LOGIKA PEMBATASAN KATA LANGSUNG DIBAWAH INI */}
                 <textarea
                   name="comment"
                   required
@@ -410,7 +391,6 @@ const Guestbook = () => {
                   placeholder={t("guest.form.story.placeholder")}
                   className="w-full bg-transparent border border-foam/20 p-3 text-foam placeholder:text-foam/30 focus:outline-none focus:border-coral transition-colors resize-none"
                 />
-                {/* WORD COUNTER UTK PENGALAMAN USER */}
                 <div className="text-[9px] text-right text-foam/40 uppercase tracking-wider mt-1">
                   {currentWordCount} / 300 Kata
                 </div>
@@ -435,8 +415,6 @@ const Guestbook = () => {
                   />
                 )}
               </div>
-
-              {/* TEKS "HANYA ANDA YANG DAPAT MENGHAPUS..." SUDAH DIHAPUS TOTAL DISINI */}
 
               <button
                 type="submit"
@@ -487,6 +465,7 @@ const Guestbook = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-3">
                           <h3 className="font-display text-2xl text-foam">{exp.visitor_name}</h3>
+                          {/* LOKASI UNTUK CERITA LAMA TETAP DITAMPILKAN */}
                           {exp.location && (
                             <span className="text-[10px] uppercase tracking-[0.3em] text-turquoise">
                               · {exp.location}
