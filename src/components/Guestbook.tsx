@@ -16,9 +16,10 @@ type Experience = {
   created_at: string;
 };
 
+// DISINI BLIND SPOTNYA: Batas karakter dinaikkan ke 2500 agar muat untuk 300 kata
 const formSchema = z.object({
   visitor_name: z.string().trim().min(1).max(80),
-  comment: z.string().trim().min(1).max(1000),
+  comment: z.string().trim().min(1).max(2500),
   location: z.string().trim().max(120).optional().or(z.literal("")),
 });
 
@@ -34,21 +35,25 @@ const loadTokens = (): Record<string, string> => {
     return {};
   }
 };
+
 const saveToken = (id: string, token: string) => {
   const all = loadTokens();
   all[id] = token;
   localStorage.setItem(TOKENS_STORAGE_KEY, JSON.stringify(all));
 };
+
 const removeToken = (id: string) => {
   const all = loadTokens();
   delete all[id];
   localStorage.setItem(TOKENS_STORAGE_KEY, JSON.stringify(all));
 };
+
 const generateToken = () => {
   const bytes = new Uint8Array(32);
   crypto.getRandomValues(bytes);
   return Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
 };
+
 const sha256Hex = async (text: string) => {
   const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
   return Array.from(new Uint8Array(buf), (b) => b.toString(16).padStart(2, "0")).join("");
@@ -58,20 +63,23 @@ const Guestbook = () => {
   const { t, lang } = useI18n();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+
   const [items, setItems] = useState<Experience[]>([]);
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
-
+  
   const [visitorName, setVisitorName] = useState("");
   const [location, setLocation] = useState("");
   const [comment, setComment] = useState("");
-
   const [ownedIds, setOwnedIds] = useState<Set<string>>(new Set());
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [lightboxPhoto, setLightboxPhoto] = useState<{ url: string; name: string } | null>(null);
+
+  // Menghitung jumlah kata saat ini
+  const currentWordCount = comment.trim().split(/\s+/).filter(Boolean).length;
 
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString(lang === "en" ? "en-US" : "id-ID", {
@@ -99,8 +107,10 @@ const Guestbook = () => {
         .eq("user_id", userId)
         .eq("role", "admin")
         .maybeSingle();
+
       if (active) setIsAdmin(!error && data?.role === "admin");
     };
+
     checkAdmin();
     const { data: sub } = supabase.auth.onAuthStateChange(() => checkAdmin());
     return () => {
@@ -115,8 +125,13 @@ const Guestbook = () => {
       .select("id, visitor_name, comment, photo_url, location, created_at")
       .order("created_at", { ascending: false })
       .limit(50);
+
     if (error) {
-      toast({ title: t("guest.toast.loadfail"), description: error.message, variant: "destructive" });
+      toast({
+        title: t("guest.toast.loadfail"),
+        description: error.message,
+        variant: "destructive",
+      });
     } else {
       setItems(data ?? []);
     }
@@ -127,15 +142,26 @@ const Guestbook = () => {
     fetchExperiences();
     const channel = supabase
       .channel("experiences-realtime")
-      .on("postgres_changes", { event: "INSERT", schema: "public", table: "experiences" }, (payload) => {
-        const next = payload.new as Experience;
-        setItems((prev) => (prev.find((p) => p.id === next.id) ? prev : [next, ...prev].slice(0, 50)));
-      })
-      .on("postgres_changes", { event: "DELETE", schema: "public", table: "experiences" }, (payload) => {
-        const removed = payload.old as { id: string };
-        setItems((prev) => prev.filter((p) => p.id !== removed.id));
-      })
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "experiences" },
+        (payload) => {
+          const next = payload.new as Experience;
+          setItems((prev) =>
+            prev.find((p) => p.id === next.id) ? prev : [next, ...prev].slice(0, 50)
+          );
+        }
+      )
+      .on(
+        "postgres_changes",
+        { event: "DELETE", schema: "public", table: "experiences" },
+        (payload) => {
+          const removed = payload.old as { id: string };
+          setItems((prev) => prev.filter((p) => p.id !== removed.id));
+        }
+      )
       .subscribe();
+
     return () => {
       supabase.removeChannel(channel);
     };
@@ -149,12 +175,20 @@ const Guestbook = () => {
       return;
     }
     if (!ALLOWED_TYPES.includes(file.type)) {
-      toast({ title: t("guest.toast.format.title"), description: t("guest.toast.format.body"), variant: "destructive" });
+      toast({
+        title: t("guest.toast.format.title"),
+        description: t("guest.toast.format.body"),
+        variant: "destructive",
+      });
       e.target.value = "";
       return;
     }
     if (file.size > MAX_PHOTO_BYTES) {
-      toast({ title: t("guest.toast.size.title"), description: t("guest.toast.size.body"), variant: "destructive" });
+      toast({
+        title: t("guest.toast.size.title"),
+        description: t("guest.toast.size.body"),
+        variant: "destructive",
+      });
       e.target.value = "";
       return;
     }
@@ -175,7 +209,12 @@ const Guestbook = () => {
     e.preventDefault();
     if (submitting) return;
 
-    const parsed = formSchema.safeParse({ visitor_name: visitorName, comment, location });
+    const parsed = formSchema.safeParse({
+      visitor_name: visitorName,
+      comment,
+      location,
+    });
+
     if (!parsed.success) {
       toast({
         title: t("guest.toast.invalid.title"),
@@ -193,7 +232,11 @@ const Guestbook = () => {
         const path = `${crypto.randomUUID()}.${ext}`;
         const { error: upErr } = await supabase.storage
           .from("experience-photos")
-          .upload(path, photoFile, { contentType: photoFile.type, cacheControl: "3600", upsert: false });
+          .upload(path, photoFile, {
+            contentType: photoFile.type,
+            cacheControl: "3600",
+            upsert: false,
+          });
         if (upErr) throw upErr;
         const { data: pub } = supabase.storage.from("experience-photos").getPublicUrl(path);
         photo_url = pub.publicUrl;
@@ -220,7 +263,9 @@ const Guestbook = () => {
         saveToken(inserted.id, token);
         setOwnedIds((prev) => new Set(prev).add(inserted.id));
         setItems((prev) =>
-          prev.find((p) => p.id === inserted.id) ? prev : [inserted as Experience, ...prev].slice(0, 50)
+          prev.find((p) => p.id === inserted.id)
+            ? prev
+            : [inserted as Experience, ...prev].slice(0, 50)
         );
       }
 
@@ -232,7 +277,11 @@ const Guestbook = () => {
     } catch (err) {
       const message = err instanceof Error ? err.message : "Error";
       console.error("Guestbook submit error:", err);
-      toast({ title: t("guest.toast.fail.title"), description: message, variant: "destructive" });
+      toast({
+        title: t("guest.toast.fail.title"),
+        description: message,
+        variant: "destructive",
+      });
     } finally {
       setSubmitting(false);
     }
@@ -249,14 +298,16 @@ const Guestbook = () => {
       });
       return;
     }
-    if (!confirm(t("guest.confirm.delete"))) return;
 
+    if (!confirm(t("guest.confirm.delete"))) return;
     setDeletingId(exp.id);
+
     try {
       const { data, error } = await supabase.rpc("delete_experience_with_token", {
         _id: exp.id,
         _token: token ?? "admin-delete",
       });
+
       if (error) throw error;
       if (!data) {
         toast({
@@ -266,6 +317,7 @@ const Guestbook = () => {
         });
         return;
       }
+
       removeToken(exp.id);
       setOwnedIds((prev) => {
         const next = new Set(prev);
@@ -276,7 +328,11 @@ const Guestbook = () => {
       toast({ title: t("guest.toast.delete.ok") });
     } catch (err) {
       const message = err instanceof Error ? err.message : "Error";
-      toast({ title: t("guest.toast.delete.fail.title"), description: message, variant: "destructive" });
+      toast({
+        title: t("guest.toast.delete.fail.title"),
+        description: message,
+        variant: "destructive",
+      });
     } finally {
       setDeletingId(null);
     }
@@ -286,7 +342,9 @@ const Guestbook = () => {
     <section id="experiences" className="relative bg-abyss py-32 md:py-44">
       <div className="container max-w-6xl">
         <Reveal>
-          <p className="mb-6 text-xs uppercase tracking-[0.5em] text-turquoise">{t("guest.eyebrow")}</p>
+          <p className="mb-6 text-xs uppercase tracking-[0.5em] text-turquoise">
+            {t("guest.eyebrow")}
+          </p>
         </Reveal>
         <Reveal delay={120}>
           <h2 className="font-display text-5xl md:text-7xl text-foam leading-[0.95] mb-6">
@@ -336,16 +394,26 @@ const Guestbook = () => {
                 <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">
                   {t("guest.form.story")}
                 </label>
+                {/* LOGIKA PEMBATASAN KATA LANGSUNG DIBAWAH INI */}
                 <textarea
                   name="comment"
                   required
-                  maxLength={1000}
                   rows={5}
                   value={comment}
-                  onChange={(e) => setComment(e.target.value)}
+                  onChange={(e) => {
+                    const text = e.target.value;
+                    const wordCount = text.trim().split(/\s+/).filter(Boolean).length;
+                    if (wordCount <= 300 || text.length < comment.length) {
+                      setComment(text);
+                    }
+                  }}
                   placeholder={t("guest.form.story.placeholder")}
                   className="w-full bg-transparent border border-foam/20 p-3 text-foam placeholder:text-foam/30 focus:outline-none focus:border-coral transition-colors resize-none"
                 />
+                {/* WORD COUNTER UTK PENGALAMAN USER */}
+                <div className="text-[9px] text-right text-foam/40 uppercase tracking-wider mt-1">
+                  {currentWordCount} / 300 Kata
+                </div>
               </div>
 
               <div>
@@ -368,9 +436,7 @@ const Guestbook = () => {
                 )}
               </div>
 
-              <p className="text-[10px] uppercase tracking-[0.25em] text-foam/40 leading-relaxed">
-                {t("guest.form.note")}
-              </p>
+              {/* TEKS "HANYA ANDA YANG DAPAT MENGHAPUS..." SUDAH DIHAPUS TOTAL DISINI */}
 
               <button
                 type="submit"
@@ -384,7 +450,9 @@ const Guestbook = () => {
 
           <div className="space-y-6">
             {loading && (
-              <p className="text-foam/50 text-sm uppercase tracking-[0.3em]">{t("guest.list.loading")}</p>
+              <p className="text-foam/50 text-sm uppercase tracking-[0.3em]">
+                {t("guest.list.loading")}
+              </p>
             )}
             {!loading && items.length === 0 && (
               <p className="text-foam/50 text-sm">{t("guest.list.empty")}</p>
@@ -399,7 +467,9 @@ const Guestbook = () => {
                       {exp.photo_url && (
                         <button
                           type="button"
-                          onClick={() => setLightboxPhoto({ url: exp.photo_url!, name: exp.visitor_name })}
+                          onClick={() =>
+                            setLightboxPhoto({ url: exp.photo_url!, name: exp.visitor_name })
+                          }
                           className="group relative w-full md:w-40 h-40 flex-shrink-0 overflow-hidden border border-foam/10 hover:border-coral/60 transition-colors"
                           aria-label={`${t("guest.viewphoto")} — ${exp.visitor_name}`}
                         >
