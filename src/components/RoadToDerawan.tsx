@@ -61,7 +61,7 @@ const RoadToDerawan = () => {
                   
                   {/* GANTI TEKS DI BAWAH INI SESUAI MAUMU */}
                   <p className="font-display text-2xl md:text-3xl text-white drop-shadow-md">
-                    SAKSIKAN_VIDEO
+  
                   </p>
                   
                   <p className="text-[10px] uppercase tracking-[0.3em] text-white/90 drop-shadow-md">
@@ -72,12 +72,12 @@ const RoadToDerawan = () => {
                 {/* LABEL ATAS */}
                 <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-abyss/90 to-transparent">
                   <span className="text-[9px] uppercase tracking-[0.3em] text-white/90">
-                    YOUTUBE · DERAWAN STORIES
+                    YOUTUBE · 
                   </span>
                   
                   {/* GANTI TEKS DI BAWAH INI SESUAI MAUMU */}
                   <span className="text-[9px] uppercase tracking-[0.3em] text-coral font-bold">
-                    TULIS_KATEGORI_BARU_DI_SINI
+                  
                   </span>
                   
                 </div>
