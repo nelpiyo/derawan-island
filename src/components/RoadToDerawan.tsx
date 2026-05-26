@@ -14,11 +14,7 @@ const RoadToDerawan = () => {
           <div>
             <Reveal>
               <p className="mb-6 text-xs uppercase tracking-[0.5em] text-turquoise">
-                {t("road.eyebrow")}
-              </p>
-            </Reveal>
-            <Reveal delay={150}>
-              <h2 className="font-display text-5xl md:text-6xl lg:text-7xl text-foam leading-[0.95]">
+
                 {t("road.title.a")}
                 <span className="block italic text-gradient-ocean">
                   {t("road.title.b")}
