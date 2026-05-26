@@ -56,21 +56,21 @@ const RoadToDerawan = () => {
                   </div>
                   
                   <p className="font-display text-2xl md:text-3xl text-white drop-shadow-md">
-                    SAKSIKAN VIDEO
+              
                   </p>
                   
                   <p className="text-[10px] uppercase tracking-[0.3em] text-white/90 drop-shadow-md">
-                    KLIK UNTUK MENONTON
+
                   </p>
                 </div>
 
                 {/* LABEL ATAS */}
                 <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-abyss/90 to-transparent">
                   <span className="text-[9px] uppercase tracking-[0.3em] text-white/90">
-                    YOUTUBE · DERAWAN STORIES
+                    YOUTUBE · PKM DERAWAN HI UNMUL
                   </span>
                   <span className="text-[9px] uppercase tracking-[0.3em] text-coral font-bold">
-                    TAYANG SEKARANG
+                 
                   </span>
                 </div>
               </div>
