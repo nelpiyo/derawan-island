@@ -42,7 +42,7 @@ const RoadToDerawan = () => {
 
           <Reveal delay={250}>
             <a
-              href="https://www.youtube.com/results?search_query=pulau+derawan"
+              href="https://youtu.be/s23KoRdDjb8?si=aNFRA9_zYxX3l7Ho"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Tonton playlist Pulau Derawan di YouTube"
