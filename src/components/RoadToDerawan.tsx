@@ -12,9 +12,9 @@ const RoadToDerawan = () => {
       <div className="container max-w-6xl relative">
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-20 items-center">
           <div>
+            {/* EYEBROW TEKS COMING SOON SUDAH DIHAPUS TOTAL BIAR BERSIH */}
             <Reveal>
-              <p className="mb-6 text-xs uppercase tracking-[0.5em] text-turquoise">
-
+              <h2 className="font-display text-5xl md:text-6xl lg:text-7xl text-foam leading-[0.95]">
                 {t("road.title.a")}
                 <span className="block italic text-gradient-ocean">
                   {t("road.title.b")}
@@ -55,27 +55,23 @@ const RoadToDerawan = () => {
                     </div>
                   </div>
                   
-                  {/* GANTI TEKS DI BAWAH INI SESUAI MAUMU */}
                   <p className="font-display text-2xl md:text-3xl text-white drop-shadow-md">
-  
+                    SAKSIKAN VIDEO
                   </p>
                   
                   <p className="text-[10px] uppercase tracking-[0.3em] text-white/90 drop-shadow-md">
-              
+                    KLIK UNTUK MENONTON
                   </p>
                 </div>
 
                 {/* LABEL ATAS */}
                 <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-3 bg-gradient-to-b from-abyss/90 to-transparent">
                   <span className="text-[9px] uppercase tracking-[0.3em] text-white/90">
-                    YOUTUBE · 
+                    YOUTUBE · DERAWAN STORIES
                   </span>
-                  
-                  {/* GANTI TEKS DI BAWAH INI SESUAI MAUMU */}
                   <span className="text-[9px] uppercase tracking-[0.3em] text-coral font-bold">
-                  
+                    TAYANG SEKARANG
                   </span>
-                  
                 </div>
               </div>
             </a>
