@@ -65,7 +65,7 @@ const RoadToDerawan = () => {
                   </p>
                   
                   <p className="text-[10px] uppercase tracking-[0.3em] text-white/90 drop-shadow-md">
-                    KLIK UNTUK MENONTON
+              
                   </p>
                 </div>
 
