@@ -370,7 +370,8 @@ const Guestbook = () => {
 
         <div className="grid lg:grid-cols-[420px_1fr] gap-12 lg:gap-16 items-start">
           <Reveal delay={350}>
-            <form onSubmit={handleSubmit} className="glass border border-foam/10 p-8 space-y-5">
+            <form id="guestbook-form" onSubmit={handleSubmit} className="glass border border-foam/10 p-8 space-y-5 rounded-2xl shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)]">
+
               <div>
                 <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">
                   {t("guest.form.name")}
