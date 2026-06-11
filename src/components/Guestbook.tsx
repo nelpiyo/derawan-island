@@ -548,6 +548,18 @@ const Guestbook = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      <a
+        href="#guestbook-form"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById("guestbook-form")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }}
+        className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-turquoise to-deep-sea px-6 py-4 text-xs uppercase tracking-[0.3em] text-foam font-semibold shadow-[0_10px_40px_-5px_rgba(0,180,200,0.6)] hover:shadow-[0_15px_50px_-5px_rgba(0,180,200,0.8)] hover:scale-105 transition-all duration-300 backdrop-blur-md border border-foam/20"
+      >
+        <Sparkles className="h-4 w-4" />
+        {lang === "en" ? "Share Your Journey" : "Bagikan Perjalananmu"}
+      </a>
     </section>
   );
 };
