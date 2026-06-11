@@ -173,15 +173,18 @@ export const id = {
   "stories.h1.b": "menetap selamanya.",
   "stories.intro":
     "Cerita, foto, dan kenangan dari pengunjung — bukti bahwa Derawan menyentuh siapa pun yang datang.",
-  "stories.bridge.eyebrow": "· Mengapa cerita ini penting",
-  "stories.bridge.quote":
-    "\"Setiap cerita yang Anda baca di atas, setiap foto yang dibagikan, dan setiap video yang akan kami unggah—semuanya menuju ke satu kesimpulan yang sama.\"",
-  "stories.bridge.scroll": "Scroll untuk panggilan bertindak",
-  "stories.cta.eyebrow": "Act today, not tomorrow",
-  "stories.cta.title.a": "Derawan masih bisa",
-  "stories.cta.title.b": "diselamatkan.",
-  "stories.cta.body":
-    "Setiap penyu yang kembali bertelur, setiap terumbu karang yang bertahan, dan setiap sampah yang berhasil dicegah masuk ke laut adalah bukti—asal kita bertindak hari ini.",
+  "stories.impact.eyebrow": "· Mengapa cerita ini penting",
+  "stories.impact.title.a": "Setiap cerita adalah bukti",
+  "stories.impact.title.b": "Derawan masih bisa diselamatkan.",
+  "stories.impact.body":
+    "Setiap penyu yang kembali bertelur, setiap terumbu yang bertahan, dan setiap sampah yang dicegah masuk ke laut — semuanya berawal dari kepedulian seperti milikmu.",
+  "stories.impact.stat.coral": "spesies karang",
+  "stories.impact.stat.waste": "kg sampah terangkat",
+  "stories.impact.stat.seagrass": "spesies lamun",
+  "stories.impact.stat.stories": "cerita pengunjung",
+  "stories.impact.quote": "\"Surga ini tidak hilang sekaligus, tapi sedikit demi sedikit.\"",
+  "stories.impact.cta.primary": "Bagikan Ceritamu",
+  "stories.impact.cta.secondary": "Lihat Ekosistem & Ancaman",
 
   // Guestbook
   "guest.eyebrow": "Visitor Logbook",
