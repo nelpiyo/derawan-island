@@ -455,34 +455,40 @@ const Guestbook = () => {
             {items.map((exp, i) => {
               const owned = ownedIds.has(exp.id);
               const canDelete = owned || isAdmin;
+              const badge = badgeFor(exp.id);
+              const BadgeIcon = badge.icon;
               return (
                 <Reveal key={exp.id} delay={Math.min(i * 60, 300)}>
-                  <article className="border border-foam/10 bg-deep-sea/30 backdrop-blur-sm p-6 md:p-8 hover:border-coral/40 transition-colors">
-                    <div className="flex flex-col md:flex-row gap-6">
+                  <article className="group relative rounded-2xl border border-foam/15 bg-foam/[0.04] backdrop-blur-xl p-6 md:p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.6)] hover:border-turquoise/40 hover:bg-foam/[0.06] transition-all duration-500">
+                    <div aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-br from-foam/5 via-transparent to-turquoise/5 opacity-60" />
+                    <div className="relative flex flex-col md:flex-row gap-6">
                       {exp.photo_url && (
                         <button
                           type="button"
                           onClick={() =>
                             setLightboxPhoto({ url: exp.photo_url!, name: exp.visitor_name })
                           }
-                          className="group relative w-full md:w-40 h-40 flex-shrink-0 overflow-hidden border border-foam/10 hover:border-coral/60 transition-colors"
+                          className="group/img relative w-full md:w-44 h-44 flex-shrink-0 overflow-hidden rounded-xl border border-foam/15 shadow-lg hover:border-turquoise/60 transition-colors"
                           aria-label={`${t("guest.viewphoto")} — ${exp.visitor_name}`}
                         >
                           <img
                             src={exp.photo_url}
                             alt={exp.visitor_name}
                             loading="lazy"
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover/img:scale-110"
                           />
-                          <span className="absolute inset-0 flex items-center justify-center bg-abyss/60 opacity-0 group-hover:opacity-100 transition-opacity text-[10px] uppercase tracking-[0.3em] text-foam">
+                          <span className="absolute inset-0 flex items-center justify-center bg-abyss/60 opacity-0 group-hover/img:opacity-100 transition-opacity text-[10px] uppercase tracking-[0.3em] text-foam">
                             {t("guest.viewphoto")}
                           </span>
                         </button>
                       )}
                       <div className="flex-1 min-w-0">
-                        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 mb-3">
+                        <div className="flex flex-wrap items-center gap-3 mb-3">
                           <h3 className="font-display text-2xl text-foam">{exp.visitor_name}</h3>
-                          {/* LOKASI UNTUK CERITA LAMA TETAP DITAMPILKAN */}
+                          <span className={`inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${badge.color} px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-abyss font-semibold shadow-sm`}>
+                            <BadgeIcon className="h-3 w-3" strokeWidth={2.5} />
+                            {badge.label}
+                          </span>
                           {exp.location && (
                             <span className="text-[10px] uppercase tracking-[0.3em] text-turquoise">
                               · {exp.location}
@@ -494,7 +500,7 @@ const Guestbook = () => {
                             </span>
                           )}
                         </div>
-                        <p className="text-foam/80 leading-relaxed whitespace-pre-wrap break-words">
+                        <p className="text-foam/85 leading-relaxed whitespace-pre-wrap break-words">
                           {exp.comment}
                         </p>
                         <div className="mt-4 flex items-center justify-between gap-4">
