@@ -175,15 +175,18 @@ export const en: Dict = {
   "stories.h1.b": "stay with you forever.",
   "stories.intro":
     "Stories, photos, and memories from visitors — proof that Derawan touches everyone who comes.",
-  "stories.bridge.eyebrow": "· Why these stories matter",
-  "stories.bridge.quote":
-    "\"Every story you read above, every photo shared, and every video we will upload — all of it leads to the same conclusion.\"",
-  "stories.bridge.scroll": "Scroll for the call to action",
-  "stories.cta.eyebrow": "Act today, not tomorrow",
-  "stories.cta.title.a": "Derawan can still be",
-  "stories.cta.title.b": "saved.",
-  "stories.cta.body":
-    "Every turtle that nests again, every reef that survives, and every piece of waste kept out of the sea is proof — as long as we act today.",
+  "stories.impact.eyebrow": "· Why these stories matter",
+  "stories.impact.title.a": "Every story is proof",
+  "stories.impact.title.b": "Derawan can still be saved.",
+  "stories.impact.body":
+    "Every turtle that returns to nest, every reef that holds on, and every piece of waste kept out of the sea — it all begins with care like yours.",
+  "stories.impact.stat.coral": "coral species",
+  "stories.impact.stat.waste": "kg of waste removed",
+  "stories.impact.stat.seagrass": "seagrass species",
+  "stories.impact.stat.stories": "visitor stories",
+  "stories.impact.quote": "\"This paradise does not disappear all at once, but little by little.\"",
+  "stories.impact.cta.primary": "Share Your Story",
+  "stories.impact.cta.secondary": "See Ecosystem & Threats",
 
   // Guestbook
   "guest.eyebrow": "Visitor Logbook",
