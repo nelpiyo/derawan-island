@@ -6,6 +6,22 @@ import { useToast } from "@/hooks/use-toast";
 import ExperienceReplies from "@/components/ExperienceReplies";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { useI18n } from "@/i18n";
+import { Leaf, Shield, Fish, Waves, Sparkles, Anchor } from "lucide-react";
+
+const BADGES = [
+  { icon: Leaf, label: "Eco-Warrior", color: "from-turquoise to-emerald-400" },
+  { icon: Shield, label: "Reef Guardian", color: "from-coral to-amber-400" },
+  { icon: Fish, label: "Ocean Friend", color: "from-sky-400 to-turquoise" },
+  { icon: Waves, label: "Tide Keeper", color: "from-cyan-400 to-deep-sea" },
+  { icon: Sparkles, label: "Coral Dreamer", color: "from-pink-400 to-coral" },
+  { icon: Anchor, label: "Sea Voyager", color: "from-indigo-400 to-deep-sea" },
+] as const;
+
+const badgeFor = (id: string) => {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  return BADGES[h % BADGES.length];
+};
 
 type Experience = {
   id: string;
