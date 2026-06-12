@@ -8,6 +8,7 @@ import RoadToDerawan from "@/components/RoadToDerawan";
 import WaveDivider from "@/components/WaveDivider";
 import Bokeh from "@/components/Bokeh";
 import { useI18n } from "@/i18n";
+import { Leaf, Users, BookOpen, ChevronDown } from "lucide-react";
 
 import heroImg from "@/assets/hero-derawan.jpg";
 import coralImg from "@/assets/Coral.webp";
@@ -25,6 +26,9 @@ const Index = () => {
       italic: t("home.dir.nature.italic"),
       body: t("home.dir.nature.body"),
       image: coralImg,
+      icon: Leaf,
+      overlay: "from-deep-sea/90 via-deep-sea/60 to-deep-sea/10",
+      accent: "text-turquoise",
     },
     {
       to: "/culture",
@@ -33,6 +37,9 @@ const Index = () => {
       italic: t("home.dir.culture.italic"),
       body: t("home.dir.culture.body"),
       image: bajauImg,
+      icon: Users,
+      overlay: "from-orange-900/90 via-orange-800/60 to-orange-700/10",
+      accent: "text-amber-300",
     },
     {
       to: "/stories",
@@ -41,6 +48,9 @@ const Index = () => {
       italic: t("home.dir.stories.italic"),
       body: t("home.dir.stories.body"),
       image: turtleImg,
+      icon: BookOpen,
+      overlay: "from-teal-900/90 via-teal-800/55 to-emerald-700/10",
+      accent: "text-emerald-300",
     },
   ];
 
