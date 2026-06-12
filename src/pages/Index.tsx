@@ -110,7 +110,7 @@ const Index = () => {
       </div>
 
       {/* MANIFESTO */}
-      <section className="relative bg-gradient-deep py-32 md:py-44">
+      <section id="manifesto" className="relative bg-gradient-deep py-32 md:py-44">
         <div className="container max-w-5xl">
           <Reveal>
             <p className="mb-8 text-xs uppercase tracking-[0.5em] text-coral">
