@@ -42,8 +42,10 @@ const Navigation = () => {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled || open ? "py-3 glass shadow-deep" : "py-6 bg-transparent"
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 backdrop-blur-xl border-b ${
+        scrolled || open
+          ? "py-3 bg-[hsl(205_70%_10%/0.7)] border-turquoise/20 shadow-[0_10px_40px_-15px_rgba(0,180,200,0.35)]"
+          : "py-5 bg-[hsl(205_70%_10%/0.35)] border-foam/10"
       }`}
     >
       <div className="container flex items-center justify-between gap-4">
