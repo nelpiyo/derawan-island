@@ -7,6 +7,8 @@ import SEO from "@/components/SEO";
 import Guestbook from "@/components/Guestbook";
 import Breadcrumb from "@/components/Breadcrumb";
 import SiteFooter from "@/components/SiteFooter";
+import WaveDivider from "@/components/WaveDivider";
+import Bokeh from "@/components/Bokeh";
 import { useI18n } from "@/i18n";
 import { supabase } from "@/integrations/supabase/client";
 
