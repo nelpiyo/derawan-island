@@ -186,46 +186,55 @@ const Index = () => {
           </Reveal>
 
           <div className="mt-20 grid gap-6 md:grid-cols-3">
-            {sections.map((s, i) => (
-              <Reveal key={s.to} delay={i * 150}>
-                <Link
-                  to={s.to}
-                  className="group relative block aspect-[3/4] overflow-hidden border border-foam/10 hover:border-coral/50 transition-colors duration-500"
-                >
-                  <img
-                    src={s.image}
-                    alt=""
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] group-hover:scale-110"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-abyss via-abyss/60 to-abyss/10" />
-                  <div className="relative flex h-full flex-col justify-end p-8 md:p-10">
-                    <p className="text-xs uppercase tracking-[0.3em] text-turquoise mb-4">
-                      {s.eyebrow}
-                    </p>
-                    <h3 className="font-display text-3xl md:text-4xl text-foam leading-tight">
-                      {s.title}
-                      <span className="block italic text-gradient-sunset">
-                        {s.italic}
+            {sections.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <Reveal key={s.to} delay={i * 150}>
+                  <Link
+                    to={s.to}
+                    className="group relative block aspect-[3/4] overflow-hidden rounded-2xl border border-foam/10 hover:border-foam/30 transition-all duration-500 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.6)] hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.8)] hover:-translate-y-1"
+                  >
+                    <img
+                      src={s.image}
+                      alt=""
+                      className="absolute inset-0 h-full w-full object-cover opacity-40 group-hover:opacity-55 transition-all duration-[1200ms] group-hover:scale-110"
+                      loading="lazy"
+                    />
+                    <div className={`absolute inset-0 bg-gradient-to-t ${s.overlay}`} />
+                    <div className="relative flex h-full flex-col p-8 md:p-10">
+                      <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-foam/20 bg-abyss/30 backdrop-blur-sm">
+                        <Icon className="h-5 w-5 text-foam" strokeWidth={1.5} />
                       </span>
-                    </h3>
-                    <p className="mt-5 text-sm text-foam/70 leading-relaxed">
-                      {s.body}
-                    </p>
-                    <div className="mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-coral">
-                      {t("home.directory.readmore")}
-                      <span
-                        aria-hidden
-                        className="inline-block h-px w-8 bg-coral transition-all duration-500 group-hover:w-16"
-                      />
+                      <div className="mt-auto">
+                        <p className={`text-xs uppercase tracking-[0.3em] ${s.accent} mb-4`}>
+                          {s.eyebrow}
+                        </p>
+                        <h3 className="font-display text-3xl md:text-4xl text-foam leading-tight">
+                          {s.title}
+                          <span className="block italic text-gradient-sunset">
+                            {s.italic}
+                          </span>
+                        </h3>
+                        <p className="mt-5 text-sm text-foam/80 leading-relaxed">
+                          {s.body}
+                        </p>
+                        <div className={`mt-8 flex items-center gap-3 text-xs uppercase tracking-[0.3em] ${s.accent}`}>
+                          {t("home.directory.readmore")}
+                          <span
+                            aria-hidden
+                            className={`inline-block h-px w-8 bg-current transition-all duration-500 group-hover:w-16`}
+                          />
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
+                  </Link>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
+
 
       <SiteFooter />
     </main>
