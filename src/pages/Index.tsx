@@ -55,34 +55,47 @@ const Index = () => {
         image={heroImg}
         speed={0.35}
         height="min-h-screen"
-        overlayClass="bg-gradient-to-b from-abyss/40 via-deep-sea/30 to-abyss/90"
+        overlayClass="bg-gradient-to-b from-abyss/30 via-deep-sea/40 to-abyss"
       >
-        <div className="container flex min-h-screen flex-col justify-end pb-24 pt-40">
+        {/* Extra refined bottom gradient for legibility */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-abyss via-abyss/70 to-transparent"
+        />
+        <Bokeh count={22} />
+
+        <div className="container relative flex min-h-screen flex-col justify-end pb-32 pt-40">
           <Reveal>
             <p className="mb-6 text-xs uppercase tracking-[0.6em] text-turquoise">
               {t("home.eyebrow")}
             </p>
           </Reveal>
           <Reveal delay={150}>
-            <h1 className="font-display text-[14vw] leading-[0.9] md:text-[9rem] lg:text-[11rem] text-foam">
+            <h1 className="font-display text-[14vw] leading-[0.9] md:text-[9rem] lg:text-[11rem] text-foam drop-shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
               Derawan
               <span className="block italic text-gradient-ocean">Island</span>
             </h1>
           </Reveal>
           <Reveal delay={350}>
             <div className="mt-10 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
-              <p className="max-w-xl text-base md:text-lg text-foam/80 leading-relaxed">
+              <p className="max-w-xl text-base md:text-lg text-foam/85 leading-relaxed">
                 {t("home.intro")}
               </p>
-              <div className="flex items-center gap-4">
-                <div className="h-px w-16 bg-coral" />
-                <span className="text-xs uppercase tracking-[0.3em] text-foam/60">
-                  {t("nav.scroll")}
-                </span>
-              </div>
             </div>
           </Reveal>
         </div>
+
+        {/* Elegant scroll indicator */}
+        <a
+          href="#manifesto"
+          aria-label="Scroll"
+          className="group absolute left-1/2 bottom-8 -translate-x-1/2 flex flex-col items-center gap-3 text-foam/70 hover:text-turquoise transition-colors"
+        >
+          <span className="text-[10px] uppercase tracking-[0.5em]">{t("nav.scroll")}</span>
+          <span className="relative flex h-10 w-6 items-start justify-center rounded-full border border-foam/40 group-hover:border-turquoise/70 transition-colors">
+            <span className="mt-2 h-2 w-[2px] rounded-full bg-turquoise animate-drift" />
+          </span>
+        </a>
 
         <div className="pointer-events-none absolute right-6 top-1/3 hidden md:block">
           <div className="font-display text-foam/10 text-[12rem] leading-none animate-drift">
@@ -90,6 +103,11 @@ const Index = () => {
           </div>
         </div>
       </ParallaxSection>
+
+      {/* Wave divider into manifesto */}
+      <div className="relative -mt-20 z-10">
+        <WaveDivider fill="hsl(var(--abyss))" />
+      </div>
 
       {/* MANIFESTO */}
       <section className="relative bg-gradient-deep py-32 md:py-44">
