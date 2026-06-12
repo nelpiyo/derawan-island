@@ -442,8 +442,8 @@ const Guestbook = () => {
             {items.map((exp, i) => {
               const owned = ownedIds.has(exp.id);
               const canDelete = owned || isAdmin;
-              const badge = badgeFor(exp.id);
-              const BadgeIcon = badge.icon;
+
+
               return (
                 <Reveal key={exp.id} delay={Math.min(i * 60, 300)}>
                   <article className="group relative rounded-2xl border border-foam/15 bg-foam/[0.04] backdrop-blur-xl p-6 md:p-8 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.6)] hover:border-turquoise/40 hover:bg-foam/[0.06] transition-all duration-500">
@@ -472,13 +472,8 @@ const Guestbook = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-3 mb-3">
                           <h3 className="font-display text-2xl text-foam">{exp.visitor_name}</h3>
-                          <span
-                            aria-label={badge.label}
-                            title={badge.label}
-                            className={`inline-flex items-center justify-center rounded-full bg-gradient-to-r ${badge.color} h-7 w-7 text-abyss shadow-sm`}
-                          >
-                            <BadgeIcon className="h-3.5 w-3.5" strokeWidth={2.5} />
-                          </span>
+
+
                           {exp.location && (
                             <span className="text-[10px] uppercase tracking-[0.3em] text-turquoise">
                               · {exp.location}
