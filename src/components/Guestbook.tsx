@@ -485,9 +485,12 @@ const Guestbook = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center gap-3 mb-3">
                           <h3 className="font-display text-2xl text-foam">{exp.visitor_name}</h3>
-                          <span className={`inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r ${badge.color} px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-abyss font-semibold shadow-sm`}>
-                            <BadgeIcon className="h-3 w-3" strokeWidth={2.5} />
-                            {badge.label}
+                          <span
+                            aria-label={badge.label}
+                            title={badge.label}
+                            className={`inline-flex items-center justify-center rounded-full bg-gradient-to-r ${badge.color} h-7 w-7 text-abyss shadow-sm`}
+                          >
+                            <BadgeIcon className="h-3.5 w-3.5" strokeWidth={2.5} />
                           </span>
                           {exp.location && (
                             <span className="text-[10px] uppercase tracking-[0.3em] text-turquoise">
