@@ -93,6 +93,19 @@ const Index = () => {
               </p>
             </div>
           </Reveal>
+          <Reveal delay={500}>
+            <a
+              href="#manifesto"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("manifesto")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="group mt-12 inline-flex items-center gap-3 text-xs uppercase tracking-[0.4em] text-turquoise hover:text-foam transition-colors"
+            >
+              <span>{t("home.scrollexplore") || "Scroll to explore"}</span>
+              <ChevronDown className="h-4 w-4 animate-bounce" />
+            </a>
+          </Reveal>
         </div>
 
         {/* Elegant scroll indicator */}
