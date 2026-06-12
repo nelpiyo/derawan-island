@@ -138,8 +138,12 @@ const Index = () => {
         </div>
       </section>
 
+      <WaveDivider fill="hsl(var(--abyss))" />
+
       {/* ROAD TO DERAWAN */}
       <RoadToDerawan />
+
+      <WaveDivider fill="hsl(var(--abyss))" />
 
       {/* DIRECTORY */}
       <section className="relative bg-abyss py-32 md:py-44">
