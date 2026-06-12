@@ -72,7 +72,10 @@ const Stories = () => {
 
       <Guestbook />
 
-      <section className="relative bg-gradient-deep py-28 md:py-40 border-t border-foam/5 overflow-hidden">
+      <WaveDivider fill="hsl(var(--deep-sea))" />
+
+      <section className="relative bg-gradient-deep py-28 md:py-40 overflow-hidden">
+        <Bokeh count={16} />
         <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(64,224,208,0.12),transparent_60%),radial-gradient(circle_at_80%_80%,rgba(13,71,107,0.4),transparent_60%)]" />
         <div className="container max-w-5xl relative">
           <Reveal>
