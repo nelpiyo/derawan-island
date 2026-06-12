@@ -62,17 +62,23 @@ const Navigation = () => {
               <Link
                 key={to}
                 to={to}
-                className={`group flex items-center gap-2 text-[11px] uppercase tracking-[0.25em] transition-colors duration-300 ${
-                  active ? "text-coral" : "text-foam/70 hover:text-coral"
+                className={`group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-turquoise/10 ${
+                  active ? "text-turquoise" : "text-foam/75 hover:text-turquoise"
                 }`}
               >
                 <Icon
                   className={`w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 ${
-                    active ? "text-coral" : "text-foam/60 group-hover:text-coral"
+                    active ? "text-turquoise" : "text-foam/60 group-hover:text-turquoise"
                   }`}
                   strokeWidth={1.75}
                 />
                 {t(labelKey)}
+                <span
+                  aria-hidden
+                  className={`absolute left-3 right-3 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-turquoise to-transparent transition-opacity duration-300 ${
+                    active ? "opacity-100" : "opacity-0 group-hover:opacity-70"
+                  }`}
+                />
               </Link>
             );
           })}
