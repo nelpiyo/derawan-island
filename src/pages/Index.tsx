@@ -5,6 +5,8 @@ import Reveal from "@/components/Reveal";
 import SEO from "@/components/SEO";
 import SiteFooter from "@/components/SiteFooter";
 import RoadToDerawan from "@/components/RoadToDerawan";
+import WaveDivider from "@/components/WaveDivider";
+import Bokeh from "@/components/Bokeh";
 import { useI18n } from "@/i18n";
 
 import heroImg from "@/assets/hero-derawan.jpg";
