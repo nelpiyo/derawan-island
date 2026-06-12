@@ -16,7 +16,7 @@ import bajauImg from "@/assets/pemandangan-udara-derawan.webp";
 import turtleImg from "@/assets/turtles derawan.webp";
 
 const Index = () => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
   const sections = [
     {
@@ -102,7 +102,7 @@ const Index = () => {
               }}
               className="group mt-12 inline-flex items-center gap-3 text-xs uppercase tracking-[0.4em] text-turquoise hover:text-foam transition-colors"
             >
-              <span>{t("home.scrollexplore") || "Scroll to explore"}</span>
+              <span>{lang === "en" ? "Scroll to explore" : "Geser untuk menjelajah"}</span>
               <ChevronDown className="h-4 w-4 animate-bounce" />
             </a>
           </Reveal>
