@@ -1,7 +1,11 @@
 import Reveal from "@/components/Reveal";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import { useI18n } from "@/i18n";
-import boatImg from "@/assets/boat-derawan.jpg";
+
+const YOUTUBE_ID = "s23KoRdDjb8";
+const YOUTUBE_URL = `https://youtu.be/${YOUTUBE_ID}?si=wTCqhQYqCM3qBdxO`;
+const YOUTUBE_THUMB = `https://i.ytimg.com/vi/${YOUTUBE_ID}/maxresdefault.jpg`;
+const YOUTUBE_THUMB_FALLBACK = `https://i.ytimg.com/vi/${YOUTUBE_ID}/hqdefault.jpg`;
 
 const RoadToDerawan = () => {
   const { t, lang } = useI18n();
