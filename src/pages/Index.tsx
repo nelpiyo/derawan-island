@@ -108,17 +108,6 @@ const Index = () => {
           </Reveal>
         </div>
 
-        {/* Elegant scroll indicator */}
-        <a
-          href="#manifesto"
-          aria-label="Scroll"
-          className="group absolute left-1/2 bottom-8 -translate-x-1/2 flex flex-col items-center gap-3 text-foam/70 hover:text-turquoise transition-colors"
-        >
-          <span className="text-[10px] uppercase tracking-[0.5em]">{t("nav.scroll")}</span>
-          <span className="relative flex h-10 w-6 items-start justify-center rounded-full border border-foam/40 group-hover:border-turquoise/70 transition-colors">
-            <span className="mt-2 h-2 w-[2px] rounded-full bg-turquoise animate-drift" />
-          </span>
-        </a>
 
         <div className="pointer-events-none absolute right-6 top-1/3 hidden md:block">
           <div className="font-display text-foam/10 text-[12rem] leading-none animate-drift">
