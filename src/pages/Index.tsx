@@ -27,7 +27,7 @@ const Index = () => {
       body: t("home.dir.nature.body"),
       image: coralImg,
       icon: Leaf,
-      overlay: "from-deep-sea/90 via-deep-sea/60 to-deep-sea/10",
+      overlay: "from-deep-sea/80 via-deep-sea/25 to-transparent",
       accent: "text-turquoise",
     },
     {
@@ -38,7 +38,7 @@ const Index = () => {
       body: t("home.dir.culture.body"),
       image: bajauImg,
       icon: Users,
-      overlay: "from-orange-900/90 via-orange-800/60 to-orange-700/10",
+      overlay: "from-orange-950/80 via-orange-900/25 to-transparent",
       accent: "text-amber-300",
     },
     {
@@ -49,7 +49,7 @@ const Index = () => {
       body: t("home.dir.stories.body"),
       image: turtleImg,
       icon: BookOpen,
-      overlay: "from-teal-900/90 via-teal-800/55 to-emerald-700/10",
+      overlay: "from-teal-950/80 via-teal-900/25 to-transparent",
       accent: "text-emerald-300",
     },
   ];
@@ -108,17 +108,6 @@ const Index = () => {
           </Reveal>
         </div>
 
-        {/* Elegant scroll indicator */}
-        <a
-          href="#manifesto"
-          aria-label="Scroll"
-          className="group absolute left-1/2 bottom-8 -translate-x-1/2 flex flex-col items-center gap-3 text-foam/70 hover:text-turquoise transition-colors"
-        >
-          <span className="text-[10px] uppercase tracking-[0.5em]">{t("nav.scroll")}</span>
-          <span className="relative flex h-10 w-6 items-start justify-center rounded-full border border-foam/40 group-hover:border-turquoise/70 transition-colors">
-            <span className="mt-2 h-2 w-[2px] rounded-full bg-turquoise animate-drift" />
-          </span>
-        </a>
 
         <div className="pointer-events-none absolute right-6 top-1/3 hidden md:block">
           <div className="font-display text-foam/10 text-[12rem] leading-none animate-drift">
@@ -197,7 +186,7 @@ const Index = () => {
                     <img
                       src={s.image}
                       alt=""
-                      className="absolute inset-0 h-full w-full object-cover opacity-40 group-hover:opacity-55 transition-all duration-[1200ms] group-hover:scale-110"
+                      className="absolute inset-0 h-full w-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-[1200ms] group-hover:scale-110"
                       loading="lazy"
                     />
                     <div className={`absolute inset-0 bg-gradient-to-t ${s.overlay}`} />

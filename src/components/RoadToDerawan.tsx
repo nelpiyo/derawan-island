@@ -1,7 +1,11 @@
 import Reveal from "@/components/Reveal";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import { useI18n } from "@/i18n";
-import boatImg from "@/assets/boat-derawan.jpg";
+
+const YOUTUBE_ID = "s23KoRdDjb8";
+const YOUTUBE_URL = `https://youtu.be/${YOUTUBE_ID}?si=wTCqhQYqCM3qBdxO`;
+const YOUTUBE_THUMB = `https://i.ytimg.com/vi/${YOUTUBE_ID}/maxresdefault.jpg`;
+const YOUTUBE_THUMB_FALLBACK = `https://i.ytimg.com/vi/${YOUTUBE_ID}/hqdefault.jpg`;
 
 const RoadToDerawan = () => {
   const { t, lang } = useI18n();
@@ -29,10 +33,10 @@ const RoadToDerawan = () => {
             </Reveal>
             <Reveal delay={400}>
               <a
-                href="https://youtu.be/s23KoRdDjb8?si=aNFRA9_zYxX3l7Ho"
+                href={YOUTUBE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group mt-10 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-turquoise to-deep-sea px-8 py-4 text-xs uppercase tracking-[0.3em] text-foam font-semibold shadow-[0_10px_40px_-10px_rgba(0,180,200,0.6)] hover:shadow-[0_15px_50px_-5px_rgba(0,180,200,0.9)] hover:scale-[1.03] transition-all duration-300 border border-foam/20"
+                className="group mt-10 inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-turquoise to-deep-sea px-8 py-4 text-xs uppercase tracking-[0.3em] text-foam font-semibold shadow-[0_10px_40px_-10px_rgba(0,180,200,0.6)] hover:shadow-[0_15px_50px_-5px_rgba(0,180,200,0.9)] hover:scale-[1.03] transition-all duration-300 border border-foam/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-turquoise focus-visible:ring-offset-2 focus-visible:ring-offset-abyss"
               >
                 {lang === "en" ? "Follow the journey" : "Ikuti perjalanan"}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -40,23 +44,36 @@ const RoadToDerawan = () => {
             </Reveal>
           </div>
 
-          {/* RIGHT — Boat photo */}
+          {/* RIGHT — YouTube video preview */}
           <Reveal delay={300}>
             <a
-              href="https://youtu.be/s23KoRdDjb8?si=aNFRA9_zYxX3l7Ho"
+              href={YOUTUBE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Tonton dokumenter Pulau Derawan"
-              className="relative group block"
+              aria-label={lang === "en" ? "Watch Road to Pulau Derawan documentary on YouTube" : "Tonton dokumenter Road to Pulau Derawan di YouTube"}
+              className="relative group block rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-turquoise focus-visible:ring-offset-2 focus-visible:ring-offset-abyss"
             >
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl border border-foam/15 shadow-2xl group-hover:border-turquoise/50 transition-colors duration-500">
+              <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-foam/15 shadow-2xl group-hover:border-turquoise/60 group-hover:shadow-[0_20px_60px_-10px_rgba(0,180,200,0.45)] transition-all duration-500">
                 <img
-                  src={boatImg}
-                  alt="Perahu kayu tradisional berlayar di laut Derawan saat senja"
+                  src={YOUTUBE_THUMB}
+                  onError={(e) => {
+                    const img = e.currentTarget;
+                    if (img.src !== YOUTUBE_THUMB_FALLBACK) img.src = YOUTUBE_THUMB_FALLBACK;
+                  }}
+                  alt="Road to Pulau Derawan — YouTube documentary thumbnail"
                   loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-abyss/70 via-abyss/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-abyss/80 via-abyss/20 to-abyss/30" />
+
+                {/* Play button overlay */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="relative flex h-20 w-20 md:h-24 md:w-24 items-center justify-center rounded-full bg-coral/90 group-hover:bg-coral text-foam shadow-[0_10px_40px_-5px_rgba(0,0,0,0.6)] group-hover:scale-110 transition-all duration-300">
+                    <span className="absolute inset-0 rounded-full bg-coral/40 animate-ping opacity-0 group-hover:opacity-100" />
+                    <Play className="h-8 w-8 md:h-10 md:w-10 ml-1 fill-current" strokeWidth={0} />
+                  </span>
+                </div>
+
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                   <p className="text-[10px] uppercase tracking-[0.4em] text-turquoise mb-2">
                     YouTube · PKM Derawan HI Unmul
@@ -68,6 +85,7 @@ const RoadToDerawan = () => {
               </div>
             </a>
           </Reveal>
+
         </div>
       </div>
     </section>
