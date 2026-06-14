@@ -186,7 +186,7 @@ const Index = () => {
                     <img
                       src={s.image}
                       alt=""
-                      className="absolute inset-0 h-full w-full object-cover opacity-40 group-hover:opacity-55 transition-all duration-[1200ms] group-hover:scale-110"
+                      className="absolute inset-0 h-full w-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-[1200ms] group-hover:scale-110"
                       loading="lazy"
                     />
                     <div className={`absolute inset-0 bg-gradient-to-t ${s.overlay}`} />
