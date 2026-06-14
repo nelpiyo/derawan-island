@@ -8,6 +8,7 @@ import Guestbook from "@/components/Guestbook";
 import Breadcrumb from "@/components/Breadcrumb";
 import SiteFooter from "@/components/SiteFooter";
 import WaveDivider from "@/components/WaveDivider";
+import TipsBerkunjung from "@/components/TipsBerkunjung";
 import Bokeh from "@/components/Bokeh";
 import { useI18n } from "@/i18n";
 import { supabase } from "@/integrations/supabase/client";
@@ -72,7 +73,12 @@ const Stories = () => {
 
       <Guestbook />
 
+      <WaveDivider fill="hsl(var(--abyss))" />
+
+      <TipsBerkunjung />
+
       <WaveDivider fill="hsl(var(--deep-sea))" />
+
 
       <section className="relative bg-gradient-deep py-28 md:py-40 overflow-hidden">
         <Bokeh count={16} />

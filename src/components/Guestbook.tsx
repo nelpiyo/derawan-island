@@ -535,16 +535,21 @@ const Guestbook = () => {
       </Dialog>
 
       <a
-        href="#guestbook-form"
+        href="#tips"
         onClick={(e) => {
           e.preventDefault();
-          document.getElementById("guestbook-form")?.scrollIntoView({ behavior: "smooth", block: "center" });
+          document.getElementById("tips")?.scrollIntoView({ behavior: "smooth", block: "start" });
         }}
-        className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-turquoise to-deep-sea px-6 py-4 text-xs uppercase tracking-[0.3em] text-foam font-semibold shadow-[0_10px_40px_-5px_rgba(0,180,200,0.6)] hover:shadow-[0_15px_50px_-5px_rgba(0,180,200,0.8)] hover:scale-105 transition-all duration-300 backdrop-blur-md border border-foam/20"
+        className="fixed bottom-6 right-6 z-40 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-turquoise to-deep-sea px-5 py-3.5 md:px-6 md:py-4 text-[10px] md:text-xs uppercase tracking-[0.25em] md:tracking-[0.3em] text-foam font-semibold shadow-[0_10px_40px_-5px_rgba(0,180,200,0.6)] hover:shadow-[0_15px_50px_-5px_rgba(0,180,200,0.8)] hover:scale-105 transition-all duration-300 backdrop-blur-md border border-foam/20 max-w-[88vw]"
       >
-        <Sparkles className="h-4 w-4" />
-        {lang === "en" ? "Share Your Journey" : "Bagikan Perjalananmu"}
+        <Sparkles className="h-4 w-4 shrink-0" />
+        <span className="truncate">
+          {lang === "en"
+            ? "Visiting Derawan? See the Do's & Don'ts!"
+            : "Berkunjung ke Derawan? Simak Do's & Don'ts-nya!"}
+        </span>
       </a>
+
     </section>
   );
 };
