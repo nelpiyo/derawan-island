@@ -27,7 +27,7 @@ const Index = () => {
       body: t("home.dir.nature.body"),
       image: coralImg,
       icon: Leaf,
-      overlay: "from-deep-sea/90 via-deep-sea/60 to-deep-sea/10",
+      overlay: "from-deep-sea/80 via-deep-sea/25 to-transparent",
       accent: "text-turquoise",
     },
     {
@@ -38,7 +38,7 @@ const Index = () => {
       body: t("home.dir.culture.body"),
       image: bajauImg,
       icon: Users,
-      overlay: "from-orange-900/90 via-orange-800/60 to-orange-700/10",
+      overlay: "from-orange-950/80 via-orange-900/25 to-transparent",
       accent: "text-amber-300",
     },
     {
@@ -49,7 +49,7 @@ const Index = () => {
       body: t("home.dir.stories.body"),
       image: turtleImg,
       icon: BookOpen,
-      overlay: "from-teal-900/90 via-teal-800/55 to-emerald-700/10",
+      overlay: "from-teal-950/80 via-teal-900/25 to-transparent",
       accent: "text-emerald-300",
     },
   ];
