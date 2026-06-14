@@ -73,7 +73,12 @@ const Stories = () => {
 
       <Guestbook />
 
+      <WaveDivider fill="hsl(var(--abyss))" />
+
+      <TipsBerkunjung />
+
       <WaveDivider fill="hsl(var(--deep-sea))" />
+
 
       <section className="relative bg-gradient-deep py-28 md:py-40 overflow-hidden">
         <Bokeh count={16} />
