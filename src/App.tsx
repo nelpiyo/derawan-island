@@ -13,6 +13,7 @@ import Stories from "./pages/Stories.tsx";
 import Play from "./pages/Play.tsx";
 import VisitorStats from "./pages/VisitorStats.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
+import Admin from "./pages/Admin.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import { I18nProvider } from "./i18n";
 
