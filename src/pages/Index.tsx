@@ -82,7 +82,7 @@ const Index = () => {
           </Reveal>
           <Reveal delay={150}>
             <h1 className="font-display text-[14vw] leading-[0.9] md:text-[9rem] lg:text-[11rem] text-foam drop-shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
-              Derawan
+              Zalfa
               <span className="block italic text-gradient-ocean">Island</span>
             </h1>
           </Reveal>
