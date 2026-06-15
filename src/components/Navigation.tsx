@@ -6,7 +6,8 @@ import {
   Users,
   BookOpen,
   Gamepad2,
-  
+  Award,
+  ExternalLink,
   Menu,
   X,
   type LucideIcon,
@@ -20,9 +21,14 @@ const links: { to: string; labelKey: keyof Dict; Icon: LucideIcon }[] = [
   { to: "/nature", labelKey: "nav.nature", Icon: Leaf },
   { to: "/culture", labelKey: "nav.culture", Icon: Users },
   { to: "/stories", labelKey: "nav.stories", Icon: BookOpen },
-  
   { to: "/play", labelKey: "nav.play", Icon: Gamepad2 },
 ];
+
+const externalLink = {
+  href: "https://derawan-island-adventure-pi.vercel.app/",
+  labelKey: "nav.heroes" as keyof Dict,
+  Icon: Award,
+};
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -82,6 +88,23 @@ const Navigation = () => {
               </Link>
             );
           })}
+          <a
+            href={externalLink.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-turquoise/10 text-foam/75 hover:text-turquoise"
+          >
+            <externalLink.Icon
+              className="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 text-foam/60 group-hover:text-turquoise"
+              strokeWidth={1.75}
+            />
+            {t(externalLink.labelKey)}
+            <ExternalLink className="w-2.5 h-2.5 opacity-40 group-hover:opacity-70 transition-opacity" strokeWidth={2} />
+            <span
+              aria-hidden
+              className="absolute left-3 right-3 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-turquoise to-transparent transition-opacity duration-300 opacity-0 group-hover:opacity-70"
+            />
+          </a>
         </nav>
 
         <div className="flex items-center gap-3">
@@ -117,6 +140,16 @@ const Navigation = () => {
                 </Link>
               );
             })}
+            <a
+              href={externalLink.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors text-foam/75 hover:text-coral"
+            >
+              <externalLink.Icon className="w-4 h-4" strokeWidth={1.75} />
+              {t(externalLink.labelKey)}
+              <ExternalLink className="w-3 h-3 opacity-50" strokeWidth={2} />
+            </a>
           </nav>
         </div>
       )}
