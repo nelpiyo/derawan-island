@@ -5,6 +5,7 @@ export const id = {
   "nav.culture": "Culture",
   "nav.stories": "Stories",
   "nav.play": "Play",
+  "nav.heroes": "Derawan Heroes",
   "nav.map": "Map",
   "nav.partners": "Partners",
   "nav.scroll": "Scroll",
