@@ -7,7 +7,7 @@ import SEO from "@/components/SEO";
 const Auth = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
+  const [mode, setMode] = useState<"signin" | "signup" | "forgot">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -34,6 +34,16 @@ const Auth = () => {
         });
         if (error) throw error;
         toast({ title: "Akun dibuat", description: "Anda dapat langsung masuk." });
+      } else if (mode === "forgot") {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${window.location.origin}/reset-password`,
+        });
+        if (error) throw error;
+        toast({
+          title: "Email terkirim",
+          description: "Cek inbox/spam untuk link reset password.",
+        });
+        setMode("signin");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -47,6 +57,9 @@ const Auth = () => {
     }
   };
 
+  const titleText =
+    mode === "signin" ? "Masuk" : mode === "signup" ? "Daftar" : "Reset Password";
+
   return (
     <main className="min-h-screen bg-abyss flex items-center justify-center px-6">
       <SEO title="Admin Login · Derawan Island" description="Akses admin Derawan Island." path="/auth" />
@@ -54,9 +67,7 @@ const Auth = () => {
         <Link to="/" className="text-[10px] uppercase tracking-[0.3em] text-foam/50 hover:text-coral">
           ← Kembali
         </Link>
-        <h1 className="font-display text-4xl text-foam mt-6 mb-2">
-          {mode === "signin" ? "Masuk" : "Daftar"}
-        </h1>
+        <h1 className="font-display text-4xl text-foam mt-6 mb-2">{titleText}</h1>
         <p className="text-foam/60 text-sm mb-8">Khusus admin Derawan Island.</p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -70,32 +81,70 @@ const Auth = () => {
               className="w-full bg-transparent border-b border-foam/20 py-2 text-foam focus:outline-none focus:border-coral"
             />
           </div>
-          <div>
-            <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">Password</label>
-            <input
-              type="password"
-              required
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-transparent border-b border-foam/20 py-2 text-foam focus:outline-none focus:border-coral"
-            />
-          </div>
+
+          {mode !== "forgot" && (
+            <div>
+              <label className="block text-[10px] uppercase tracking-[0.3em] text-foam/60 mb-2">Password</label>
+              <input
+                type="password"
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-transparent border-b border-foam/20 py-2 text-foam focus:outline-none focus:border-coral"
+              />
+            </div>
+          )}
+
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-coral text-primary-foreground px-8 py-4 text-xs uppercase tracking-[0.3em] hover:bg-coral-glow transition-all disabled:opacity-50"
           >
-            {loading ? "Memproses..." : mode === "signin" ? "Masuk" : "Daftar"}
+            {loading
+              ? "Memproses..."
+              : mode === "signin"
+                ? "Masuk"
+                : mode === "signup"
+                  ? "Daftar"
+                  : "Kirim Link Reset"}
           </button>
         </form>
 
-        <button
-          onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-          className="mt-6 text-xs text-foam/60 hover:text-coral transition-colors"
-        >
-          {mode === "signin" ? "Belum punya akun? Daftar" : "Sudah punya akun? Masuk"}
-        </button>
+        <div className="mt-6 flex flex-col gap-2">
+          {mode === "signin" && (
+            <>
+              <button
+                onClick={() => setMode("forgot")}
+                className="text-xs text-foam/60 hover:text-coral transition-colors text-left"
+              >
+                Lupa password?
+              </button>
+              <button
+                onClick={() => setMode("signup")}
+                className="text-xs text-foam/60 hover:text-coral transition-colors text-left"
+              >
+                Belum punya akun? Daftar
+              </button>
+            </>
+          )}
+          {mode === "signup" && (
+            <button
+              onClick={() => setMode("signin")}
+              className="text-xs text-foam/60 hover:text-coral transition-colors text-left"
+            >
+              Sudah punya akun? Masuk
+            </button>
+          )}
+          {mode === "forgot" && (
+            <button
+              onClick={() => setMode("signin")}
+              className="text-xs text-foam/60 hover:text-coral transition-colors text-left"
+            >
+              Kembali ke masuk
+            </button>
+          )}
+        </div>
       </div>
     </main>
   );
