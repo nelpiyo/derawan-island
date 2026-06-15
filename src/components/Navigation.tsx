@@ -6,7 +6,8 @@ import {
   Users,
   BookOpen,
   Gamepad2,
-  
+  Award,
+  ExternalLink,
   Menu,
   X,
   type LucideIcon,
@@ -20,9 +21,14 @@ const links: { to: string; labelKey: keyof Dict; Icon: LucideIcon }[] = [
   { to: "/nature", labelKey: "nav.nature", Icon: Leaf },
   { to: "/culture", labelKey: "nav.culture", Icon: Users },
   { to: "/stories", labelKey: "nav.stories", Icon: BookOpen },
-  
   { to: "/play", labelKey: "nav.play", Icon: Gamepad2 },
 ];
+
+const externalLink = {
+  href: "https://derawan-island-adventure-pi.vercel.app/",
+  labelKey: "nav.heroes" as keyof Dict,
+  Icon: Award,
+};
 
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
