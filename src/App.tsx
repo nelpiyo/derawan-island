@@ -12,6 +12,7 @@ import Culture from "./pages/Culture.tsx";
 import Stories from "./pages/Stories.tsx";
 import Play from "./pages/Play.tsx";
 import VisitorStats from "./pages/VisitorStats.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import { I18nProvider } from "./i18n";
 
@@ -34,6 +35,7 @@ const App = () => (
               <Route path="/play" element={<Play />} />
               <Route path="/visitors" element={<VisitorStats />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
