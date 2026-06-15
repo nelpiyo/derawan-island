@@ -10,11 +10,15 @@ import {
   ExternalLink,
   Menu,
   X,
+  Shield,
+  LogIn,
+  LogOut,
   type LucideIcon,
 } from "lucide-react";
 import LanguageToggle from "./LanguageToggle";
 import { useI18n } from "@/i18n";
 import type { Dict } from "@/i18n/dictionaries/id";
+import { supabase } from "@/integrations/supabase/client";
 
 const links: { to: string; labelKey: keyof Dict; Icon: LucideIcon }[] = [
   { to: "/", labelKey: "nav.home", Icon: Home },
