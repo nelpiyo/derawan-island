@@ -140,6 +140,16 @@ const Navigation = () => {
                 </Link>
               );
             })}
+            <a
+              href={externalLink.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors text-foam/75 hover:text-coral"
+            >
+              <externalLink.Icon className="w-4 h-4" strokeWidth={1.75} />
+              {t(externalLink.labelKey)}
+              <ExternalLink className="w-3 h-3 opacity-50" strokeWidth={2} />
+            </a>
           </nav>
         </div>
       )}
