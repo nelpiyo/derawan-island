@@ -133,6 +133,38 @@ const Navigation = () => {
               className="absolute left-3 right-3 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-turquoise to-transparent transition-opacity duration-300 opacity-0 group-hover:opacity-70"
             />
           </a>
+
+          {isAdmin && (
+            <Link
+              to="/admin"
+              className={`group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-coral/10 ${
+                pathname === "/admin" ? "text-coral" : "text-foam/75 hover:text-coral"
+              }`}
+            >
+              <Shield className="w-3.5 h-3.5" strokeWidth={1.75} />
+              Admin
+            </Link>
+          )}
+
+          {isLoggedIn ? (
+            <button
+              onClick={() => supabase.auth.signOut()}
+              className="group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-coral/10 text-foam/75 hover:text-coral"
+            >
+              <LogOut className="w-3.5 h-3.5" strokeWidth={1.75} />
+              Keluar
+            </button>
+          ) : (
+            <Link
+              to="/auth"
+              className={`group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-coral/10 ${
+                pathname === "/auth" ? "text-coral" : "text-foam/75 hover:text-coral"
+              }`}
+            >
+              <LogIn className="w-3.5 h-3.5" strokeWidth={1.75} />
+              Masuk
+            </Link>
+          )}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -178,6 +210,38 @@ const Navigation = () => {
               {t(externalLink.labelKey)}
               <ExternalLink className="w-3 h-3 opacity-50" strokeWidth={2} />
             </a>
+
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className={`flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors ${
+                  pathname === "/admin" ? "text-coral" : "text-foam/75 hover:text-coral"
+                }`}
+              >
+                <Shield className="w-4 h-4" strokeWidth={1.75} />
+                Admin
+              </Link>
+            )}
+
+            {isLoggedIn ? (
+              <button
+                onClick={() => supabase.auth.signOut()}
+                className="flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors text-foam/75 hover:text-coral"
+              >
+                <LogOut className="w-4 h-4" strokeWidth={1.75} />
+                Keluar
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                className={`flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors ${
+                  pathname === "/auth" ? "text-coral" : "text-foam/75 hover:text-coral"
+                }`}
+              >
+                <LogIn className="w-4 h-4" strokeWidth={1.75} />
+                Masuk
+              </Link>
+            )}
           </nav>
         </div>
       )}
