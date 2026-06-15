@@ -10,11 +10,15 @@ import {
   ExternalLink,
   Menu,
   X,
+  Shield,
+  LogIn,
+  LogOut,
   type LucideIcon,
 } from "lucide-react";
 import LanguageToggle from "./LanguageToggle";
 import { useI18n } from "@/i18n";
 import type { Dict } from "@/i18n/dictionaries/id";
+import { supabase } from "@/integrations/supabase/client";
 
 const links: { to: string; labelKey: keyof Dict; Icon: LucideIcon }[] = [
   { to: "/", labelKey: "nav.home", Icon: Home },
@@ -33,8 +37,32 @@ const externalLink = {
 const Navigation = () => {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { pathname } = useLocation();
   const { t } = useI18n();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      const userId = session?.user?.id;
+      setIsLoggedIn(!!userId);
+      if (!userId) {
+        setIsAdmin(false);
+        return;
+      }
+      const { data } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle();
+      setIsAdmin(!!data);
+    };
+    checkAuth();
+    const { data: sub } = supabase.auth.onAuthStateChange(() => checkAuth());
+    return () => sub.subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -105,6 +133,38 @@ const Navigation = () => {
               className="absolute left-3 right-3 -bottom-0.5 h-px bg-gradient-to-r from-transparent via-turquoise to-transparent transition-opacity duration-300 opacity-0 group-hover:opacity-70"
             />
           </a>
+
+          {isAdmin && (
+            <Link
+              to="/admin"
+              className={`group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-coral/10 ${
+                pathname === "/admin" ? "text-coral" : "text-foam/75 hover:text-coral"
+              }`}
+            >
+              <Shield className="w-3.5 h-3.5" strokeWidth={1.75} />
+              Admin
+            </Link>
+          )}
+
+          {isLoggedIn ? (
+            <button
+              onClick={() => supabase.auth.signOut()}
+              className="group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-coral/10 text-foam/75 hover:text-coral"
+            >
+              <LogOut className="w-3.5 h-3.5" strokeWidth={1.75} />
+              Keluar
+            </button>
+          ) : (
+            <Link
+              to="/auth"
+              className={`group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-coral/10 ${
+                pathname === "/auth" ? "text-coral" : "text-foam/75 hover:text-coral"
+              }`}
+            >
+              <LogIn className="w-3.5 h-3.5" strokeWidth={1.75} />
+              Masuk
+            </Link>
+          )}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -150,6 +210,38 @@ const Navigation = () => {
               {t(externalLink.labelKey)}
               <ExternalLink className="w-3 h-3 opacity-50" strokeWidth={2} />
             </a>
+
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className={`flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors ${
+                  pathname === "/admin" ? "text-coral" : "text-foam/75 hover:text-coral"
+                }`}
+              >
+                <Shield className="w-4 h-4" strokeWidth={1.75} />
+                Admin
+              </Link>
+            )}
+
+            {isLoggedIn ? (
+              <button
+                onClick={() => supabase.auth.signOut()}
+                className="flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors text-foam/75 hover:text-coral"
+              >
+                <LogOut className="w-4 h-4" strokeWidth={1.75} />
+                Keluar
+              </button>
+            ) : (
+              <Link
+                to="/auth"
+                className={`flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors ${
+                  pathname === "/auth" ? "text-coral" : "text-foam/75 hover:text-coral"
+                }`}
+              >
+                <LogIn className="w-4 h-4" strokeWidth={1.75} />
+                Masuk
+              </Link>
+            )}
           </nav>
         </div>
       )}
