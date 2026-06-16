@@ -147,7 +147,7 @@ const Navigation = () => {
             </Link>
           )}
 
-          {isLoggedIn ? (
+          {isLoggedIn && (
             <button
               onClick={() => supabase.auth.signOut()}
               className="group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-coral/10 text-foam/75 hover:text-coral"
@@ -155,16 +155,6 @@ const Navigation = () => {
               <LogOut className="w-3.5 h-3.5" strokeWidth={1.75} />
               Keluar
             </button>
-          ) : (
-            <Link
-              to="/auth"
-              className={`group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-coral/10 ${
-                pathname === "/auth" ? "text-coral" : "text-foam/75 hover:text-coral"
-              }`}
-            >
-              <LogIn className="w-3.5 h-3.5" strokeWidth={1.75} />
-              Masuk
-            </Link>
           )}
         </nav>
 
