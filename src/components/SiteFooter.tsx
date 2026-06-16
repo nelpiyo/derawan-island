@@ -19,12 +19,12 @@ const SiteFooter = () => {
           {/* Kolom 2: Sosial Media & Links (Tambahan Baru) */}
           <div className="flex flex-col items-center md:items-start gap-4">
              <span className="text-turquoise font-semibold block mb-1 tracking-[0.25em]">Connect</span>
-             <a href="https://https://www.instagram.com/derawanheroes/" target="_blank" rel="noreferrer" className="hover:text-coral transition-colors">
+             <a href="https://https://www.instagram.com/derawanheroes" target="_blank" rel="noreferrer" className="hover:text-coral transition-colors">
                Instagram
-             </a>https://www.instagram.com/derawanheroes/
+             </a> https://www.instagram.com/derawanheroes
              <a href="https://www.youtube.com/@PKMDerawanHIUnmul" target="_blank" rel="noreferrer" className="hover:text-coral transition-colors">
                YouTube
-             </a>www.youtube.com/@PKMDerawanHIUnmul
+             </a> www.youtube.com/@PKMDerawanHIUnmul
              <a href="https://globalconservation.org" target="_blank" rel="noreferrer" className="hover:text-coral transition-colors">
                About Global Conservation
              </a>
