@@ -214,7 +214,7 @@ const Navigation = () => {
               </Link>
             )}
 
-            {isLoggedIn ? (
+            {isLoggedIn && (
               <button
                 onClick={() => supabase.auth.signOut()}
                 className="flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors text-foam/75 hover:text-coral"
@@ -222,16 +222,6 @@ const Navigation = () => {
                 <LogOut className="w-4 h-4" strokeWidth={1.75} />
                 Keluar
               </button>
-            ) : (
-              <Link
-                to="/auth"
-                className={`flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors ${
-                  pathname === "/auth" ? "text-coral" : "text-foam/75 hover:text-coral"
-                }`}
-              >
-                <LogIn className="w-4 h-4" strokeWidth={1.75} />
-                Masuk
-              </Link>
             )}
           </nav>
         </div>
