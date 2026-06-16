@@ -6,6 +6,7 @@ export const en: Dict = {
   "nav.nature": "Nature",
   "nav.culture": "Culture",
   "nav.stories": "Stories",
+  "nav.explore": "Explore",
   "nav.play": "Play",
   "nav.heroes": "Derawan Heroes",
   "nav.map": "Map",
