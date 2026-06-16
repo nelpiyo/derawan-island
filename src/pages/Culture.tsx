@@ -48,7 +48,6 @@ const Culture = () => {
           aria-hidden
           className="absolute -right-32 top-0 font-display text-foam/[0.04] text-[20rem] leading-none select-none"
         >
-          1450
         </div>
         <div className="container max-w-5xl relative">
           <Reveal>
