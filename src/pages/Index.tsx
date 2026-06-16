@@ -10,7 +10,7 @@ import Bokeh from "@/components/Bokeh";
 import { useI18n } from "@/i18n";
 import { Leaf, Users, BookOpen, ChevronDown } from "lucide-react";
 
-import heroImg from "@/assets/design pkm derawan (1).webp";
+import heroImg from "@/assets/design pkm derawan (1) (1).webp";
 import coralImg from "@/assets/Coral.webp";
 import bajauImg from "@/assets/pemandangan-udara-derawan.webp";
 import turtleImg from "@/assets/turtles derawan.webp";
