@@ -7,11 +7,11 @@ import {
   BookOpen,
   Gamepad2,
   Award,
+  Compass,
   ExternalLink,
   Menu,
   X,
   Shield,
-  LogIn,
   LogOut,
   type LucideIcon,
 } from "lucide-react";
@@ -25,6 +25,7 @@ const links: { to: string; labelKey: keyof Dict; Icon: LucideIcon }[] = [
   { to: "/nature", labelKey: "nav.nature", Icon: Leaf },
   { to: "/culture", labelKey: "nav.culture", Icon: Users },
   { to: "/stories", labelKey: "nav.stories", Icon: BookOpen },
+  { to: "/explore", labelKey: "nav.explore", Icon: Compass },
   { to: "/play", labelKey: "nav.play", Icon: Gamepad2 },
 ];
 
