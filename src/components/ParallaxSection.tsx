@@ -52,17 +52,15 @@ const ParallaxSection = ({
       id={id}
       className={`relative w-full overflow-hidden ${height}`}
     >
-      <div
-        aria-hidden
-        className="absolute inset-0 -top-24 -bottom-24 will-change-transform"
-        style={{
-          transform: `translate3d(0, ${offset}px, 0) scale(1.15)`,
-        }}
+     <div aria-hidden className="absolute inset-0 -top-10 -bottom-10 will-change-transform" 
+  style={{
+    transform: `translate3d(0, ${offset}px, 0) scale(1.05)`, // Skala diturunkan!
+  }}
       >
         <img
           src={image}
           alt=""
-          className="h-full w-full object-contain"
+          className="h-full w-full object-cover"
           loading="lazy"
         />
       </div>
