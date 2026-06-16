@@ -111,7 +111,6 @@ const Index = () => {
 
         <div className="pointer-events-none absolute right-6 top-1/3 hidden md:block">
           <div className="font-display text-foam/10 text-[12rem] leading-none animate-drift">
-            01
           </div>
         </div>
       </ParallaxSection>
