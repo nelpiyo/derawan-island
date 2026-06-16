@@ -7,11 +7,11 @@ import {
   BookOpen,
   Gamepad2,
   Award,
+  Compass,
   ExternalLink,
   Menu,
   X,
   Shield,
-  LogIn,
   LogOut,
   type LucideIcon,
 } from "lucide-react";
@@ -25,6 +25,7 @@ const links: { to: string; labelKey: keyof Dict; Icon: LucideIcon }[] = [
   { to: "/nature", labelKey: "nav.nature", Icon: Leaf },
   { to: "/culture", labelKey: "nav.culture", Icon: Users },
   { to: "/stories", labelKey: "nav.stories", Icon: BookOpen },
+  { to: "/explore", labelKey: "nav.explore", Icon: Compass },
   { to: "/play", labelKey: "nav.play", Icon: Gamepad2 },
 ];
 
@@ -146,7 +147,7 @@ const Navigation = () => {
             </Link>
           )}
 
-          {isLoggedIn ? (
+          {isLoggedIn && (
             <button
               onClick={() => supabase.auth.signOut()}
               className="group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-coral/10 text-foam/75 hover:text-coral"
@@ -154,16 +155,6 @@ const Navigation = () => {
               <LogOut className="w-3.5 h-3.5" strokeWidth={1.75} />
               Keluar
             </button>
-          ) : (
-            <Link
-              to="/auth"
-              className={`group relative flex items-center gap-2 px-3 py-2 rounded-full text-[11px] uppercase tracking-[0.25em] transition-all duration-300 hover:bg-coral/10 ${
-                pathname === "/auth" ? "text-coral" : "text-foam/75 hover:text-coral"
-              }`}
-            >
-              <LogIn className="w-3.5 h-3.5" strokeWidth={1.75} />
-              Masuk
-            </Link>
           )}
         </nav>
 
@@ -223,7 +214,7 @@ const Navigation = () => {
               </Link>
             )}
 
-            {isLoggedIn ? (
+            {isLoggedIn && (
               <button
                 onClick={() => supabase.auth.signOut()}
                 className="flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors text-foam/75 hover:text-coral"
@@ -231,16 +222,6 @@ const Navigation = () => {
                 <LogOut className="w-4 h-4" strokeWidth={1.75} />
                 Keluar
               </button>
-            ) : (
-              <Link
-                to="/auth"
-                className={`flex items-center gap-3 py-3 text-xs uppercase tracking-[0.25em] transition-colors ${
-                  pathname === "/auth" ? "text-coral" : "text-foam/75 hover:text-coral"
-                }`}
-              >
-                <LogIn className="w-4 h-4" strokeWidth={1.75} />
-                Masuk
-              </Link>
             )}
           </nav>
         </div>

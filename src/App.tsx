@@ -11,6 +11,7 @@ import Nature from "./pages/Nature.tsx";
 import Culture from "./pages/Culture.tsx";
 import Stories from "./pages/Stories.tsx";
 import Play from "./pages/Play.tsx";
+import Explore from "./pages/Explore.tsx";
 import VisitorStats from "./pages/VisitorStats.tsx";
 import ResetPassword from "./pages/ResetPassword.tsx";
 import Admin from "./pages/Admin.tsx";
@@ -34,6 +35,7 @@ const App = () => (
               <Route path="/culture" element={<Culture />} />
               <Route path="/stories" element={<Stories />} />
               <Route path="/play" element={<Play />} />
+              <Route path="/explore" element={<Explore />} />
               <Route path="/visitors" element={<VisitorStats />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/reset-password" element={<ResetPassword />} />
