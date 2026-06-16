@@ -21,10 +21,10 @@ const SiteFooter = () => {
              <span className="text-turquoise font-semibold block mb-1 tracking-[0.25em]">Connect</span>
              <a href="https://https://www.instagram.com/derawanheroes/" target="_blank" rel="noreferrer" className="hover:text-coral transition-colors">
                Instagram
-             </a>
+             </a>https://www.instagram.com/derawanheroes/
              <a href="https://www.youtube.com/@PKMDerawanHIUnmul" target="_blank" rel="noreferrer" className="hover:text-coral transition-colors">
                YouTube
-             </a>
+             </a>www.youtube.com/@PKMDerawanHIUnmul
              <a href="https://globalconservation.org" target="_blank" rel="noreferrer" className="hover:text-coral transition-colors">
                About Global Conservation
              </a>
