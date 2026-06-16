@@ -85,9 +85,13 @@ const Navigation = () => {
     >
       <div className="container flex items-center justify-between gap-4">
         <Link to="/" className="group flex items-center gap-2 shrink-0">
-          <span className="text-xs uppercase tracking-[0.4em] text-turquoise">
-            {t("nav.region")}
-          </span>
+         <span className={`uppercase tracking-[0.3em] sm:tracking-[0.4em] text-turquoise transition-all ${
+  t("nav.region").length > 15 
+    ? "text-[10px] md:text-xs" // Lebih kecil kalau pakai Bahasa Inggris
+    : "text-xs"                // Ukuran normal untuk Bahasa Indonesia
+}`}>
+  {t("nav.region")}
+</span>
         </Link>
 
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
