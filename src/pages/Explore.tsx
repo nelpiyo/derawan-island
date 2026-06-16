@@ -199,7 +199,7 @@ const Explore = () => {
   const mapsHref = (q: string) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q + " Derawan")}`;
 
   return (
-    <div className="min-h-dvh bg-deepsea text-foam overflow-x-hidden">
+    <div className="min-h-dvh bg-background text-foam overflow-x-hidden">
       <SEO
         title="Explore Local — Derawan Island"
         description="Find trusted local services around Derawan Island: restaurants, resorts, clinics, posyandu and more — all run by locals."
@@ -214,8 +214,8 @@ const Explore = () => {
             alt="Aerial view of Derawan overwater bungalows and turquoise sea"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-deepsea via-deepsea/85 to-deepsea/30" />
-          <div className="absolute inset-0 bg-gradient-to-b from-deepsea/40 via-transparent to-deepsea" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background" />
         </div>
 
         <div className="container">
@@ -266,7 +266,7 @@ const Explore = () => {
             <button
               type="button"
               aria-label="Submit search"
-              className="absolute right-2 top-1/2 -translate-y-1/2 grid place-items-center w-10 h-10 rounded-xl bg-turquoise text-deepsea hover:bg-turquoise/90 transition"
+              className="absolute right-2 top-1/2 -translate-y-1/2 grid place-items-center w-10 h-10 rounded-xl bg-turquoise text-background hover:bg-turquoise/90 transition"
             >
               <Search className="w-4 h-4" strokeWidth={2.25} />
             </button>
@@ -292,7 +292,7 @@ const Explore = () => {
                   >
                     <span
                       className={`grid place-items-center w-9 h-9 rounded-full transition ${
-                        active ? "bg-turquoise text-deepsea" : "bg-turquoise/10 text-turquoise"
+                        active ? "bg-turquoise text-background" : "bg-turquoise/10 text-turquoise"
                       }`}
                     >
                       <Icon className="w-4 h-4" strokeWidth={2} />
@@ -347,7 +347,7 @@ const Explore = () => {
                     height={768}
                     className="w-full h-full object-cover transition duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-deepsea/85 via-deepsea/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent" />
                   <span className={`absolute top-3 left-3 px-3 py-1 rounded-md text-[10px] uppercase tracking-[0.2em] font-bold ${s.pillColor}`}>
                     {s.categoryLabel}
                   </span>
@@ -355,7 +355,7 @@ const Explore = () => {
                     type="button"
                     aria-label={`Favorite ${s.name}`}
                     onClick={() => setFavorites((f) => ({ ...f, [s.id]: !f[s.id] }))}
-                    className="absolute top-3 right-3 grid place-items-center w-8 h-8 rounded-full bg-deepsea/60 backdrop-blur text-foam hover:bg-deepsea/80 transition"
+                    className="absolute top-3 right-3 grid place-items-center w-8 h-8 rounded-full bg-background/60 backdrop-blur text-foam hover:bg-background/80 transition"
                   >
                     <Heart
                       className={`w-4 h-4 transition ${favorites[s.id] ? "fill-coral text-coral" : ""}`}
@@ -420,7 +420,7 @@ const Explore = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Gallery */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-deepsea">
+              <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-background">
                 <img
                   src={selected.gallery[galleryIndex]}
                   alt={`${selected.name} photo ${galleryIndex + 1}`}
@@ -429,7 +429,7 @@ const Explore = () => {
                 <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md text-[10px] uppercase tracking-[0.2em] font-bold bg-amber-500/90 text-stone-950">
                   {selected.categoryLabel}
                 </span>
-                <span className="absolute top-3 right-3 px-2.5 py-1 rounded-md text-[10px] bg-deepsea/70 text-foam backdrop-blur">
+                <span className="absolute top-3 right-3 px-2.5 py-1 rounded-md text-[10px] bg-background/70 text-foam backdrop-blur">
                   {galleryIndex + 1}/{selected.gallery.length}
                 </span>
               </div>
@@ -511,7 +511,7 @@ const Explore = () => {
 
             {/* Menu / Highlights */}
             <div className="lg:col-span-3">
-              <div className="rounded-2xl bg-deepsea/60 border border-turquoise/15 p-4">
+              <div className="rounded-2xl bg-background/60 border border-turquoise/15 p-4">
                 <div className="flex items-baseline justify-between mb-3">
                   <h4 className="font-serif text-lg">
                     {selected.menu ? "Our Menu" : "Highlights"}
@@ -542,7 +542,7 @@ const Explore = () => {
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
             <a
               href={phoneHref(selected.phone)}
-              className="flex items-center justify-center gap-2 py-3 rounded-xl bg-turquoise text-deepsea font-semibold text-sm hover:bg-turquoise/90 transition"
+              className="flex items-center justify-center gap-2 py-3 rounded-xl bg-turquoise text-background font-semibold text-sm hover:bg-turquoise/90 transition"
               aria-label={`Call ${selected.name} now`}
             >
               <Phone className="w-4 h-4" /> Call Now
@@ -552,7 +552,7 @@ const Explore = () => {
                 href={waHref(selected.phone)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-500 text-deepsea font-semibold text-sm hover:bg-emerald-400 transition"
+                className="flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-500 text-background font-semibold text-sm hover:bg-emerald-400 transition"
               >
                 <MessageCircle className="w-4 h-4" /> Chat on WhatsApp
               </a>
