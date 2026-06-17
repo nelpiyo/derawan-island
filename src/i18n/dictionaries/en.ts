@@ -63,7 +63,7 @@ export const en: Dict = {
   "home.dir.nature.title": "What is",
   "home.dir.nature.italic": "threatened.",
   "home.dir.nature.body":
-    "Coral Triangle, 507 coral species, 872 reef fish, and sea turtles — a fragile ecosystem facing 46,105 kg of waste per day.",
+    "Coral Triangle, 507 coral species, 872 reef fish, and sea turtles, a fragile ecosystem facing 46,105 kg of waste per day.",
   "home.dir.culture.eyebrow": "II · Culture & Economy",
   "home.dir.culture.title": "Who",
   "home.dir.culture.italic": "protects it.",
@@ -82,7 +82,7 @@ export const en: Dict = {
   "nature.h1.a": "A web of life",
   "nature.h1.b": "at the heart of the Coral Triangle.",
   "nature.intro":
-    "Here, every creature has a role and every ecosystem is connected. Sea turtles, manta rays, thousands of reef fish, and stretches of mangrove all live in one interdependent whole — a fragile balance. When one part is disturbed, the whole feels it.",
+    "Here, every creature has a role and every ecosystem is connected. Sea turtles, manta rays, thousands of reef fish, and stretches of mangrove all live in one interdependent whole, a fragile balance. When one part is disturbed, the whole feels it.",
   "nature.impact.eyebrow": "Impact Tracker",
   "nature.impact.title.a": "The numbers that are",
   "nature.impact.title.b": "our reason to keep protecting.",
@@ -120,7 +120,7 @@ export const en: Dict = {
   "nature.threat.eyebrow": "Threats",
   "nature.threat.title.b": "of waste, every day.",
   "nature.threat.body":
-    "At the peak of the holiday season, tourism produces this much non-household waste on Derawan Island — an island under 45 hectares. Plastic smothers reefs, injures wildlife, is eaten by turtles, and breaks down into microplastics.",
+    "At the peak of the holiday season, tourism produces this much non-household waste on Derawan Island, an island under 45 hectares. Plastic smothers reefs, injures wildlife, is eaten by turtles, and breaks down into microplastics.",
   "nature.threat.source": "Source: WWF Indonesia · Plastic Smart Cities",
   "nature.guard.eyebrow": "Guardians of Derawan",
   "nature.guard.title.a": "A growing collaboration",
@@ -130,7 +130,7 @@ export const en: Dict = {
     "Official Global Conservation partner; sea patrols, Marine Monitor (M2) surveillance, and coastal community empowerment.",
   "nature.guard.wwf.full": "Plastic Smart Cities · TPS3R Derawan",
   "nature.guard.wwf.role":
-    "Reducing waste pressure on land before it reaches the sea — protecting turtles, reefs, and water quality.",
+    "Reducing waste pressure on land before it reaches the sea to protecting turtles, reefs, and water quality.",
   "nature.guard.gov.name": "East Kalimantan Gov.",
   "nature.guard.gov.full": "Marine & Fisheries Office · UPTD/BLUD",
   "nature.guard.gov.role":
@@ -143,17 +143,17 @@ export const en: Dict = {
   "culture.h1.a": "Knowledge of the sea,",
   "culture.h1.b": "an economy that protects.",
   "culture.intro":
-    "The Bajau people and Berau's coastal communities are the keepers of maritime knowledge — and the key to an economy that sustains rather than depletes.",
+    "The Bajau people and Berau's coastal communities are the keepers of maritime knowledge and the key to an economy that sustains rather than depletes.",
   "culture.heritage.eyebrow": "Maritime Heritage",
   "culture.heritage.title.a": "Memories of the sea that",
   "culture.heritage.title.b": " never recede.",
   "culture.heritage.body":
-    "Maratua, Kakaban, and Sangalaki show how marine history now meets conservation and ecotourism. Protecting Derawan means protecting Berau's maritime memory — a way of life, local knowledge, and a long human relationship with the sea.",
+    "Maratua, Kakaban, and Sangalaki show how marine history now meets conservation and ecotourism. Protecting Derawan means protecting Berau's maritime memory a way of life, local knowledge, and a long human relationship with the sea.",
   "culture.wisdom.eyebrow": "Local Wisdom",
   "culture.wisdom.title.a": "The",
   "culture.wisdom.title.b": "Bajau.",
   "culture.wisdom.body":
-    "Not merely a \"local community\" — they are keepers of maritime knowledge. They understand the sea through direct experience: when the fish come, when the weather shifts, which areas are most fragile.",
+    "Not merely a \"local community\" they are keepers of maritime knowledge. They understand the sea through direct experience: when the fish come, when the weather shifts, which areas are most fragile.",
   "culture.wisdom.tradition": "Mag'jamu",
   "culture.wisdom.quote":
     "\"A long-standing tradition in Tanjung Batu — releasing miniature boats into the sea as a symbol of the human bond with the ocean and a tribute to the ancestors.\"",
@@ -176,12 +176,12 @@ export const en: Dict = {
   "stories.h1.a": "Stories that",
   "stories.h1.b": "stay with you forever.",
   "stories.intro":
-    "Stories, photos, and memories from visitors — proof that Derawan touches everyone who comes.",
+    "Stories, photos, and memories from visitors is a proof that Derawan touches everyone who comes.",
   "stories.impact.eyebrow": "· Why these stories matter",
   "stories.impact.title.a": "Every story is proof",
   "stories.impact.title.b": "Derawan can still be saved.",
   "stories.impact.body":
-    "Every turtle that returns to nest, every reef that holds on, and every piece of waste kept out of the sea — it all begins with care like yours.",
+    "Every turtle that returns to nest, every reef that holds on, and every piece of waste kept out of the sea, it all begins with care like yours.",
   "stories.impact.stat.coral": "coral species",
   "stories.impact.stat.waste": "kg of waste removed",
   "stories.impact.stat.seagrass": "seagrass species",
@@ -325,7 +325,7 @@ export const en: Dict = {
   "partners.section.supporters": "Prospective Partners & Supporters",
   "partners.section.involved": "Get Involved",
   "partners.section.involved.body":
-    "Four ways to help protect Derawan—from organisational partnerships to individual contributions.",
+    "Four ways to help protect Derawan from organisational partnerships to individual contributions.",
   "partners.cta.partner.title": "Partner with us",
   "partners.cta.partner.body":
     "For conservation organisations, research institutions, and government bodies that want to collaborate.",
