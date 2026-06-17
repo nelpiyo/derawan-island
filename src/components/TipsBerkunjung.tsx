@@ -8,25 +8,25 @@ const TipsBerkunjung = () => {
 
   const dos = lang === "en"
     ? [
-        "Float on your back or hold a buoy when tired — never stand on the reef.",
+        "Float on your back or hold a buoy when tired, never stand on the reef.",
         "Observe wildlife from a respectful distance, calmly and quietly.",
         "Use reef-friendly sunscreen and wear UV protective clothing.",
-        "Carry all your trash back to land — there are no bins in the sea.",
+        "Carry all your trash back to land because there are no bins in the sea.",
         "Follow local rules and area closures (e.g. Kakaban Jellyfish Lake).",
-        "Support local economy — local guides, homestays, and crafts.",
+        "Support local economy such as local guides, homestays, and crafts.",
       ]
     : [
-        "Mengapung di punggung atau berpegangan pelampung saat lelah — jangan injak karang.",
+        "Mengapung di punggung atau berpegangan pelampung saat lelah, jangan injak karang.",
         "Amati satwa liar dari jarak aman, dengan tenang dan tidak mengganggu.",
         "Gunakan sunscreen reef-friendly dan pakaian pelindung UV.",
-        "Bawa pulang semua sampahmu — tidak ada tempat sampah di laut.",
+        "Bawa pulang semua sampahmu karena di laut tidak ada tempat sampah.",
         "Patuhi aturan lokal dan penutupan kawasan (mis. Danau Ubur-ubur Kakaban).",
         "Dukung ekonomi lokal — pemandu, penginapan, dan kerajinan warga.",
       ];
 
   const donts = lang === "en"
     ? [
-        "Don't touch or step on coral — it is fragile living animal.",
+        "Don't touch or step on coral, it is fragile living animal.",
         "Don't chase, grab, or take selfies with turtles, manta, or jellyfish.",
         "Don't feed fish or any marine wildlife.",
         "Don't use chemical sunblocks that harm coral reefs.",
@@ -34,7 +34,7 @@ const TipsBerkunjung = () => {
         "Don't force entry into closed conservation zones.",
       ]
     : [
-        "Jangan sentuh atau injak karang — ia makhluk hidup yang rapuh.",
+        "Jangan sentuh atau injak karang, ia makhluk hidup yang rapuh.",
         "Jangan mengejar, memegang, atau ber-selfie dengan penyu, manta, atau ubur-ubur.",
         "Jangan memberi makan ikan maupun satwa laut lainnya.",
         "Jangan pakai sunblock kimia yang merusak terumbu karang.",
