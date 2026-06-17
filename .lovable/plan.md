@@ -1,50 +1,81 @@
-## Goal
+Handover Plan Document untuk Presentasi ke Global Conservation
 
-Gabungkan dua section kosong di akhir halaman `/stories` ("Mengapa cerita ini penting" + "Act today, not tomorrow") menjadi **satu section** yang menampilkan angka dampak nyata dan 2 tombol aksi konkret.
+Saya akan membuat dokumen handover plan profesional (format DOCX) yang mencakup empat pilar utama sesuai permintaan. Dokumen ini dirancang untuk dipresentasikan langsung ke calon mitra utama (Global Conservation) besok.
 
-## Struktur baru section
+---- STRUKTUR DOKUMEN ----
 
-```text
-┌─────────────────────────────────────────────────────┐
-│  · MENGAPA CERITA INI PENTING                       │
-│                                                     │
-│  Setiap cerita adalah bukti                         │
-│  Derawan masih bisa diselamatkan.                   │
-│                                                     │
-│   ┌──────┐   ┌────────┐   ┌────────┐   ┌────────┐  │
-│   │ 507  │   │ 46.105 │   │   9    │   │  N+    │  │
-│   │spesi │   │  kg    │   │spesies │   │ cerita │  │
-│   │karang│   │sampah  │   │ lamun  │   │terkump.│  │
-│   └──────┘   └────────┘   └────────┘   └────────┘  │
-│                                                     │
-│  Quote pendek (1 baris, italic)                     │
-│                                                     │
-│   [ Bagikan Ceritamu ]  [ Lihat Ekosistem → ]      │
-└─────────────────────────────────────────────────────┘
-```
+1. COVER & EXECUTIVE SUMMARY
+   - Judul: "Handover Plan — Website Derawan Island"
+   - Tanggal, versi, dan kontak
+   - Ringkasan eksekutif 1 paragraf tentang status website
 
-## Konten
+2. WEBSITE YANG SUDAH JADI (Current Deliverables)
+   - Daftar lengkap 10 halaman/route yang aktif:
+     • Home (Hero + Manifesto + Directory Nature/Culture/Stories)
+     • Nature (Ekosistem, statistik, penjaga konservasi)
+     • Culture (Warisan Bajau, ekonomi berkelanjutan)
+     • Stories (Guestbook pengunjung, Tips berkunjung, Impact metrics)
+     • Play (Memory Match game + storytelling laut)
+     • Explore (Panduan lokal: restoran, resort, klinik, posyandu)
+     • Visitors (Stats & counter)
+     • Auth (/auth — hidden login)
+     • Admin (/admin — moderasi komentar)
+     • Reset Password
+   - Dual-language: Indonesia & Inggris (switcher di navbar)
+   - Responsive: laptop, tablet, mobile
+   - Tech stack: React + Vite + Tailwind + TypeScript + Supabase backend
 
-- **Eyebrow**: "· Mengapa cerita ini penting"
-- **Headline**: "Setiap cerita adalah bukti" + italic "Derawan masih bisa diselamatkan."
-- **Sub**: "Setiap penyu yang kembali bertelur, setiap terumbu yang bertahan, dan setiap sampah yang dicegah masuk ke laut — semuanya berawal dari kepedulian seperti milikmu."
-- **4 kartu angka** (glassmorphism, sejalan dengan redesign Guestbook):
-  1. `507` — spesies karang
-  2. `46.105 kg` — sampah terangkat (2024)
-  3. `9` — spesies lamun
-  4. `{items.length}+` — cerita pengunjung terkumpul (live dari Supabase)
-- **Quote kecil**: "Surga ini tidak hilang sekaligus, tapi sedikit demi sedikit." (selaras dgn manifesto)
-- **2 tombol aksi**:
-  - Primary (gradient turquoise→deep-sea): **Bagikan Ceritamu** → smooth-scroll ke `#guestbook-form`
-  - Secondary (outline foam): **Lihat Ekosistem & Ancaman →** → `Link to="/nature"`
+3. HANDOVER & SERAH TERIMA AKSES
+   - Lovable Project: link project, cara invite member GC
+   - Published URL: https://derawan-island.lovable.app
+   - Preview URL: cara akses preview
+   - Supabase Backend: database + auth + storage
+   - Aset folder: lokasi gambar/video di src/assets
+   - Link video YouTube: https://youtu.be/s23KoRdDjb8
+   - Link eksternal Derawan Heroes: https://derawan-island-adventure-pi.vercel.app/
+   - Domain & publish settings
 
-## Perubahan teknis
+4. DOKUMENTASI PANDUAN PENGELOLAAN
+   a. Fitur Website (deskripsi tiap fitur dari sisi user & admin)
+   b. Cara Update Teks/Gambar:
+      - Edit file di src/i18n/dictionaries/id.ts dan en.ts
+      - Ganti gambar di src/assets/ (format webp/png/jpg)
+      - Build otomatis, publish via Lovable
+   c. Cara Update Data Explore:
+      - File: src/pages/Explore.tsx
+      - Struktur data Service array (id, category, name, desc, owner, phone, hours, price, menu, gallery)
+      - Menambah/menghapus kartu layanan lokal
+   d. Catatan Fitur Stories (Guestbook):
+      - Pengunjung bisa submit foto + cerita (max 300 kata)
+      - Real-time update via Supabase
+      - Auto-delete token per submission (bisa hapus sendiri)
+      - Admin moderation di /admin
+   e. Sistem Admin:
+      - Role-based access (user_roles table)
+      - Login via /auth (hidden dari navbar publik)
+      - Hapus komentar tidak pantas
+      - Reset password via email
 
-- `src/pages/Stories.tsx`: hapus 2 section lama (`stories.bridge.*` + `stories.cta.*`), ganti dengan 1 section baru. Ambil jumlah cerita dengan `supabase.from("experiences").select("*", { count: "exact", head: true })` di `useEffect`, fallback "100+" kalau gagal.
-- `src/i18n/dictionaries/id.ts` & `en.ts`: ganti key lama `stories.bridge.*` / `stories.cta.*` jadi key baru `stories.impact.*` (eyebrow, title.a, title.b, body, stat labels, quote, cta.primary, cta.secondary).
-- Visual: konsisten dengan glassmorphism Guestbook — `rounded-2xl border border-foam/15 bg-foam/[0.04] backdrop-blur-xl`, angka pakai `font-display` besar warna `text-turquoise`.
-- Tidak ada perubahan DB / schema.
+5. REKOMENDASI PENGEMBANGAN KE DEPAN
+   - Short-term (1-3 bulan):
+     • Tambah data layanan lokal di Explore
+     • Integrasi booking/pesan langsung via WhatsApp
+     • SEO optimization (blog, artikel konservasi)
+   - Long-term (6-12 bulan):
+     • CMS sederhana untuk update konten tanpa coding
+     • Multi-bahasa tambahan (Mandarin, dll)
+     • Analytics dashboard untuk pengunjung
+     • Integrasi payment gateway untuk donasi konservasi
 
-## Hasil
+6. SUPPORT AWAL (1-2 Minggu)
+   - Scope: revisi teks kecil, fix link/tombol error, penjelasan cara edit
+   - Bukan scope: redesign besar, fitur baru kompleks, perubahan database struktur
+   - Kontak & cara komunikasi
+   - Estimasi response time
 
-Section akhir Stories berhenti menjadi quote menggantung, dan jadi titik berangkat ke aksi nyata (bagikan cerita atau pelajari ekosistem).
+---- FORMAT OUTPUT ----
+- File: DOCX profesional (Arial, heading hierarchy, spacing konsisten)
+- Tabel untuk daftar fitur dan akses
+- Bullet points untuk panduan step-by-step
+- Total estimasi: 8-12 halaman
+- Simpan ke: /mnt/documents/Handover_Plan_Derawan_Island.docx
