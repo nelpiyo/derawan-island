@@ -61,7 +61,7 @@ export const id = {
   "home.dir.nature.title": "Yang",
   "home.dir.nature.italic": "terancam.",
   "home.dir.nature.body":
-    "Coral Triangle, 507 spesies karang, 872 ikan karang, dan penyu — ekosistem rapuh yang menghadapi 46.105 kg sampah per hari.",
+    "Coral Triangle, 507 spesies karang, 872 ikan karang, dan penyu ekosistem rapuh yang menghadapi 46.105 kg sampah per hari.",
   "home.dir.culture.eyebrow": "II · Culture & Economy",
   "home.dir.culture.title": "Yang",
   "home.dir.culture.italic": "menjaga.",
@@ -118,7 +118,7 @@ export const id = {
   "nature.threat.eyebrow": "Ancaman",
   "nature.threat.title.b": "sampah, setiap hari.",
   "nature.threat.body":
-    "Pada puncak musim liburan, aktivitas wisata menghasilkan sampah non-rumah tangga sebesar itu di Pulau Derawan—sebuah pulau kurang dari 45 hektare. Plastik menutup karang, melukai biota, termakan penyu, dan berubah menjadi mikroplastik.",
+    "Pada puncak musim liburan, aktivitas wisata menghasilkan sampah non-rumah tangga sebesar itu di Pulau Derawan yaitu sebuah pulau kurang dari 45 hektare. Plastik menutup karang, melukai biota, termakan penyu, dan berubah menjadi mikroplastik.",
   "nature.threat.source": "Sumber: WWF Indonesia · Plastic Smart Cities",
   "nature.guard.eyebrow": "Guardians of Derawan",
   "nature.guard.title.a": "Kolaborasi yang tumbuh",
@@ -128,7 +128,7 @@ export const id = {
     "Mitra resmi Global Conservation; patroli laut, pemantauan Marine Monitor (M2), pemberdayaan masyarakat pesisir.",
   "nature.guard.wwf.full": "Plastic Smart Cities · TPS3R Derawan",
   "nature.guard.wwf.role":
-    "Mengurangi tekanan sampah di darat sebelum mencapai laut—melindungi penyu, karang, dan kualitas perairan.",
+    "Mengurangi tekanan sampah di darat sebelum mencapai laut untuk melindungi penyu, karang, dan kualitas perairan.",
   "nature.guard.gov.name": "Pemprov Kaltim",
   "nature.guard.gov.full": "Dinas Kelautan & Perikanan · UPTD/BLUD",
   "nature.guard.gov.role":
@@ -141,17 +141,17 @@ export const id = {
   "culture.h1.a": "Pengetahuan laut,",
   "culture.h1.b": "ekonomi yang menjaga.",
   "culture.intro":
-    "Suku Bajau dan masyarakat pesisir Berau adalah pemilik pengetahuan maritim — dan kunci dari ekonomi yang menjaga, bukan menghabiskan.",
+    "Suku Bajau dan masyarakat pesisir Berau adalah pemilik pengetahuan maritim dan kunci dari ekonomi yang menjaga, bukan menghabiskan.",
   "culture.heritage.eyebrow": "Maritime Heritage",
   "culture.heritage.title.a": "Kenangan laut yang",
   "culture.heritage.title.b": " tak pernah surut.",
   "culture.heritage.body":
-    "Maratua, Kakaban, dan Sangalaki memperlihatkan bagaimana sejarah laut kini bertemu dengan konservasi dan ekowisata. Menjaga Derawan berarti menjaga memori maritim Berau—cara hidup, pengetahuan lokal, dan hubungan panjang manusia dengan laut.",
+    "Maratua, Kakaban, dan Sangalaki memperlihatkan bagaimana sejarah laut kini bertemu dengan konservasi dan ekowisata. Menjaga Derawan berarti menjaga memori maritim Berau mulai dari cara hidup, pengetahuan lokal, dan hubungan panjang manusia dengan laut.",
   "culture.wisdom.eyebrow": "Local Wisdom",
   "culture.wisdom.title.a": "Suku",
   "culture.wisdom.title.b": "Bajau.",
   "culture.wisdom.body":
-    "Bukan hanya \"masyarakat lokal\", tetapi pemilik pengetahuan maritim. Mereka memahami laut melalui pengalaman langsung—kapan ikan datang, kapan cuaca berubah, bagian mana yang rentan.",
+    "Bukan hanya \"masyarakat lokal\", tetapi pemilik pengetahuan maritim. Mereka memahami laut melalui pengalaman langsung, mulai dari kapan ikan datang, kapan cuaca berubah, bagian mana yang rentan.",
   "culture.wisdom.tradition": "Mag'jamu",
   "culture.wisdom.quote":
     "\"Tradisi turun-temurun di Kampung Tanjung Batu—pelarungan miniatur kapal ke laut sebagai simbol hubungan manusia dengan laut dan penghormatan kepada leluhur.\"",
@@ -174,12 +174,12 @@ export const id = {
   "stories.h1.a": "Cerita yang",
   "stories.h1.b": "menetap selamanya.",
   "stories.intro":
-    "Cerita, foto, dan kenangan dari pengunjung — bukti bahwa Derawan menyentuh siapa pun yang datang.",
+    "Cerita, foto, dan kenangan dari pengunjung. Menjadi bukti bahwa Derawan menyentuh siapa pun yang datang.",
   "stories.impact.eyebrow": "· Mengapa cerita ini penting",
   "stories.impact.title.a": "Setiap cerita adalah bukti",
   "stories.impact.title.b": "Derawan masih bisa diselamatkan.",
   "stories.impact.body":
-    "Setiap penyu yang kembali bertelur, setiap terumbu yang bertahan, dan setiap sampah yang dicegah masuk ke laut — semuanya berawal dari kepedulian seperti milikmu.",
+    "Setiap penyu yang kembali bertelur, setiap terumbu yang bertahan, dan setiap sampah yang dicegah masuk ke laut, semuanya berawal dari kepedulian seperti milikmu.",
   "stories.impact.stat.coral": "spesies karang",
   "stories.impact.stat.waste": "kg sampah terangkat",
   "stories.impact.stat.seagrass": "spesies lamun",
@@ -250,7 +250,7 @@ export const id = {
   "play.story.title": "Di sebuah pulau kecil di tengah Laut Sulawesi",
   "play.story.p1.a": "Hiduplah",
   "play.story.p1.b": "Penyu Hijau",
-  "play.story.p1.c": "tua bernama Mbah Pe. Setiap malam, ia bercerita pada cucunya tentang teman-temannya di laut Derawan —",
+  "play.story.p1.c": "tua bernama Mbah Pe. Setiap malam, ia bercerita pada cucunya tentang teman-temannya di laut Derawan. ",
   "play.story.p1.manta": "Pari Manta",
   "play.story.p1.d": "raksasa yang lembut,",
   "play.story.p1.jelly": "Ubur-ubur emas",
@@ -332,7 +332,7 @@ export const id = {
     "Dukung program perlindungan penyu, pemulihan karang, dan pembersihan pantai.",
   "partners.cta.adopt.title": "Adopt a Turtle",
   "partners.cta.adopt.body":
-    "Adopsi simbolik penyu hijau—Anda akan menerima sertifikat dan update perkembangannya.",
+    "Adopsi simbolik penyu hijau, Anda akan menerima sertifikat dan update perkembangannya.",
   "partners.cta.volunteer.title": "Volunteer & Research",
   "partners.cta.volunteer.body":
     "Untuk peneliti, mahasiswa, dan sukarelawan yang ingin terlibat di lapangan.",
